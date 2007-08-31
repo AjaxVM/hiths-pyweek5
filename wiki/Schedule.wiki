@@ -1,0 +1,44 @@
+#summary Our schedule for pyweek
+
+= Introduction =
+
+This is incomplete as yet. It would be nice if anyone else, especially for the non-programming sections, would help out here :)
+And if anyone here sees anything they would like to do specifically, please just mark the end of the line with *--name*, I will likely be doing most of the programming for the first few days, as bjorn will be gone, and I think eugman would probably like to work on his project  bit at the start ;)
+I will have all the time/days here as Central time(GMT-6)
+
+
+= Details =
+== Programming Part ==
+=== Saturday, competition start at 7:00 pm ===
+  * finalize game play/ideas with anyone available on irc, post finalized ideas to the forum.
+  * start work on re-write of the features of pyglibs that will be needed.*--RB0*
+    needed features will be tiles with transitions, a fast flat map, units, all other things can probably stay the same, though the gui may need some more work...
+  * if I'm lucky get a basic map up with a placeholder graphic for a unit you can move.        *--RB0*
+
+=== Sunday ===
+  * make sure map/basic unit is working
+  * make units(squads/armies) have experience,member count, member type(different values), race type
+  * make it so that your main unit/squad/whatever(I'll just use unit to describe them in the future) will have your leader, and each of your other units has a lieutenants.
+  * create the players house, and add cities to the map(still no enemies or ai!)
+  * create units first action: recruit, allowing you to take a unit into a city and gain troops there.
+  * create basic battle engine, basically units get animated to there attack animation, face the enemies direction, and each enemy gets hurt based on the size and experience of the opposing unit. When a unit dies it is deleted.
+  * if there is enough time, add basic human monster hunters, that will appear in bands around the world, especially in cities, and especially when you go to recruit, that come in various sizes and attack you.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
