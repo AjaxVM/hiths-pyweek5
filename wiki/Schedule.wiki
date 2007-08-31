@@ -4,7 +4,9 @@
 
 This is incomplete as yet. It would be nice if anyone else, especially for the non-programming sections, would help out here :)
 
-And if anyone here sees anything they would like to do specifically, please just mark the end of the line with *--name*, I will likely be doing most of the programming for the first few days, as bjorn will be gone, and I think eugman would probably like to work on his project  bit at the start ;)
+And if anyone here sees anything they would like to do specifically, please just mark the end of the line with *--name*.
+
+I will likely be doing most of the programming for the first few days, as bjorn will be gone, and I think eugman would probably like to work on his project  bit at the start ;)
 
 I will have all the time/days here as Central time(GMT-6)
 
@@ -32,7 +34,6 @@ I will have all the time/days here as Central time(GMT-6)
 
 == Campaign/scenario/game design Part ==
 Voice overs go here too ;)
-
 
 
 
