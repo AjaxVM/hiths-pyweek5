@@ -24,6 +24,12 @@ I will have all the time/days here as Central time(GMT-6)
   * create basic battle engine, basically units get animated to there attack animation, face the enemies direction, and each enemy gets hurt based on the size and experience of the opposing unit. When a unit dies it is deleted.
   * if there is enough time, add basic human monster hunters, that will appear in bands around the world, especially in cities, and especially when you go to recruit, that come in various sizes and attack you.
 
+== Art/Graphics Part ==
+
+== Music Part ==
+
+== Campaign/scenario/game design Part ==
+Voice overs go here too ;)
 
 
 
