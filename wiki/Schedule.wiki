@@ -28,7 +28,7 @@ I will have all the time/days here as Central time(GMT-6)
   * create the players house, and add cities to the map(still no enemies or ai!)
   * create units first action: recruit, allowing you to take a unit into a city and gain troops there.
   * create basic battle engine, basically units get animated to there attack animation, face the enemies direction, and each enemy gets hurt based on the size and experience of the opposing unit. When a unit dies it is deleted.
-  * create a map/campaign loader/parser, perhaps have them be python files, but probably markup...
+  * create a map/campaign/unit/etc. loader/parser, perhaps have them be python files, but probably markup...
   * if there is enough time, add basic human monster hunters, that will appear in bands around the world, especially in cities, and especially when you go to recruit, that come in various sizes and attack you.
 
 === Monday ===
@@ -41,12 +41,22 @@ I will have all the time/days here as Central time(GMT-6)
 === Tuesday ==
   * add glyphs/whatever else we decide needs to be added to game engine
   * finish up in-game gui
+  * add race selection with race strengths/weaknesses page to menu
 
 === Wednesday ===
   * add save game functionality
   * finish menus
   * add intro movie/splash screen
+  * add fortification building to units actions(we should have a few for each race)
   * begin coding campaign movies
+
+=== Thursday onward... ===
+  * we can use these days to catch up on anything not finished the rest of the week
+  * if we finish all the coding parts we can add the following(or other stuff, depends on what you want to do after this point :D)
+
+  * add multiplayer(lobby, game portal)
+  * add ability to found new houses
+  * add more actions for your units to do(like mine gold)
 
 == Art/Graphics Part: ==
 
@@ -54,7 +64,6 @@ I will have all the time/days here as Central time(GMT-6)
 
 == Campaign/scenario/game design Part: ==
 Voice overs go here too ;)
-
 
 
 
