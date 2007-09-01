@@ -42,13 +42,15 @@ I will have all the time/days here as Central time(GMT-6)
   * add glyphs/whatever else we decide needs to be added to game engine
   * finish up in-game gui
   * add race selection with race strengths/weaknesses page to menu
+  * finish ai
+  * implement smarter humans, but also keep the random ones...
+  * implement full-fledged ai players(of other races, not just humans)
 
 === Wednesday ===
   * add save game functionality
   * finish menus
   * add intro movie/splash screen
   * add fortification building to units actions(we should have a few for each race)
-  * begin coding campaign movies
 
 === Thursday onward... ===
   * we can use these days to catch up on anything not finished the rest of the week
@@ -57,14 +59,37 @@ I will have all the time/days here as Central time(GMT-6)
   * add multiplayer(lobby, game portal)
   * add ability to found new houses
   * add more actions for your units to do(like mine gold)
+  * create a random map generator, and game-play option to fit it
 
 == Art/Graphics Part: ==
 
 == Music Part: ==
 
 == Campaign/scenario/game design Part: ==
-Voice overs go here too ;)
-
+===Saturday===
+  * begin planning, nothing else to do yet
+===Sunday===
+  * continue planning, maybe begin implementing stuff later in the day when cfg file layout is finalized
+===Monday===
+  * create races(all, or at least some) (use place holder graphics for now...)
+===Tuesday===
+  * finish races
+  * begin making scenarios for the campaign(we should only really have one campaign in the first, pyweek, release, unless we finish with an insane amount of time left)
+===Wednesday===
+  * finish plots/scripts
+  * begin/finish voice-overs
+  * begin creating campaign movies, or images with text and voice-overs/music
+===Thursday===
+  * finish basic scenarios for first campaign
+  * begin implementing correct graphics once artists have begun finishing them
+  * finish voice-overs
+  * finish campaign movies
+===Friday===
+  * test
+  * add some polish(maybe some cool effects ;))
+===Saturday===
+  * test, test, test, and more test.
+  * test again :D
 
 
 
