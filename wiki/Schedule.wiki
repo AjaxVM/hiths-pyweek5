@@ -14,7 +14,7 @@ I will have all the time/days here as Central time(GMT-6)
 
 
 = Details =
-== Programming Part ==
+== Programming Part: ==
 === Saturday, competition start at 7:00 pm ===
   * finalize game play/ideas with anyone available on irc, post finalized ideas to the forum.
   * start work on re-write of the features of pyglibs that will be needed.*--RB0*
@@ -48,13 +48,12 @@ I will have all the time/days here as Central time(GMT-6)
   * add intro movie/splash screen
   * begin coding campaign movies
 
-== Art/Graphics Part ==
+== Art/Graphics Part: ==
 
-== Music Part ==
+== Music Part: ==
 
-== Campaign/scenario/game design Part ==
+== Campaign/scenario/game design Part: ==
 Voice overs go here too ;)
-
 
 
 
