@@ -38,7 +38,15 @@ I will have all the time/days here as Central time(GMT-6)
   * start implementing in-game gui(what doesn't have to be done right away for the game to run ;)
   * begin ai
 
-=== Tuesday
+=== Tuesday ==
+  * add glyphs/whatever else we decide needs to be added to game engine
+  * finish up in-game gui
+
+=== Wednesday ===
+  * add save game functionality
+  * finish menus
+  * add intro movie/splash screen
+  * begin coding campaign movies
 
 == Art/Graphics Part ==
 
@@ -46,7 +54,6 @@ I will have all the time/days here as Central time(GMT-6)
 
 == Campaign/scenario/game design Part ==
 Voice overs go here too ;)
-
 
 
 
