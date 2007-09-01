@@ -55,11 +55,10 @@ I will have all the time/days here as Central time(GMT-6)
   === Thursday onward... ===
     * we can use these days to catch up on anything not finished the rest of the week
     * if we finish all the coding parts we can add the following(or other stuff, depends on what you want to do after this point :D)
-
-      * add multiplayer(lobby, game portal)
-      * add ability to found new houses
-      * add more actions for your units to do(like mine gold)
-      * create a random map generator, and game-play option to fit it
+    * add multiplayer(lobby, game portal)
+    * add ability to found new houses
+    * add more actions for your units to do(like mine gold)
+    * create a random map generator, and game-play option to fit it
 
 == Art/Graphics Part: ==
 
@@ -90,7 +89,6 @@ I will have all the time/days here as Central time(GMT-6)
   ===Saturday===
     * test, test, test, and more test.
     * test again :D
-
 
 
 
