@@ -22,7 +22,7 @@ I will have all the time/days here as Central time(GMT-6)
     * if I'm lucky get a basic map up with a placeholder graphic for a unit you can move.        *--RB0* ^completed^
 
   === Sunday ===
-    * make sure map/basic unit is working
+    * make sure map/basic unit is working ^completed^
     * make units(squads/armies) have experience,member count, member type(different values), race type
     * make it so that your main unit/squad/whatever(I'll just use unit to describe them in the future) will have your leader, and each of your other units has a lieutenants.
     * create the players house, and add cities to the map(still no enemies or ai!)
@@ -90,4 +90,3 @@ I will have all the time/days here as Central time(GMT-6)
   ===Saturday===
     * test, test, test, and more test.
     * test again :D
-
