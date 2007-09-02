@@ -1,0 +1,395 @@
+import random
+
+import pygame
+from pygame.locals import *
+
+import image
+
+
+class Grid(object):
+    def __init__(self, tile_size=[100, 50]):
+        self.tile_size=tile_size
+
+    def convert_tile_to_pixel(self, x, y):
+        if y:odd=y%2
+        else:odd=0
+
+        cx=x*self.tile_size[0]
+        cy=y*self.tile_size[1]/2
+        if odd:
+            cx+=self.tile_size[1]
+        return [cx, cy]
+
+    def get_tile_left(self, x, y):
+        if y:odd=y%2
+        else:odd=0
+
+        if odd:
+            return [x, y-1]
+        return [x-1, y-1]
+
+    def get_tile_right(self, x, y):
+        if y:odd=y%2
+        else:odd=0
+
+        if odd:return [x+1, y+1]
+        else:return [x, y+1]
+
+    def get_tile_top(self, x, y):
+        if y:odd=y%2
+        else:odd=0
+
+        if odd:return [x+1, y-1]
+        else:return [x, y-1]
+
+    def get_tile_bottom(self, x, y):
+        if y:odd=y%2
+        else:odd=0
+
+        if odd:
+            return [x, y+1]
+        return [x-1, y+1]
+
+    def get_tile_topleft(self, x, y):
+        return [x, y-2]
+
+    def get_tile_topright(self, x, y):
+        return [x+1, y]
+
+    def get_tile_bottomleft(self, x, y):
+        return [x-1, y]
+
+    def get_tile_bottomright(self, x, y):
+        return [x, y+2]
+
+
+class TileImage(object):
+    def __init__(self, surf, split_color=[0,0,0,255]):
+        a=image.AnimatedImage(surf, split_color)
+
+        self.all_images=a.all_images
+        a=self.all_images[0]
+
+        self.tile=a[0].surface
+
+        if len(a)>1:
+            self.trans_left=a[1].surface
+            self.trans_right=a[2].surface
+            self.trans_top=a[3].surface
+            self.trans_bottom=a[4].surface
+        else:
+            self.trans_left=None
+            self.trans_right=None
+            self.trans_top=None
+            self.trans_bottom=None
+
+
+class UnitContainer(object):
+    def __init__(self):
+        self.named_items={}
+        self.unnamed_items=[]
+
+        self.all=[]
+
+    def add(self, item, name=None):
+        self.all.append(item)
+        if name:
+            self.named_items[name]=item
+        else:
+            self.unnamed_items.append(item)
+        return item
+
+    def remove(self, name):
+        if name in self.named_items:
+            a=self.named_items[name]
+            self.all.remove(a)
+            del self.named_items[name]
+        elif name in self.unnamed_items:
+            a=self.unnamed_items[name]
+            self.all.remove(a)
+            del self.unnamed_items[name]
+
+    def get(self, name):
+        if name in self.named_items:
+            return self.named_items[name]
+        elif name < len(self.unnamed_items):
+            return self.unnamed_items[name]
+
+    def get_units_in_area(self, rect):
+        cur=[]
+        for i in self.all:
+            if rect.colliderect(i.rect):
+                cur.append(i)
+        return cur
+
+
+class Camera(object):
+    def __init__(self, world, camera_pos=[0,0],
+                 rect=None,
+                 lock_to_map=True):
+        self.camera_pos=camera_pos
+
+        self.rect=rect
+
+        self.lock_to_map=lock_to_map
+
+        self.world=world
+
+    def check_pos(self):
+        if self.rect.left<0:
+            
+            self.rect.left=0
+            
+        if self.rect.right>self.world.map_width*\
+           self.world.grid.tile_size[0]-\
+           self.world.grid.tile_size[1]:
+            
+            self.rect.right=self.world.map_width*\
+               self.world.grid.tile_size[0]-\
+               self.world.grid.tile_size[1]
+
+        if self.rect.top<0:
+            
+            self.rect.top=0
+            
+        if self.rect.bottom>self.world.map_height*\
+           self.world.grid.tile_size[1]-\
+           (self.world.grid.tile_size[1]/2):
+            
+            self.rect.bottom=self.world.map_height*\
+               self.world.grid.tile_size[1]-\
+               (self.world.grid.tile_size[1]/2)
+
+    def to_tile_pos(self, pos=[0,0]):
+        x, y = pos
+        if self.lock_to_map:
+            if x<0:
+                x=0
+            if x>=self.world.map_width:
+                x=self.world.map_width
+            if y<0:
+                y=0
+            if y>=self.world.map_height:
+                y=self.world.map_height
+
+        x, y = -x, -y
+
+        self.camera_pos=self.world.get_pos(x, y)
+        self.check_pos()
+
+    def center_at(self, pos=[0,0]):
+        if isinstance(self.rect, pygame.Rect):
+            w, h, = self.rect.width/2, self.rect.height/2
+
+            self.camera_pos[0]=-pos[0]+w
+            self.camera_pos[1]=-pos[1]+h
+            self.check_pos()
+        else:
+            raise "Camera.rect must be a python.Rect object",AttributeError()
+
+    def mysort(self, a, b):
+        if int(a.tile_pos[1])<int(b.tile_pos[1]):
+            return -1
+        elif int(a.tile_pos[1])>int(b.tile_pos[1]):
+            return 1
+
+        elif int(a.tile_pos[0])<int(b.tile_pos[0]):
+            return -1
+        elif int(a.tile_pos[0])>int(b.tile_pos[0]):
+            return 1
+
+        elif a.render_priority>b.render_priority:
+            return 1
+        elif a.render_priority<b.render_priority:
+            return -1
+        return 0
+
+    def get_mouse_pos(self, mouse_pos=None):
+        if not mouse_pos:
+            mx, my=pygame.mouse.get_pos()
+        else:
+            mx, my=mouse_pos
+
+        cpos=self.camera_pos
+        mx -= cpos[0]
+        my -= cpos[1]
+
+        d=self.world.comp_data
+
+        for x in range(len(d)):
+            c=d[x]
+            if c.rect.collidepoint((mx, my)):
+                nmx, nmy = mx-c.rect.left, my-c.rect.top
+
+                if not c.image.get_at((nmx, nmy)) == c.blank_color:
+                    return c.tile_pos
+        return None
+
+    def render(self, surface, unit_group=[]):
+        ret_clip=surface.get_clip()
+        if self.rect:
+            new_clip=pygame.Rect(self.rect)
+            new_clip.clip(ret_clip)
+            surface.set_clip(new_clip)
+
+        r=pygame.Rect([-self.camera_pos[0],-self.camera_pos[1]],surface.get_size())
+        big=self.world.get_tiles_in_area(r)
+
+        for i in big:
+            i.render(surface, self.camera_pos)
+
+        big=[]
+        if isinstance(unit_group, list):
+            for i in unit_group:
+                big.extend(i.get_units_in_area(r))
+        else:
+            big=unit_group.get_units_in_area(r)
+
+        for i in big:
+            if i.pos[0] < 0 or i.pos[0] > surface.get_width():
+                del i
+            elif i.pos[1] < 0 or i.pos[1] > surface.get_height():
+                del i
+
+        for i in big:
+            i.render(surface, self.camera_pos)
+
+        surface.set_clip(ret_clip)
+
+
+class Tile(object):
+    def __init__(self, iso_world, pos, tile_sheet,
+                 type, tile_pos):
+
+        self.iso_world=iso_world
+
+        self.render_priority=0
+
+        self.pos=pos
+        self.tile_pos=tile_pos
+        self.tile_sheet=tile_sheet
+        self.image=self.tile_sheet.tile
+        self.comp_image=[self.image]
+        self.rect=self.image.get_rect()
+        self.rect.midtop=tuple(self.pos)
+        self.type=type
+
+        self.priority=0
+
+        self.blank_color=self.image.get_at((0,0))
+        self.use_trans=[]
+
+    def get_transitions(self):
+        tl, tr, tt, tb = self.iso_world.get_side_tiles(self.tile_pos)
+
+        if tl:
+            if "right" in tl.use_trans:
+                self.comp_image.append(tl.tile_sheet.trans_right)
+            else:
+                tl.comp_image.append(self.tile_sheet.trans_left)
+
+        if tt:
+            if "bottom" in tt.use_trans:
+                self.comp_image.append(tt.tile_sheet.trans_top)
+            else:
+                tt.comp_image.append(self.tile_sheet.trans_bottom)
+
+        if tr:
+            choice=random.choice([True, False])
+            if choice:
+                self.use_trans.append("right")
+        if tb:
+            choice=random.choice([True, False])
+            if choice:
+                self.use_trans.append("bottom")
+
+
+    def render(self, surface, camera_pos=[0,0]):
+        x, y=self.rect.topleft
+        x+=camera_pos[0]
+        y+=camera_pos[1]
+        for i in self.comp_image:
+            surface.blit(i, (x, y))
+
+class World(object):
+    def __init__(self, map=None, tiles={},
+                 tile_size=[32, 16],
+                 tile_split_color=(0,0,0,255)):
+
+        self.map=map
+
+        self.grid=Grid(tile_size)
+
+        self.map_width, self.map_height=[len(self.map[0]), len(self.map)]
+
+        self.tiles=tiles
+        self.__make_tiles__(tile_split_color)
+        self.tile_size=tile_size
+
+        self.data=[]
+        self.comp_data=[]
+
+        self.build()
+
+    def in_bounds(self, pos):
+        if pos[0]>=0 and pos[0]<self.map_width and\
+           pos[1]>=0 and pos[1]<self.map_height:
+            return True
+        return False
+
+    def get_side_tiles(self, pos):
+        left=self.grid.get_tile_left(*pos)
+        right=self.grid.get_tile_right(*pos)
+        top=self.grid.get_tile_top(*pos)
+        bottom=self.grid.get_tile_bottom(*pos)
+        if self.in_bounds(left):
+            left=self.data[left[1]][left[0]]
+        else:
+            left=None
+        if self.in_bounds(right):
+            right=self.data[right[1]][right[0]]
+        else:
+            right=None
+        if self.in_bounds(top):
+            top=self.data[top[1]][top[0]]
+        else:
+            top=None
+        if self.in_bounds(bottom):
+            bottom=self.data[bottom[1]][bottom[0]]
+        else:
+            bottom=None
+
+        return left, right, top, bottom
+
+    def __make_tiles__(self, scolor):
+        if self.tiles:
+            if isinstance(self.tiles.itervalues().next(), TileImage):
+                pass
+            else:
+                for x in self.tiles:
+                    self.tiles[x]=TileImage(self.tiles[x], scolor)
+
+    def get_tiles_in_area(self, rect):
+        cur=[]
+        for i in self.comp_data:
+            if rect.colliderect(i.rect):
+                cur.append(i)
+        return cur
+
+    def get_pos(self, x, y):
+        return self.grid.convert_tile_to_pixel(x, y)
+
+    def build(self):
+        self.data=[]
+        self.comp_data=[]
+        for y in range(len(self.map)):
+            self.data.append([])
+            for x in range(len(self.map[0])):
+                type=self.map[y][x]
+                image=self.tiles[type]
+                a=Tile(self, self.get_pos(x,y),
+                                         image, type, [x,y])
+                self.data[y].append(a)
+                self.comp_data.append(a)
+        for t in self.comp_data:
+            t.get_transitions()
