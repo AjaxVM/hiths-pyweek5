@@ -45,7 +45,7 @@ def main():
     unit_group=isometric.UnitContainer()
 
     #add our "hero"
-    unit=unit_group.add(isometric.Unit(world, mud, pos=[49,49]))
+    unit=unit_group.add(isometric.Unit(world, mud))
 
     #create a camera
     camera=isometric.Camera(world, [0,0], rect=screen.get_rect(),
