@@ -1,5 +1,5 @@
 
-import os, random
+import os, random, time
 
 import pygame
 from pygame.locals import *
@@ -68,7 +68,10 @@ def main():
                 pygame.quit()
                 return
 
-##            if event.type==KEYDOWN:
+            if event.type==KEYDOWN:
+                if event.key==K_s:
+                    pygame.image.save(screen, os.path.join("data", "screens",
+                                        "screenie--%s.bmp"%time.strftime("%d-%m-%Y-%H-%M")))
 ##                #move our hero
 ##                if event.key==K_LEFT:
 ##                    unit.move((-0.025,0))
