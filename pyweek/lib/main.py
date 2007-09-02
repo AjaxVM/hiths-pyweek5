@@ -1,10 +1,4 @@
-'''Game main module.
 
-Contains the entry point used by the run_game.py script.
-
-Feel free to put all your game code here, or in other modules in this "lib"
-directory.
-'''
 import os, random
 
 import pygame
@@ -44,12 +38,6 @@ def main():
                                         "g":green},
                           tile_size=[100,50])
 
-##    #create a unit container
-##    unit_group=isometric.UnitContainer()
-##
-##    #add our "hero"
-##    unit=unit_group.add(isometric.Unit(world, mud))
-
     #create a camera
     camera=isometric.Camera(world, [0,0], rect=screen.get_rect())
 
@@ -80,22 +68,12 @@ def main():
                 if event.key==K_DOWN:
                     unit.move((0,0.025))
 
-            #ohh, lets make some more units at the tile where we clicked
-##            if event.type==MOUSEBUTTONDOWN:
-##                x, y = camera.get_mouse_pos()
-##                new=world.get_pos(x, y)
-##                n=unit_group.add(isometric.Unit(world, mud))
-##                n.tile_pos=[x, y]
-##                n.offset=[0.5,0.5]
-##                #calling move updates the new unit so it knows where it is
-##                n.move([0,0])
 
         #clear the screen
         screen.fill((0,0,0,0))
 
-        #center teh camera on our hero, and render
-##        camera.center_at(unit.pos)
         camera.render(screen, [])
         pygame.display.flip()
 
-main()
+if __name__=="__main__":
+    main()
