@@ -16,10 +16,10 @@ I will have all the time/days here as Central time(GMT-6)
 = Details =
 == Programming Part: ==
    === Saturday, competition start at 7:00 pm ===
-    * finalize game play/ideas with anyone available on irc, post finalized ideas to the forum.
-    * start work on re-write of the features of pyglibs that will be needed.*--RB0*
+    * finalize game play/ideas with anyone available on irc, post finalized ideas to the forum. ^completed^
+    * start work on re-write of the features of pyglibs that will be needed.*--RB0* ^completed^
     needed features will be tiles with transitions, a fast flat map, units, all other things can probably stay the same, though the gui may need some more work...
-    * if I'm lucky get a basic map up with a placeholder graphic for a unit you can move.        *--RB0*
+    * if I'm lucky get a basic map up with a placeholder graphic for a unit you can move.        *--RB0* ^completed^
 
   === Sunday ===
     * make sure map/basic unit is working
@@ -90,7 +90,6 @@ I will have all the time/days here as Central time(GMT-6)
   ===Saturday===
     * test, test, test, and more test.
     * test again :D
-
 
 
 
