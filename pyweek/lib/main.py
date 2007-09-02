@@ -25,6 +25,7 @@ def main():
     green=image.load_image(os.path.join("data","images","green_tile.bmp"), -1)
 
     mud=image.load_image(os.path.join("data","images","mud.bmp"), -1)
+    bg_image=image.load_surface(os.path.join("data", "images", "map_bg.bmp"))
 
     #create a map
     m=[]
@@ -44,10 +45,11 @@ def main():
     unit_group=isometric.UnitContainer()
 
     #add our "hero"
-    unit=unit_group.add(isometric.Unit(world, mud))
+    unit=unit_group.add(isometric.Unit(world, mud, pos=[49,49]))
 
     #create a camera
-    camera=isometric.Camera(world, [0,0], rect=screen.get_rect())
+    camera=isometric.Camera(world, [0,0], rect=screen.get_rect(),
+                            background_image=bg_image)
 
     #to allow holding keys
     pygame.key.set_repeat(5)

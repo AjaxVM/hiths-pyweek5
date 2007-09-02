@@ -172,7 +172,8 @@ class UnitContainer(object):
 class Camera(object):
     def __init__(self, world, camera_pos=[0,0],
                  rect=None,
-                 lock_to_map=True):
+                 lock_to_map=True,
+                 background_image=None):
         self.camera_pos=camera_pos
 
         self.rect=rect
@@ -180,8 +181,20 @@ class Camera(object):
         self.lock_to_map=lock_to_map
 
         self.world=world
+
+        self.background_image=background_image
         #I still need to add a check position methid, to keep the
         #camera from showing black tiles :/
+
+    def check_pos(self):
+        if self.camera_pos[0] > self.world.grid.tile_size[1]:
+            self.camera_pos[0]=self.world.grid.tile_size[1]
+        if self.camera_pos[1] > 0:
+            self.camera_pos[1]=0
+        if self.camera_pos[0]<-4680:
+            self.camera_pos[0]=-4680
+        if self.camera_pos[1]<-1035:
+            self.camera_pos[1]=-1035
 
     def to_tile_pos(self, pos=[0,0]):
         x, y = pos
@@ -198,6 +211,7 @@ class Camera(object):
         x, y = -x, -y
 
         self.camera_pos=self.world.get_pos(x, y)
+        self.check_pos()
 
     def center_at(self, pos=[0,0]):
         if isinstance(self.rect, pygame.Rect):
@@ -205,6 +219,7 @@ class Camera(object):
 
             self.camera_pos[0]=-pos[0]+w
             self.camera_pos[1]=-pos[1]+h
+            self.check_pos()
         else:
             raise "Camera.rect must be a python.Rect object",AttributeError()
 
@@ -252,6 +267,9 @@ class Camera(object):
             new_clip=pygame.Rect(self.rect)
             new_clip.clip(ret_clip)
             surface.set_clip(new_clip)
+
+        if self.background_image:
+            surface.blit(self.background_image, new_clip.topleft)
 
         r=pygame.Rect([-self.camera_pos[0],-self.camera_pos[1]],surface.get_size())
         big=self.world.get_tiles_in_area(r)
@@ -304,25 +322,29 @@ class Tile(object):
         tl, tr, tt, tb = self.iso_world.get_side_tiles(self.tile_pos)
 
         if tl:
-            if "right" in tl.use_trans:
-                self.comp_image.append(tl.tile_sheet.trans_right)
-            else:
-                tl.comp_image.append(self.tile_sheet.trans_left)
+            if not tl.type==self.type:
+                if "right" in tl.use_trans:
+                    self.comp_image.append(tl.tile_sheet.trans_right)
+                else:
+                    tl.comp_image.append(self.tile_sheet.trans_left)
 
         if tt:
-            if "bottom" in tt.use_trans:
-                self.comp_image.append(tt.tile_sheet.trans_top)
-            else:
-                tt.comp_image.append(self.tile_sheet.trans_bottom)
+            if not tt.type==self.type:
+                if "bottom" in tt.use_trans:
+                    self.comp_image.append(tt.tile_sheet.trans_top)
+                else:
+                    tt.comp_image.append(self.tile_sheet.trans_bottom)
 
         if tr:
-            choice=random.choice([True, False])
-            if choice:
-                self.use_trans.append("right")
+            if not tr.type==self.type:
+                choice=random.choice([True, False])
+                if choice:
+                    self.use_trans.append("right")
         if tb:
-            choice=random.choice([True, False])
-            if choice:
-                self.use_trans.append("bottom")
+            if not tb.type==self.type:
+                choice=random.choice([True, False])
+                if choice:
+                    self.use_trans.append("bottom")
 
 
     def render(self, surface, camera_pos=[0,0]):
