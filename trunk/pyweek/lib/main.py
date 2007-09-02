@@ -4,10 +4,11 @@ import os, random, time
 import pygame
 from pygame.locals import *
 
-#load pyglibs
-import pyglibs
-from pyglibs import isometric
-from pyglibs import image
+import modules
+
+from modules import pyglibs, unit
+from modules.pyglibs import isometric
+from modules.pyglibs import image
 
 #a special divide that allows division by 0
 def spc_div(a, b):
@@ -41,12 +42,6 @@ def main():
                                         "g":green},
                           tile_size=[100,50])
 
-    #create a unit container
-    unit_group=isometric.UnitContainer()
-
-    #add our "hero"
-    unit=unit_group.add(isometric.Unit(world, mud))
-
     #create a camera
     camera=isometric.Camera(world, [0,0], rect=screen.get_rect(),
                             background_image=bg_image)
@@ -55,8 +50,6 @@ def main():
     pygame.key.set_repeat(5)
 
     clock=pygame.time.Clock()
-
-    goto=[0,0]
 
     while 1:
         #lets see how fast we are going
@@ -72,37 +65,10 @@ def main():
                 if event.key==K_s:
                     pygame.image.save(screen, os.path.join("data", "screens",
                                         "screenie--%s.bmp"%time.strftime("%d-%m-%Y-%H-%M")))
-##                #move our hero
-##                if event.key==K_LEFT:
-##                    unit.move((-0.025,0))
-##                if event.key==K_RIGHT:
-##                    unit.move((0.025,0))
-##
-##                if event.key==K_UP:
-##                    unit.move((0,-0.025))
-##                if event.key==K_DOWN:
-##                    unit.move((0,0.025))
-            if event.type==MOUSEBUTTONDOWN:
-                goto=camera.get_mouse_pos()
-
-
-        if goto:
-            if goto[0]<unit.tile_pos[0]:
-                unit.move((-0.025, 0))
-            elif goto[0]>unit.tile_pos[0]:
-                unit.move((0.025, 0))
-
-            if goto[1]<unit.tile_pos[1]:
-                unit.move((0, -0.025))
-            elif goto[1]>unit.tile_pos[1]:
-                unit.move((0, 0.025))
-
 
         #clear the screen
         screen.fill((0,0,0,0))
-
-        camera.center_at(unit.pos)
-        camera.render(screen, unit_group)
+        camera.render(screen, [])
         pygame.display.flip()
 
 if __name__=="__main__":
