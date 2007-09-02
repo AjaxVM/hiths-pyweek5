@@ -15,7 +15,7 @@ I will have all the time/days here as Central time(GMT-6)
   
 = Details =
 == Programming Part: ==
-   === ~~Saturday~~, competition start at 7:00 pm ===
+   === ~~Saturday~~, competition start at 7:00 pm === ^completed -- on schedule os far :)^
     * finalize game play/ideas with anyone available on irc, post finalized ideas to the forum. ^completed^
     * start work on re-write of the features of pyglibs that will be needed.*--RB0* ^completed^
     needed features will be tiles with transitions, a fast flat map, units, all other things can probably stay the same, though the gui may need some more work...
@@ -90,6 +90,5 @@ I will have all the time/days here as Central time(GMT-6)
   ===Saturday===
     * test, test, test, and more test.
     * test again :D
-
 
 
