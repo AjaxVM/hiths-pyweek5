@@ -21,8 +21,10 @@ def main():
     screen=pygame.display.set_mode((320,240))
 
     #load assets
-    red=image.load_image(os.path.join("data","images","red_tile.bmp"),-1)
+    red=image.load_image(os.path.join("data","images","red_tile.bmp"),-1)#-1 uses a colorkey
     green=image.load_image(os.path.join("data","images","green_tile.bmp"), -1)
+
+    mud=image.load_image(os.path.join("data","images","mud.bmp"), -1)
 
     #create a map
     m=[]
@@ -38,6 +40,12 @@ def main():
                                         "g":green},
                           tile_size=[100,50])
 
+    #create a unit container
+    unit_group=isometric.UnitContainer()
+
+    #add our "hero"
+    unit=unit_group.add(isometric.Unit(world, mud))
+
     #create a camera
     camera=isometric.Camera(world, [0,0], rect=screen.get_rect())
 
@@ -45,6 +53,8 @@ def main():
     pygame.key.set_repeat(5)
 
     clock=pygame.time.Clock()
+
+    goto=[0,0]
 
     while 1:
         #lets see how fast we are going
@@ -56,23 +66,38 @@ def main():
                 pygame.quit()
                 return
 
-            if event.type==KEYDOWN:
-                #move our hero
-                if event.key==K_LEFT:
-                    unit.move((-0.025,0))
-                if event.key==K_RIGHT:
-                    unit.move((0.025,0))
+##            if event.type==KEYDOWN:
+##                #move our hero
+##                if event.key==K_LEFT:
+##                    unit.move((-0.025,0))
+##                if event.key==K_RIGHT:
+##                    unit.move((0.025,0))
+##
+##                if event.key==K_UP:
+##                    unit.move((0,-0.025))
+##                if event.key==K_DOWN:
+##                    unit.move((0,0.025))
+            if event.type==MOUSEBUTTONDOWN:
+                goto=camera.get_mouse_pos()
 
-                if event.key==K_UP:
-                    unit.move((0,-0.025))
-                if event.key==K_DOWN:
-                    unit.move((0,0.025))
+
+        if goto:
+            if goto[0]<unit.tile_pos[0]:
+                unit.move((-0.025, 0))
+            elif goto[0]>unit.tile_pos[0]:
+                unit.move((0.025, 0))
+
+            if goto[1]<unit.tile_pos[1]:
+                unit.move((0, -0.025))
+            elif goto[1]>unit.tile_pos[1]:
+                unit.move((0, 0.025))
 
 
         #clear the screen
         screen.fill((0,0,0,0))
 
-        camera.render(screen, [])
+        camera.center_at(unit.pos)
+        camera.render(screen, unit_group)
         pygame.display.flip()
 
 if __name__=="__main__":
