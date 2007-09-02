@@ -7,10 +7,32 @@ import image
 
 
 class Grid(object):
-    def __init__(self, tile_size=[100, 50]):
+    def __init__(self, tile_size=[32,16],
+                 mode="map"):#can be map too, for AOE type map, with no black edges
+
         self.tile_size=tile_size
+        self.mode=mode
 
     def convert_tile_to_pixel(self, x, y):
+        if self.mode=="pure":
+            return self.conv_pure(x, y)
+        elif self.mode=="map":
+            return self.conv_map(x, y)
+        return [cx, cy]
+
+    def conv_pure(self, x, y):
+        cx = self.tile_size[0]*x
+        cy = self.tile_size[1]*y
+
+        cx -= (self.tile_size[1])*y
+        cx -= (self.tile_size[1])*x
+
+        cy -= (self.tile_size[1]/2)*y
+        cy += (self.tile_size[1]/2)*x
+
+        return [cx, cy]
+
+    def conv_map(self, x, y):
         if y:odd=y%2
         else:odd=0
 
@@ -21,46 +43,70 @@ class Grid(object):
         return [cx, cy]
 
     def get_tile_left(self, x, y):
-        if y:odd=y%2
-        else:odd=0
+        if self.mode=="pure":
+            return [x-1, y]
+        elif self.mode=="map":
+            if y:odd=y%2
+            else:odd=0
 
-        if odd:
-            return [x, y-1]
-        return [x-1, y-1]
+            if odd:
+                return [x, y-1]
+            return [x-1, y-1]
 
     def get_tile_right(self, x, y):
-        if y:odd=y%2
-        else:odd=0
+        if self.mode=="pure":
+            return [x+1, y]
+        elif self.mode=="map":
+            if y:odd=y%2
+            else:odd=0
 
-        if odd:return [x+1, y+1]
-        else:return [x, y+1]
+            if odd:return [x+1, y+1]
+            else:return [x, y+1]
 
     def get_tile_top(self, x, y):
-        if y:odd=y%2
-        else:odd=0
+        if self.mode=="pure":
+            return [x, y-1]
+        elif self.mode=="map":
+            if y:odd=y%2
+            else:odd=0
 
-        if odd:return [x+1, y-1]
-        else:return [x, y-1]
+            if odd:return [x+1, y-1]
+            else:return [x, y-1]
 
     def get_tile_bottom(self, x, y):
-        if y:odd=y%2
-        else:odd=0
-
-        if odd:
+        if self.mode=="pure":
             return [x, y+1]
-        return [x-1, y+1]
+        elif self.mode=="map":
+            if y:odd=y%2
+            else:odd=0
+
+            if odd:
+                return [x, y+1]
+            return [x-1, y+1]
 
     def get_tile_topleft(self, x, y):
-        return [x, y-2]
+        if self.mode=="pure":
+            return [x-1, y-1]
+        elif self.mode=="map":
+            return [x, y-2]
 
     def get_tile_topright(self, x, y):
-        return [x+1, y]
+        if self.mode=="pure":
+            return [x+1, y-1]
+        elif self.mode=="map":
+            return [x+1, y]
 
     def get_tile_bottomleft(self, x, y):
-        return [x-1, y]
+        if self.mode=="pure":
+            return [x-1, y+1]
+        elif self.mode=="map":
+            return [x-1, y]
 
     def get_tile_bottomright(self, x, y):
-        return [x, y+2]
+        if self.mode=="pure":
+            return [x+1, y+1]
+        elif self.mode=="map":
+            return [x, y+2]
 
 
 class TileImage(object):
@@ -134,31 +180,8 @@ class Camera(object):
         self.lock_to_map=lock_to_map
 
         self.world=world
-
-    def check_pos(self):
-        if self.rect.left<0:
-            
-            self.rect.left=0
-            
-        if self.rect.right>self.world.map_width*\
-           self.world.grid.tile_size[0]-\
-           self.world.grid.tile_size[1]:
-            
-            self.rect.right=self.world.map_width*\
-               self.world.grid.tile_size[0]-\
-               self.world.grid.tile_size[1]
-
-        if self.rect.top<0:
-            
-            self.rect.top=0
-            
-        if self.rect.bottom>self.world.map_height*\
-           self.world.grid.tile_size[1]-\
-           (self.world.grid.tile_size[1]/2):
-            
-            self.rect.bottom=self.world.map_height*\
-               self.world.grid.tile_size[1]-\
-               (self.world.grid.tile_size[1]/2)
+        #I still need to add a check position methid, to keep the
+        #camera from showing black tiles :/
 
     def to_tile_pos(self, pos=[0,0]):
         x, y = pos
@@ -175,7 +198,6 @@ class Camera(object):
         x, y = -x, -y
 
         self.camera_pos=self.world.get_pos(x, y)
-        self.check_pos()
 
     def center_at(self, pos=[0,0]):
         if isinstance(self.rect, pygame.Rect):
@@ -183,7 +205,6 @@ class Camera(object):
 
             self.camera_pos[0]=-pos[0]+w
             self.camera_pos[1]=-pos[1]+h
-            self.check_pos()
         else:
             raise "Camera.rect must be a python.Rect object",AttributeError()
 
@@ -219,7 +240,7 @@ class Camera(object):
         for x in range(len(d)):
             c=d[x]
             if c.rect.collidepoint((mx, my)):
-                nmx, nmy = mx-c.rect.left, my-c.rect.top
+                nmx, nmy = int(mx-c.rect.left), int(my-c.rect.top)
 
                 if not c.image.get_at((nmx, nmy)) == c.blank_color:
                     return c.tile_pos
@@ -393,3 +414,85 @@ class World(object):
                 self.comp_data.append(a)
         for t in self.comp_data:
             t.get_transitions()
+
+
+class Unit(object):
+    def __init__(self, iso_world,image=None,
+                 pos=[0,0], rect=None,
+                 lock_to_map=True,
+                 render_priority=1):
+        self.image=image
+
+        self.iso_world=iso_world
+
+        self.render_priority=render_priority
+
+        self.tile_pos=pos
+        self.pos=iso_world.get_pos(*self.tile_pos)
+        self.offset=[0,0]
+
+        self.lock_to_map=lock_to_map
+
+        if rect:
+            self.rect=rect
+            self.rect.midbottom=iso_world.get_pos(*self.pos)
+        else:
+            self.rect=self.image.get_rect()
+            self.rect.midbottom=iso_world.get_pos(*self.pos)
+
+    def check_collision(self, other):
+        if isinstance(other, Unit):
+            return self.rect.colliderect(other.rect)
+        elif isinstance(other, UnitContainer):
+            for other in other.group:
+                if self.rect.colliderect(other.rect):
+                    return True
+            return False
+
+        elif isinstance(other, pygame.Rect):
+            return self.rect.colliderect(other)
+
+        else:
+            return self.rect.collidepoint(other)
+
+    def render(self, surface, camera_pos=[0,0]):
+        x, y=self.rect.topleft
+        x+=camera_pos[0]
+        y+=camera_pos[1]
+        if isinstance(self.image, pygame.Surface):
+            surface.blit(self.image, (x,y))
+        else:
+            self.image.render(surface, (x,y))
+
+    def move(self, direction=[0,0]):
+        if self.lock_to_map:
+            old_off=list(self.offset)
+            old_tile=list(self.tile_pos)
+        self.offset[0]+=direction[0]
+        self.offset[1]+=direction[1]
+
+        if self.offset[0]<0:
+            self.tile_pos=self.iso_world.grid.get_tile_left(*self.tile_pos)
+            self.offset[0]=1+self.offset[0]
+        elif self.offset[0]>=1:
+            self.tile_pos=self.iso_world.grid.get_tile_right(*self.tile_pos)
+            self.offset[0]=self.offset[0]-1
+
+        if self.offset[1]<0:
+            self.tile_pos=self.iso_world.grid.get_tile_top(*self.tile_pos)
+            self.offset[1]=1+self.offset[1]
+        elif self.offset[1]>=1:
+            self.tile_pos=self.iso_world.grid.get_tile_bottom(*self.tile_pos)
+            self.offset[1]=self.offset[1]-1
+
+        if self.lock_to_map:
+            if self.tile_pos[0]<0 or self.tile_pos[0]>=self.iso_world.map_width or\
+               self.tile_pos[1]<0 or self.tile_pos[1]>=self.iso_world.map_height:
+                self.offset=old_off
+                self.tile_pos=old_tile
+
+        self.pos=self.iso_world.get_pos(*self.tile_pos)
+        n=self.iso_world.grid.conv_pure(*self.offset)
+        self.pos[0]+=n[0]
+        self.pos[1]+=n[1]
+        self.rect.midbottom=tuple(self.pos)
