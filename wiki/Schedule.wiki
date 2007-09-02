@@ -23,6 +23,7 @@ I will have all the time/days here as Central time(GMT-6)
 
   === Sunday ===
     * make sure map/basic unit is working ^completed^
+    * make game more game-like, setup basic screen dimensions and add basic menu bar
     * make units(squads/armies) have experience,member count, member type(different values), race type
     * make it so that your main unit/squad/whatever(I'll just use unit to describe them in the future) will have your leader, and each of your other units has a lieutenants.
     * create the players house, and add cities to the map(still no enemies or ai!)
