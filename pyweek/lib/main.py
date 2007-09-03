@@ -6,7 +6,7 @@ from pygame.locals import *
 
 import modules
 
-from modules import pyglibs, unit
+from modules import pyglibs, unit, elements
 from modules.pyglibs import isometric
 from modules.pyglibs import image
 
@@ -28,6 +28,8 @@ def main():
     mud=image.load_image(os.path.join("data","images","mud.bmp"), -1)
     bg_image=image.load_surface(os.path.join("data", "images", "map_bg.bmp"))
 
+    button=image.load_image(os.path.join("data", "images", "button.bmp"), -1)
+
     #create a map
     m=[]
     #50x50 is a lttle too large to use well at 640x480 screen size
@@ -44,7 +46,19 @@ def main():
 
     #create a camera
     camera=isometric.Camera(world, [0,0], rect=screen.get_rect(),
-                            background_image=bg_image)
+                            background_image=bg_image,
+                            lock_to_map=False)
+
+
+    #create basic units/races/etc.
+    race1=elements.load_race(None)
+    race1.house_image=button
+    race1.elder_image = race1.captain_image = mud
+    glyph1=elements.load_glyph(None)
+
+    basic_player=unit.Player("jimbob", race1)
+    basic_player.create_house(world, [0,0])
+    basic_player.houses[0].make_unit("bob II", {"Recruit":50})
 
     #to allow holding keys
     pygame.key.set_repeat(5)
@@ -68,7 +82,9 @@ def main():
 
         #clear the screen
         screen.fill((0,0,0,0))
-        camera.render(screen, [])
+##        camera.center_at(basic_player.houses[0].pos)
+        camera.render(screen, basic_player)
+        basic_player.update()
         pygame.display.flip()
 
 if __name__=="__main__":

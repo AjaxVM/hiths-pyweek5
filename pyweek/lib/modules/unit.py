@@ -15,7 +15,7 @@ class Race(object):
                  start_troops=100,
                  start_food=100,
                  house_food_production=1,#seconds
-                 house_troop_production_speed=5):#seconds
+                 house_troop_production=5):#seconds
         self.name=name
 
         self.captain_image=captain_image
@@ -44,12 +44,14 @@ class Unit(isometric.Unit):
                  pos=[0,0]):
 
         if captain_is_elder:
-            cap_image=race.elder_image
+            cap_image=player.race.elder_image
         else:
-            cap_image=race.captain_image
+            cap_image=player.race.captain_image
 
         isometric.Unit.__init__(self, iso_world, cap_image,
                                 pos)
+
+        self.render_priority=2
 
         self.captain_name=captain_name
 
@@ -69,7 +71,8 @@ class Unit(isometric.Unit):
     def get_consumption(self):
         con=0
         for i in self.soldier_type_counts:
-            con+=i["consumes"]*self.soldier_type_counts[i]
+            con+=self.race.soldier_types[i]["consumes"]*\
+                  self.soldier_type_counts[i]
         return con
 
     def get_glyph_by_name(self, name):
@@ -94,13 +97,15 @@ class Unit(isometric.Unit):
                  False, int(spc_div(self.army_xp,2)),
                  int(spc_div(self.army_xp,2)),
                  soldier_counts, self.tile_pos)
+        a.move([0.5, 0.5])
         self.player.armies.append(a)
 
     def make_house(self):
         self.player.armies.remove(self)
         self.player.to_be_deleted.append(self)
 
-        new=House(self.iso_world, self.player, self.pos)
+        new=House(self.iso_world, self.player, self.tile_pos)
+        new.move([0.5, 0.5])
         new.soldier_type_count=self.soldier_type_count
         new.glyphs=self.glyphs
         new.leader_placed=True
@@ -110,20 +115,22 @@ class Unit(isometric.Unit):
 class House(isometric.Unit):
     def __init__(self, iso_world, player, pos=[0,0]):
 
-        isometric.Unit.__init__(self, iso_world, race.house_image, pos)
+        isometric.Unit.__init__(self, iso_world,
+                                player.race.house_image,
+                                pos)
 
         self.iso_world=iso_world
         self.player=player
         self.race=player.race
 
-        self.troops=int(race.start_troops)
+        self.troops=int(self.race.start_troops)
 
         self.food_counter=time.time()
         self.troop_counter=time.time()
 
         self.leader_placed=False
 
-        self.soldier_type_count={"Recruit":self.race.start_troops}
+        self.soldier_type_counts={"Recruit":self.race.start_troops}
 
         self.glyphs=[]
 
@@ -134,7 +141,7 @@ class House(isometric.Unit):
 
     def make_unit(self, captain_name="None", soldier_counts={}):
         for i in soldier_counts:
-            if i in self.soldier_type_count:
+            if i in self.soldier_type_counts:
                 if soldier_counts[i]>self.soldier_type_counts[i]:
                     soldier_counts[i]=self.soldier_type_counts[i]
                 self.soldier_type_counts[i]-=soldier_counts[i]
@@ -143,6 +150,7 @@ class House(isometric.Unit):
         a = Unit(self.iso_world, self.player, captain_name,
                  not self.leader_placed, 0, 0,
                  soldier_counts, self.tile_pos)
+        a.move([0.5, 0.5])
         self.leader_placed=True
         self.player.armies.append(a)
 
@@ -152,10 +160,10 @@ class House(isometric.Unit):
             self.food_counter=time.time()
 
         if time.time()-self.troop_counter >= self.race.house_troop_prod:
-            self.soldier_type_count["Recruit"]+=1
+            self.soldier_type_counts["Recruit"]+=1
             self.troop_counter=time.time()
 
-class Player(object):
+class Player(isometric.UnitContainer):
     def __init__(self, name=None, race=None):
         self.name=name
 
@@ -169,7 +177,10 @@ class Player(object):
         self.food_counter=time.time()
 
     def create_house(self, iso_world, pos=[0,0]):
-        self.houses.append(House(iso_world, self, pos))
+        a=House(iso_world, self, pos)
+        a.move([0.5, 0.5])
+        self.houses.append(a)
+        return a
 
     def flush(self):
         for i in self.to_be_deleted:
@@ -184,6 +195,13 @@ class Player(object):
             for i in self.armies:
                 self.food-=i.get_consumption()
             self.food_counter=time.time()
+
+    def get_units_in_area(self, rect):
+        cur=[]
+        for i in self.armies+self.houses:
+            if rect.colliderect(i.rect):
+                cur.append(i)
+        return cur
 
 class Glyph(object):
     def __init__(self, attack_boost=0, defense_boost=0,
