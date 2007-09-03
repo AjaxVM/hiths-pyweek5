@@ -24,9 +24,9 @@ I will have all the time/days here as Central time(GMT-6)
   === Sunday === ^50% completed, most of skeleton is there, just needs to be implemented/tested now^
     * make sure map/basic unit is working ^completed^
     * make game more game-like, setup basic screen dimensions and add basic hud bar
-    * make units(squads/armies) have experience,member count, member type(different values), race type _~~70% completed~~_
+    * make units(squads/armies) have experience,member count, member type(different values), race type ^completed^
     * make it so that your main unit/squad/whatever(I'll just use unit to describe them in the future) will have your leader, and each of your other units has a lieutenants.^completed^
-    * create the players house, and add cities to the map(still no enemies or ai!)
+    * create the players house, and add cities to the map(still no enemies or ai!) ~~_50% finished_~~
     * create units first action: recruit, allowing you to take a unit into a city and gain troops there.
     * create basic battle engine, basically units get animated to there attack animation, face the enemies direction, and each enemy gets hurt based on the size and experience of the opposing unit. When a unit dies it is deleted.
     * create a map/campaign/unit/etc. loader/parser, perhaps have them be python files, but probably markup...
