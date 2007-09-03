@@ -188,7 +188,6 @@ class Player(object):
 class Glyph(object):
     def __init__(self, attack_boost=0, defense_boost=0,
                  dodge_boost=0, speed_boost=0,
-                 consumption_reduction=0,
                  food_production=0, troop_production=0,
                  name="None", image=None):
         self.name=name
@@ -199,7 +198,6 @@ class Glyph(object):
         self.dodge_boost=dodge_boost
         self.speed_boost=speed_boost
 
-        self.consumption_reduction=consumption_reduction
         self.food_production=food_production
         self.troop_production=troop_production
 
