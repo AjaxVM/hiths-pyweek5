@@ -151,6 +151,9 @@ class UnitContainer(object):
             self.all.remove(a)
             del self.named_items[name]
         elif name in self.unnamed_items:
+            self.all.remove(name)
+            self.unnamed_items.remove(name)
+        else:
             a=self.unnamed_items[name]
             self.all.remove(a)
             del self.unnamed_items[name]
@@ -174,7 +177,7 @@ class Camera(object):
                  rect=None,
                  lock_to_map=True,
                  background_image=None):
-        self.camera_pos=camera_pos
+        self.camera_pos=[0,0]
 
         self.rect=rect
 
@@ -183,18 +186,18 @@ class Camera(object):
         self.world=world
 
         self.background_image=background_image
-        #I still need to add a check position methid, to keep the
-        #camera from showing black tiles :/
+        self.center_at(camera_pos)
 
     def check_pos(self):
-        if self.camera_pos[0] > self.world.grid.tile_size[1]:
-            self.camera_pos[0]=self.world.grid.tile_size[1]
-        if self.camera_pos[1] > 0:
-            self.camera_pos[1]=0
-        if self.camera_pos[0]<-4680:
-            self.camera_pos[0]=-4680
-        if self.camera_pos[1]<-1035:
-            self.camera_pos[1]=-1035
+        if self.lock_to_map:
+            if self.camera_pos[0] > self.world.grid.tile_size[1]:
+                self.camera_pos[0]=self.world.grid.tile_size[1]
+            if self.camera_pos[1] > 0:
+                self.camera_pos[1]=0
+            if self.camera_pos[0]<-4680:
+                self.camera_pos[0]=-4680
+            if self.camera_pos[1]<-1035:
+                self.camera_pos[1]=-1035
 
     def to_tile_pos(self, pos=[0,0]):
         x, y = pos
@@ -289,6 +292,8 @@ class Camera(object):
                 del i
             elif i.pos[1] < 0 or i.pos[1] > surface.get_height():
                 del i
+
+        big.sort(self.mysort)
 
         for i in big:
             i.render(surface, self.camera_pos)
@@ -461,6 +466,8 @@ class Unit(object):
         else:
             self.rect=self.image.get_rect()
             self.rect.midbottom=iso_world.get_pos(*self.pos)
+
+        self.move()
 
     def check_collision(self, other):
         if isinstance(other, Unit):
