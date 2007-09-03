@@ -21,7 +21,7 @@ I will have all the time/days here as Central time(GMT-6)
     needed features will be tiles with transitions, a fast flat map, units, all other things can probably stay the same, though the gui may need some more work...
     * if I'm lucky get a basic map up with a placeholder graphic for a unit you can move.        *--RB0* ^completed^
 
-  === Sunday ===
+  === Sunday === ^50% completed, most of skeleton is there, just needs to be implemented/tested now^
     * make sure map/basic unit is working ^completed^
     * make game more game-like, setup basic screen dimensions and add basic hud bar
     * make units(squads/armies) have experience,member count, member type(different values), race type _~~70% completed~~_
