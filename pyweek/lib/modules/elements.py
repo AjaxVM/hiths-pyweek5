@@ -2,12 +2,17 @@ from entities import *
 import pygame
 from pygame.locals import *
 import pyglibs
+from pyglibs import *
+from assets import *
 
-def load_file(filename, iso_world):
+def path(*f):
+    return os.path.join('data', *f)
+
+def load_file(filename):
     a=open(filename, 'rU').read()
+    world=None#the isometric.World or decendant of one
+    camera_pos=[0,0]#the isometric.camera
     races=[]#these are any races found in the file
-    units=[]#these are units from file
-    houses=[]#houses
     players=[]#players
     glyphs=[]#glyphs
     ground_glyphs=[]#glyphs that are placed
@@ -15,14 +20,17 @@ def load_file(filename, iso_world):
     cities=[]#human cities
     fortifications=[]#placed forts
     monster_spawn_points=[]#this is where nasties apwn when oyu pick up a glyph!
-    map=None#any maps found in the file
+    maps={}#any maps found in the file
     ancient_temples=[]#this is where teh Rendth spawn from
     campaigns=[]#any campaigns found in this file
-    terrains={}#the terrain types found in this file
+    terrain={}#the terrain types found in this file
+    images={}
+    music={}
+    sfx={}
     exec a
-    return {'races':races,
-            'units':units,
-            'houses':houses,
+    return {'world':world,
+            'camera_pos':camera_pos,
+            'races':races,
             'players':players,
             'glyphs':glyphs,
             'ground_glyphs':ground_glyphs,
@@ -33,4 +41,7 @@ def load_file(filename, iso_world):
             'forts':fortifications,
             'terrain':terrains,
             'temples':ancient_temples,
-            'campaigns':campaigns}
+            'campaigns':campaigns,
+            'images':images,
+            'music':music,
+            'sfx':sfx}

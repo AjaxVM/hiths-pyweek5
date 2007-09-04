@@ -1,11 +1,6 @@
 import time
 from pyglibs import isometric
 
-def spc_div(a, b):
-    if a and b:
-        return a/b
-    return 0
-
 class Race(object):
     def __init__(self, name="None",
                  captain_image=None,
