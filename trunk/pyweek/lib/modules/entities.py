@@ -138,7 +138,9 @@ class Unit(isometric.Unit):
                 amount=self.soldier_type_counts["Recruit"]
                 self.soldier_type_counts["Recruit"]=0
             self.soldier_type_counts[to_type]+=amount
-        
+    
+    def handleClick(self, event):
+        print 'click and I obey!'        
 
 class House(isometric.Unit):
     def __init__(self, iso_world, player, pos=[0,0]):
@@ -203,6 +205,7 @@ class Player(isometric.UnitContainer):
 
         self.food=int(race.start_food)
         self.food_counter=time.time()
+        self.active_entity = None
 
     def create_house(self, iso_world, pos=[0,0]):
         a=House(iso_world, self, pos)
