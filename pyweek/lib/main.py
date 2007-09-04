@@ -61,7 +61,9 @@ def main():
     basic_player.create_house(world, [0,0])
     basic_player.houses[0].make_unit("bob II", {"Recruit":50})
 
-    info_food=gui.Label([10,0], None, "food: 100")
+    info_food=gui.Label([10,0],
+                        pyglibs.font.Font(antialias=True),
+                        message="food: 100")
 
     #to allow holding keys
     pygame.key.set_repeat(5)
