@@ -33,7 +33,7 @@ I will have all the time/days here as Central time(GMT-6)
     * if there is enough time, add basic human monster hunters, that will appear in bands around the world, especially in cities, and especially when you go to recruit, that come in various sizes and attack you.
 
   === Monday ===
-    * implement food, make house generate small amount of food, make units have ot restock after a bit ~~_75% finished_~~
+    * implement food, make house generate small amount of food, make units have ot restock after a bit ^completed^
     * implement having new recruits being untrained, and having to return to house to train them as some kind of warrior ~~_50% finished_~~
     * create menu/config
     * start implementing in-game gui(what doesn't have to be done right away for the game to run ;)
