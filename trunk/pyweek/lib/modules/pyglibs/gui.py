@@ -12,6 +12,11 @@ except:
     can_do_pp=False
 
 class Label(object):
+    ''' Text Label Object
+        init args:
+        pos - list[x,y], font, message, image - image, wrap_text - bool,
+        align ["left"/"right","top"/"bottom"], visible - bool,
+        image_mode - scale,split,enlarge,multiply'''
     def __init__(self, pos=[0,0], font=None,
                  message="", image=None,
                  wrap_text=False, align=["left","top"],
