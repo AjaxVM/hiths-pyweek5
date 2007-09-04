@@ -47,8 +47,7 @@ def main():
 
     #create a camera
     camera=isometric.Camera(world, [0,0], rect=screen.get_rect(),
-                            background_image=bg_image,
-                            lock_to_map=False)
+                            background_image=bg_image)
 
 
     #create basic units/races/etc.
