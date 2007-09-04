@@ -68,6 +68,15 @@ class Unit(isometric.Unit):
 
         self.glyphs=[]
 
+        self.getting_food=False
+        self.food_counter=0
+
+    def get_troop_count(self):
+        c=0
+        for i in self.soldier_type_counts:
+            c+=self.soldier_type_counts[i]
+        return c
+
     def get_consumption(self):
         con=0
         for i in self.soldier_type_counts:
@@ -79,6 +88,10 @@ class Unit(isometric.Unit):
         for i in self.glyphs:
             if i.name==name:
                 return i
+
+    def get_food(self):
+        self.food_counter=time.time()
+        self.getting_food=True
 
     def transport_glyph(self, glyph_group, glyph_name, pos=[0,0]):
         a=self.get_glyph_by_name(glyph_name)
@@ -111,6 +124,21 @@ class Unit(isometric.Unit):
         new.leader_placed=True
 
         self.player.houses.append(new)
+
+    def update(self):
+        if self.getting_food:
+            if time.time()-self.food_counter==1:
+                self.player.food+=int(0.25*self.get_troop_count())
+
+    def train_unit(self, amount, to_type):
+        if to_type in self.soldier_type_counts:
+            if amount <= self.soldier_type_counts["Recruit"]:
+                self.soldier_type_counts["Recruit"]-=amount
+            else:
+                amount=self.soldier_type_counts["Recruit"]
+                self.soldier_type_counts["Recruit"]=0
+            self.soldier_type_counts[to_type]+=amount
+        
 
 class House(isometric.Unit):
     def __init__(self, iso_world, player, pos=[0,0]):
