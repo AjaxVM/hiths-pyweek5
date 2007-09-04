@@ -6,7 +6,7 @@ from pygame.locals import *
 
 import modules
 
-from modules import pyglibs, unit, elements
+from modules import pyglibs, entities, elements
 from modules.pyglibs import isometric
 from modules.pyglibs import image
 from modules.pyglibs import gui
@@ -52,12 +52,12 @@ def main():
 
 
     #create basic units/races/etc.
-    race1=unit.Race()
+    race1=entities.Race()
     race1.house_image=button
     race1.elder_image = race1.captain_image = mud
-    glyph1=unit.Glyph()
+    glyph1=entities.Glyph()
 
-    basic_player=unit.Player("jimbob", race1)
+    basic_player=entities.Player("jimbob", race1)
     basic_player.create_house(world, [0,0])
     basic_player.houses[0].make_unit("bob II", {"Recruit":50})
 
