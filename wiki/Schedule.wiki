@@ -34,7 +34,7 @@ I will have all the time/days here as Central time(GMT-6)
 
   === Monday ===
     * implement food, make house generate small amount of food, make units have ot restock after a bit ^completed^
-    * implement having new recruits being untrained, and having to return to house to train them as some kind of warrior ~~_50% finished_~~
+    * implement having new recruits being untrained, and having to return to house to train them as some kind of warrior ^completed^
     * create menu/config
     * start implementing in-game gui(what doesn't have to be done right away for the game to run ;)
     * begin ai
