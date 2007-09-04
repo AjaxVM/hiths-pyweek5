@@ -51,10 +51,10 @@ def main():
 
 
     #create basic units/races/etc.
-    race1=elements.load_race(None)
+    race1=unit.Race()
     race1.house_image=button
     race1.elder_image = race1.captain_image = mud
-    glyph1=elements.load_glyph(None)
+    glyph1=unit.Glyph()
 
     basic_player=unit.Player("jimbob", race1)
     basic_player.create_house(world, [0,0])
