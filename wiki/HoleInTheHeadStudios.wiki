@@ -4,3 +4,4 @@ This is the home of our [http://www.pyweek.org/5/ pyweek 5] entry.
 
 For now, a link to the [http://holeintheheadstudios.ipbfree.com/ forums].
 
+There is an IRC channel on freenode #hiths
