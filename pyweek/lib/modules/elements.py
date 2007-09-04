@@ -1,4 +1,4 @@
-from unit import *
+from entities import *
 import pygame
 from pygame.locals import *
 import pyglibs
