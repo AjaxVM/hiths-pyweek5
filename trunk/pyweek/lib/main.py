@@ -21,6 +21,7 @@ def main():
     #setup pygame
     pygame.init()
     screen=pygame.display.set_mode((320,240))
+    pygame.display.set_caption("Scions of Darkness")
 
     #load assets
     red=image.load_image(os.path.join("data","images","red_tile.bmp"),-1)#-1 uses a colorkey
@@ -83,6 +84,8 @@ def main():
                 if event.key==K_s:
                     pygame.image.save(screen, os.path.join("data", "screens",
                                         "screenie--%s.bmp"%time.strftime("%d-%m-%Y-%H-%M")))
+                elif event.key ==K_ESCAPE:
+                    pygame.quit()
 
         #clear the screen
         screen.fill((0,0,0,0))
