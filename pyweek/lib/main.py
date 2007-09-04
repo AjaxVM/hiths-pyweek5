@@ -60,6 +60,7 @@ def main():
     basic_player=entities.Player("jimbob", race1)
     basic_player.create_house(world, [0,0])
     basic_player.houses[0].make_unit("bob II", {"Recruit":50})
+    basic_player.active_entity = basic_player.armies[0]
 
     info_food=gui.Label([10,0],
                         pyglibs.font.Font(antialias=True),
@@ -86,6 +87,14 @@ def main():
                                         "screenie--%s.bmp"%time.strftime("%d-%m-%Y-%H-%M")))
                 elif event.key ==K_ESCAPE:
                     pygame.quit()
+                
+            if event.type == MOUSEBUTTONDOWN:
+                if camera.rect.collidepoint(event.pos):
+                    # make the unit do something
+                    basic_player.active_entity.handleClick(event)
+                else:
+                    # send it to the gui
+                    pass
 
         #clear the screen
         screen.fill((0,0,0,0))
