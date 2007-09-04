@@ -228,6 +228,38 @@ class GlyphGround(isometric.Unit):
     def pickup(self, unit):
         unit.glyphs.append(self.glyph)
         del self
+
+class FortificationType(object):
+    def __init__(self, attack_boost=0, defense_boost=0,
+                 image=None, name="None"):
+        self.name=name
+        self.image=image
+
+        self.attack_boost=attack_boost
+        self.defense_boost=defense_boost
+
+class Fortification(isometric.Unit):
+    def __init__(self, iso_world, fort, pos=[0,0]):
+        isometric.Unit.__init__(self, iso_world, fort.image, pos)
+
+        self.fort=fort
+
+class City(isometric.Unit):
+    def __init__(self, iso_world, name="None", population=100,
+                 defences=100, image=None, pos=[0,0]):
+
+        isometric.Unit.__init__(self, iso_world, image, pos)
+
+        self.name=name
+        self.population=population
+        self.defences=defences
+
+        self.counter=time.time()
+
+    def update(self):
+        if time.time()-self.counter > 1:
+            self.population+=(((self.population/2)/2)/10)
+            self.counter=time.time()
         
         
         
