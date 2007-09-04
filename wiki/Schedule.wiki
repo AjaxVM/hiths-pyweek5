@@ -63,7 +63,7 @@ I will have all the time/days here as Central time(GMT-6)
 
 == Art/Graphics Part: ==
 
-== Music Part: ==
+== Music Part: == ^6-8 tracks done -- probably needs some tweaking when game is further advanced though^
   * this is really up to nihilocrat :)
 
 == Campaign/scenario/game design Part: ==
