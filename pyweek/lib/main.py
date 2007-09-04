@@ -9,6 +9,7 @@ import modules
 from modules import pyglibs, unit, elements
 from modules.pyglibs import isometric
 from modules.pyglibs import image
+from modules.pyglibs import gui
 
 #a special divide that allows division by 0
 def spc_div(a, b):
@@ -60,6 +61,8 @@ def main():
     basic_player.create_house(world, [0,0])
     basic_player.houses[0].make_unit("bob II", {"Recruit":50})
 
+    info_food=gui.Label([10,0], None, "food: 100")
+
     #to allow holding keys
     pygame.key.set_repeat(5)
 
@@ -85,6 +88,7 @@ def main():
 ##        camera.center_at(basic_player.houses[0].pos)
         camera.render(screen, basic_player)
         basic_player.update()
+        info_food.render(screen)
         pygame.display.flip()
 
 if __name__=="__main__":

@@ -134,6 +134,7 @@ class Image(object):
             self.surface.blit(other, dest)
 
     def resize(self, size, mode=None):
+        ''' args: size, mode<scale,split,enlarge,multiply> '''
         size=list(size)
         surf=self.surface.copy()
         if size[0]<self.surface.get_width():
