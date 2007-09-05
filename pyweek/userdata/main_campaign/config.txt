@@ -1,2 +1,0 @@
-campaign_name = "Main Campaign"
-first_scenario = None
