@@ -1,10 +1,11 @@
 
 #load our assets
 images['tile/red']=image.load_image(path('images', 'red_tile.bmp'), -1)
-images['tile/green']=image.load_image(path('images', 'green_tile.bmp'), -1)
+images['tile/green']=image.load_image(path('images', 'tiles', 'grass_iso.bmp'), -1)
 
 images['player_mockup']=image.load_image(path('images', 'mud.bmp'), -1)
-images['map_bg_image']=image.load_surface(path('images', 'map_bg.bmp'))
+images['map_bg_image']=None#image.load_surface(path('images', 'map_bg.bmp'))
+#we really shouldn't use map_bg_image right now...
 
 images['button']=image.load_image(path('images', 'button.bmp'), -1)
 
@@ -55,7 +56,7 @@ races['default']=Race(name="default",#name and race['name'] should be the same
                       captain_image=images['player_mockup'],#the image for a unit that doesnt have your elder
                       elder_image=images['player_mockup'],#the image for your elder unit
                       house_image=images['button'],
-                      soldier_types={"Shock":{"speed":1,
+                      soldier_types={"Shock":{"speed":1,#speed of unit, number is divided by 100 later
                                               "attack":1,
                                               "defense":1,
                                               "dodge":1,
@@ -64,7 +65,7 @@ races['default']=Race(name="default",#name and race['name'] should be the same
                                                              #be changed!
                       start_troops=100,
                       start_food=100,
-                      house_food_production=1,#seconds
+                      house_food_production=2,#amount per 5 seconds
                       house_troop_production=10)#seconds
 
 

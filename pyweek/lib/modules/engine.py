@@ -78,7 +78,8 @@ class Engine(object):
                 if event.type == MOUSEBUTTONDOWN:
                     if camera.rect.collidepoint(event.pos):
                         # make the unit do something
-                        basic_player.active_entity.handleClick(event)
+                        # we really need to send unit what tile was clicked...
+                        basic_player.active_entity.handleClick(camera.get_mouse_pos())
                     else:
                         # send it to the gui
                         pass
