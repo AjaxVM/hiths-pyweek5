@@ -8,7 +8,7 @@ import image
 
 class Grid(object):
     def __init__(self, tile_size=[32,16],
-                 mode="map"):#can be map too, for AOE type map, with no black edges
+                 mode="pure"):#can be map too, for AOE type map, with no black edges
 
         self.tile_size=tile_size
         self.mode=mode
@@ -173,12 +173,10 @@ class UnitContainer(object):
 
 
 class Camera(object):
-    def __init__(self, world, camera_pos=[0,0],
-                 rect=None,
+    def __init__(self, world, pos=[0,0],
+                 offset=[0.5, 0.5], rect=None,
                  lock_to_map=True,
                  background_image=None):
-        self.camera_pos=[0,0]
-
         self.rect=rect
 
         self.lock_to_map=lock_to_map
@@ -186,45 +184,49 @@ class Camera(object):
         self.world=world
 
         self.background_image=background_image
-        self.center_at(camera_pos)
+
+        self.pos=pos
+        self.offset=offset
+
+    def convert_pos(self):
+        pos=self.world.grid.convert_tile_to_pixel(*self.pos)
+        n=self.world.grid.conv_pure(*self.offset)
+        pos[0]+=n[0]
+        pos[1]+=n[1]
+        if self.rect:
+            pos[0]+=int(self.rect.width/2)
+            pos[1]+=int(self.rect.height/2)
+        return pos
 
     def check_pos(self):
         if self.lock_to_map:
-            if self.camera_pos[0] > self.world.grid.tile_size[1]:
-                self.camera_pos[0]=self.world.grid.tile_size[1]
-            if self.camera_pos[1] > 0:
-                self.camera_pos[1]=0
-            if self.camera_pos[0]<-4680:
-                self.camera_pos[0]=-4680
-            if self.camera_pos[1]<-1035:
-                self.camera_pos[1]=-1035
+            if self.offset[0] < 0:
+                self.pos[0]-=1
+                self.offset[0]+=1
+            if self.offset[0] > 1:
+                self.pos[0]+=1
+                self.offset[0]-=1
 
-    def to_tile_pos(self, pos=[0,0]):
-        x, y = pos
-        if self.lock_to_map:
-            if x<0:
-                x=0
-            if x>=self.world.map_width:
-                x=self.world.map_width
-            if y<0:
-                y=0
-            if y>=self.world.map_height:
-                y=self.world.map_height
+            if self.offset[1] < 0:
+                self.pos[1]-=1
+                self.offset[1]+=1
+            if self.offset[1] > 1:
+                self.pos[1]+=1
+                self.offset[1]-=1
 
-        x, y = -x, -y
+            if self.pos[0] < 0:
+                self.pos[0]=0
+            if self.pos[0]>self.world.map_width:
+                self.pos[0]=self.world.map_width
 
-        self.camera_pos=self.world.get_pos(x, y)
-        self.check_pos()
+            if self.pos[1] < 0:
+                self.pos[1]=0
+            if self.pos[1]>self.world.map_height:
+                self.pos[1]=self.world.map_height
 
-    def center_at(self, pos=[0,0]):
-        if isinstance(self.rect, pygame.Rect):
-            w, h, = self.rect.width/2, self.rect.height/2
-
-            self.camera_pos[0]=-pos[0]+w
-            self.camera_pos[1]=-pos[1]+h
-            self.check_pos()
-        else:
-            raise "Camera.rect must be a python.Rect object",AttributeError()
+    def to_pos(self, pos=[0,0], offset=[0,0]):
+        self.pos=pos
+        self.offset=offset
 
     def mysort(self, a, b):
         if int(a.tile_pos[1])<int(b.tile_pos[1]):
@@ -249,7 +251,7 @@ class Camera(object):
         else:
             mx, my=mouse_pos
 
-        cpos=self.camera_pos
+        cpos=self.convert_pos()
         mx -= cpos[0]
         my -= cpos[1]
 
@@ -274,11 +276,12 @@ class Camera(object):
         if self.background_image:
             surface.blit(self.background_image, new_clip.topleft)
 
-        r=pygame.Rect([-self.camera_pos[0],-self.camera_pos[1]],surface.get_size())
+        pos=self.convert_pos()
+        r=pygame.Rect((-pos[0], -pos[1]), self.rect.size)
         big=self.world.get_tiles_in_area(r)
 
         for i in big:
-            i.render(surface, self.camera_pos)
+            i.render(surface, pos)
 
         big=[]
         if isinstance(unit_group, list):
@@ -288,15 +291,15 @@ class Camera(object):
             big=unit_group.get_units_in_area(r)
 
         for i in big:
-            if i.pos[0] < 0 or i.pos[0] > surface.get_width():
+            if i.pos[0] < 0 or i.pos[0] > self.rect.width:
                 del i
-            elif i.pos[1] < 0 or i.pos[1] > surface.get_height():
+            elif i.pos[1] < 0 or i.pos[1] > self.rect.height:
                 del i
 
         big.sort(self.mysort)
 
         for i in big:
-            i.render(surface, self.camera_pos)
+            i.render(surface, pos)
 
         surface.set_clip(ret_clip)
 

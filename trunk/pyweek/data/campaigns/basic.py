@@ -38,7 +38,7 @@ races['default']=Race(name="default",#name and race['name'] should be the same
                                                              #be changed!
                       start_troops=100,
                       start_food=100,
-                      house_food_production=0.1,#seconds
+                      house_food_production=2,#amount per 5 seconds
                       house_troop_production=10)#seconds
 
 

@@ -1,6 +1,11 @@
 import time
 from pyglibs import isometric
 
+def spc_div(a, b):
+    if a and b:
+        return a/b
+    return 0
+
 class Race(object):
     def __init__(self, name="None",
                  captain_image=None,
@@ -66,6 +71,8 @@ class Unit(isometric.Unit):
         self.getting_food=False
         self.food_counter=0
 
+        self.goto=None
+
     def get_troop_count(self):
         c=0
         for i in self.soldier_type_counts:
@@ -77,7 +84,7 @@ class Unit(isometric.Unit):
         for i in self.soldier_type_counts:
             con+=self.race.soldier_types[i]["consumes"]*\
                   self.soldier_type_counts[i]
-        return con
+        return spc_div(con, 100)
 
     def get_glyph_by_name(self, name):
         for i in self.glyphs:
@@ -120,10 +127,51 @@ class Unit(isometric.Unit):
 
         self.player.houses.append(new)
 
+    def get_speed(self):
+        speed=0
+        num=0
+        for i in self.soldier_type_counts:
+            speed+=self.race.soldier_types[i]['speed']*self.soldier_type_counts[i]
+            num+=self.soldier_type_counts[i]
+        speed=float(speed)/100
+        return spc_div(speed, num)
+
     def update(self):
         if self.getting_food:
             if time.time()-self.food_counter==1:
                 self.player.food+=int(0.25*self.get_troop_count())
+
+        spd=self.get_speed()
+        if self.goto==self.tile_pos:
+            self.goto=None
+
+        if self.goto:
+            if self.goto[0]<self.tile_pos[0]:
+                self.move((-spd, 0))
+            elif self.goto[0]>self.tile_pos[0]:
+                self.move((spd, 0))
+
+            if self.goto[1]<self.tile_pos[1]:
+                self.move((0, -spd))
+            elif self.goto[1]>self.tile_pos[1]:
+                self.move((0, spd))
+        else:
+            if not self.offset[0]==0.5:
+                if abs(self.offset[0]-0.5) < spd:
+                    self.offset[0]=0.5
+                else:
+                    if self.offset[0]<0.5:
+                        self.move((spd, 0))
+                    elif self.offset[0]>0.5:
+                        self.move((-spd, 0))
+            if not self.offset[1]==0.5:
+                if abs(self.offset[1]-0.5) < spd:
+                    self.offset[1]=0.5
+                else:
+                    if self.offset[1]<0.5:
+                        self.move((0, spd))
+                    elif self.offset[1]>0.5:
+                        self.move((0, -spd))
 
     def train_unit(self, amount, to_type):
         if to_type in self.soldier_type_counts:
@@ -135,7 +183,9 @@ class Unit(isometric.Unit):
             self.soldier_type_counts[to_type]+=amount
     
     def handleClick(self, event):
-        print 'click and I obey!'        
+        print 'click and I obey!'
+        if event:self.goto=event
+        print self.goto
 
 class House(isometric.Unit):
     def __init__(self, iso_world, player, pos=[0,0]):
@@ -180,8 +230,10 @@ class House(isometric.Unit):
         self.player.armies.append(a)
 
     def update(self):
-        if time.time()-self.food_counter >= self.race.house_food_prod:
-            self.player.food+=1
+        if time.time()-self.food_counter >= 5:
+            print self.player.food
+            self.player.food+=self.race.house_food_prod
+            print self.player.food
             self.food_counter=time.time()
 
         if time.time()-self.troop_counter >= self.race.house_troop_prod:
@@ -216,6 +268,8 @@ class Player(isometric.UnitContainer):
     def update(self):
         self.flush()
         for i in self.houses:
+            i.update()
+        for i in self.armies:
             i.update()
         if time.time()-self.food_counter>=5:
             for i in self.armies:
