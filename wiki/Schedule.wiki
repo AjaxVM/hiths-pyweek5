@@ -40,7 +40,7 @@ I will have all the time/days here as Central time(GMT-6)
     * begin ai
 
   === Tuesday ==
-    * add glyphs/whatever else we decide needs to be added to game engine
+    * add glyphs/whatever else we decide needs to be added to game engine ^completed^
     * finish up in-game gui *--nihilocrat*
     * add race selection with race strengths/weaknesses page to menu
     * finish ai
@@ -57,9 +57,9 @@ I will have all the time/days here as Central time(GMT-6)
     * we can use these days to catch up on anything not finished the rest of the week
     * if we finish all the coding parts we can add the following(or other stuff, depends on what you want to do after this point :D)
     * add multiplayer(lobby, game portal)
-    * add ability to found new houses
-    * add more actions for your units to do(like mine gold)
-    * create a random map generator, and game-play option to fit it
+    * add ability to found new houses ^completed^
+    * add more actions for your units to do ~~(like mine gold)~~
+    * create a random map generator, and game-play option to fit it *will now be put inside its own campaign, named random scenarion*
 
 == Art/Graphics Part: ==
 
@@ -70,9 +70,9 @@ I will have all the time/days here as Central time(GMT-6)
   ===Saturday===
     * begin planning, nothing else to do yet
   ===Sunday===
-    * continue planning, maybe begin implementing stuff later in the day when cfg file layout is finalized
+    * continue planning, maybe begin implementing stuff later in the day when cfg file layout is finalized ^completed^
   ===Monday===
-    * create races(all, or at least some) (use place holder graphics for now...)
+    * create races(all, or at least some) (use place holder graphics for now...) ^completed, jus thte basic race^
   ===Tuesday===
     * finish races
     * begin making scenarios for the campaign(we should only really have one campaign in the first, pyweek, release, unless we finish with an insane amount of time left)
