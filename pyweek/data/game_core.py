@@ -10,13 +10,11 @@ images['map_bg_image']=None#image.load_surface(path('images', 'map_bg.bmp'))
 images['button']=image.load_image(path('images', 'button.bmp'), -1)
 
 
-music['darktheme_1']=path('music', 'darktheme_1.ogg')
-music['darktheme_ext']=path('music', 'darktheme_extended.ogg')
+music['darktheme']=path('music', 'darktheme.ogg')
 music['kreuzzug']=path('music', 'kreuzzug.ogg')
 music['monkses']=path('music', 'monkses.ogg')
 music['mystery']=path('music', 'mystery.ogg')
 music['peasantry']=path('music', 'peasantry.ogg')
-music['peasantry_short']=path('music', 'peasantry_short.ogg')
 music['warm_strings']=path('music', 'warm_strings.ogg')
 
 
