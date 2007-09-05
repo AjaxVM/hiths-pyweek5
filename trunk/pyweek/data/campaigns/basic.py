@@ -1,31 +1,6 @@
 
 #load our assets
-images['tile/red']=image.load_image(path('images', 'red_tile.bmp'), -1)
-images['tile/green']=image.load_image(path('images', 'green_tile.bmp'), -1)
-
-images['player_mockup']=image.load_image(path('images', 'mud.bmp'), -1)
-images['map_bg_image']=image.load_surface(path('images', 'map_bg.bmp'))
-
-images['button']=image.load_image(path('images', 'button.bmp'), -1)
-
-
-music['darktheme_1']=path('music', 'darktheme_1.ogg')
-music['darktheme_ext']=path('music', 'darktheme_extended.ogg')
-music['kreuzzug']=path('music', 'kreuzzug.ogg')
-music['monkses']=path('music', 'monkses.ogg')
-music['mystery']=path('music', 'mystery.ogg')
-music['peasantry']=path('music', 'peasantry.ogg')
-music['peasantry_short']=path('music', 'peasantry_short.ogg')
-music['warm_strings']=path('music', 'warm_strings.ogg')
-
-
-sfx['blank']=Sound(None)#put your file name where None is, eg path('sfx', 'mysfx.wav')
-
-
-
-#create basic terrain
-terrain['r']=images['tile/red']
-terrain['g']=images['tile/green']
+images['building/vamp_castle']=image.load_image(path('images', 'buildings', 'vamp_castle1.bmp'), -1)
 
 
 #create basic map
@@ -48,13 +23,12 @@ world=isometric.World(map=maps['default'],
 camera_pos=[0,0]
 
 
-
 #create basic race and other datas :)
 #any of these things can be left blank, but it is recommended that you fill them ;)
 races['default']=Race(name="default",#name and race['name'] should be the same
                       captain_image=images['player_mockup'],#the image for a unit that doesnt have your elder
                       elder_image=images['player_mockup'],#the image for your elder unit
-                      house_image=images['button'],
+                      house_image=images['building/vamp_castle'],
                       soldier_types={"Shock":{"speed":1,
                                               "attack":1,
                                               "defense":1,
@@ -64,7 +38,7 @@ races['default']=Race(name="default",#name and race['name'] should be the same
                                                              #be changed!
                       start_troops=100,
                       start_food=100,
-                      house_food_production=1,#seconds
+                      house_food_production=0.1,#seconds
                       house_troop_production=10)#seconds
 
 

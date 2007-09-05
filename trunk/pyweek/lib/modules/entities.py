@@ -217,7 +217,7 @@ class Player(isometric.UnitContainer):
         self.flush()
         for i in self.houses:
             i.update()
-        if time.time()-self.food_counter>=self.race.house_food_prod:
+        if time.time()-self.food_counter>=5:
             for i in self.armies:
                 self.food-=i.get_consumption()
             self.food_counter=time.time()
