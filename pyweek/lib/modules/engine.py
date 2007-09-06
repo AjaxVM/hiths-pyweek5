@@ -67,6 +67,13 @@ class Engine(object):
                         message="unit_name?"),
                         "unit_name")
 
+        bottompanel=gui.Container()
+        bottompanel.add(gui.MessageBox([0,340],
+                        pyglibs.font.Font(antialias=True),
+                        area=[500,140],
+                        messages=["multiline","message","box"]),
+                        "messages")
+
         pygame.key.set_repeat(5)
 
         clock=pygame.time.Clock()
@@ -103,4 +110,6 @@ class Engine(object):
             rightpanel.render(self.screen)
             rightpanel.get("info_food").message="food: %s"%basic_player.food
             rightpanel.get("info_food").refactor()
+            
+            bottompanel.render(self.screen)
             pygame.display.flip()
