@@ -101,7 +101,10 @@ class Engine(object):
                     if camera.rect.collidepoint(event.pos):
                         # make the unit do something
                         # we really need to send unit what tile was clicked...
-                        player.active_entity.handleClick(camera.get_mouse_pos())
+                        if event.button == 1:
+                            player.active_entity.leftClick(camera.get_mouse_pos())
+                        if event.button == 3:
+                            player.active_entity.rightClick(camera.get_mouse_pos())
                     else:
                         # send it to the gui
                         pass
