@@ -74,8 +74,9 @@ class Engine(object):
         bottompanel=gui.Container()
         bottompanel.add(gui.MessageBox([0,340],
                         normalfont,
+                        image=data['images']['cloth_panel'],
                         area=[500,140],
-                        messages=["multiline","message","box"]),
+                        messages=["here","is","a","multiline","message","box"]),
                         "messages")
 
         pygame.key.set_repeat(5)

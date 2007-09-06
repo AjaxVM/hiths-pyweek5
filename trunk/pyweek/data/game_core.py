@@ -9,6 +9,7 @@ images['map_bg_image']=None#image.load_surface(path('images', 'map_bg.bmp'))
 
 images['button']=image.load_image(path('images', 'button.bmp'), -1)
 images['mosaic_panel']=image.load_image(path('images', 'gui', 'mosaic_panel.bmp'), -1)
+images['cloth_panel']=image.load_image(path('images', 'gui', 'cloth_panel.bmp'), -1)
 
 music['darktheme']=path('music', 'darktheme.ogg')
 music['kreuzzug']=path('music', 'kreuzzug.ogg')
