@@ -54,7 +54,7 @@ class Engine(object):
         rightpanel=gui.Container()
         
         rightpanel.add(gui.Panel([490,0], [200,480],
-                        image=data['images']['mosaic_bg'],
+                        image=data['images']['mosaic_panel'],
                         image_mode="scale"),
                         "background")
         
