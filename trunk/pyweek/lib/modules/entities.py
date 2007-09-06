@@ -340,6 +340,47 @@ class City(isometric.Unit):
         if time.time()-self.counter > 1:
             self.population+=(((self.population/2)/2)/10)
             self.counter=time.time()
-        
+
+class Campaign(object):
+    def __init__(self, name="Noname",
+                 scenarios={}, start_scenario=None):
+        self.name=name
+
+        self.scenarios=scenarios
+        self.start_scenario=start_scenario
+
+        if start_scenario:
+            self.current_scenario=self.scenarios[self.start_scenario]
+        else:
+            self.current_scenario=None
+
+class Event(object):
+    def __init__(self, trigger, event):
+        self.trigger=trigger
+        self.event=event
+
+class Scenario(object):
+    def __init__(self, name="Noname",
+                 events=[], player=None,
+                 enemies=None, map=None,
+                 next_scenario=None,
+                 cities=[], glyphs=[],
+                 random_glyph_speed=None,#turns this feature off at None
+                 random_city_speed=None):#turns feature off at None
+        self.name=name
+
+        self.events=events
+
+        self.player=player
+        self.enemies=enemies
+
+        self.map=map
+        self.next_scenario=next_scenario
+
+        self.cities=cities
+        self.glyphs=glyphs
+
+        self.random_glyph_speed=random_glyph_speed
+        self.random_city_speed=random_city_speed
         
         

@@ -41,15 +41,13 @@ class Engine(object):
                                 self.core_data)
 
         world=data['world']
+        scenario=data['campaigns']['default'].current_scenario
 
         camera=isometric.Camera(world, data['camera_pos'],
                                 rect=pygame.rect.Rect([10,10], [480, 320]),
                                 background_image=data['images']['map_bg_image'])
 
-        basic_player=entities.Player("jimbob", data['races']['default'])
-        basic_player.create_house(world, [0,0])
-        basic_player.houses[0].make_unit("bob II", {"Recruit":50})
-        basic_player.active_entity = basic_player.armies[0]
+        player=scenario.player
 
         normalfont = pyglibs.font.Font(size=24,
                                     antialias=True,
@@ -64,7 +62,7 @@ class Engine(object):
         
         rightpanel.add(gui.Label([500,10],
                         normalfont,
-                        message="food: %s"%basic_player.food),
+                        message="food: %s"%player.food),
                         "info_food")
         rightpanel.add(gui.Label([500,80],
                         normalfont,
@@ -103,17 +101,25 @@ class Engine(object):
                     if camera.rect.collidepoint(event.pos):
                         # make the unit do something
                         # we really need to send unit what tile was clicked...
-                        basic_player.active_entity.handleClick(camera.get_mouse_pos())
+                        player.active_entity.handleClick(camera.get_mouse_pos())
                     else:
                         # send it to the gui
                         pass
 
+            #lets handle the scenarios events...
+            for event in scenario.events:
+                trigger=False
+                exec event.trigger
+                if trigger:
+                    exec event.event
+                    scenario.events.remove(event)
+
             #clear the screen
             self.screen.fill((0,0,0,0))
-            camera.render(self.screen, basic_player)
-            basic_player.update()
+            camera.render(self.screen, player)
+            player.update()
             rightpanel.render(self.screen)
-            rightpanel.get("info_food").message="food: %s"%basic_player.food
+            rightpanel.get("info_food").message="food: %s"%player.food
             rightpanel.get("info_food").refactor()
             
             bottompanel.render(self.screen)

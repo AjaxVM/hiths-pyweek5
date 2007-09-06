@@ -45,3 +45,19 @@ races['default']=Race(name="default",#name and race['name'] should be the same
           
 #the campaign stuff, which includes actually creating players and stuff will
 #go here later, for now just make the races ;)
+
+
+new_campaign=Campaign(name="basic")
+scenario1=Scenario(name="scenario1",
+                   events=[Event(trigger="if not player.active_entity.tile_pos==[0,0]:trigger=True",
+                        event="bottompanel.get('messages').add_message('you moved your unit!')")],
+                   player=Player("jimbob", races['default']))
+scenario1.player.create_house(world, [0,0])
+scenario1.player.houses[0].make_unit("bob II", {"Recruit":50})
+scenario1.player.active_entity = scenario1.player.armies[0]
+
+new_campaign.scenarios['scenario1']=scenario1
+new_campaign.start_scenario='scenario1'
+new_campaign.current_scenario=scenario1
+
+campaigns['default']=new_campaign
