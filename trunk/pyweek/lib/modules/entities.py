@@ -35,7 +35,15 @@ class Race(object):
         self.house_food_prod=house_food_production
         self.house_troop_prod=house_troop_production
 
-class Unit(isometric.Unit):
+class Selectable():
+    def rightClick(self, tile_position):
+        pass
+
+    def leftClick(self, tile_position):
+        pass
+    
+
+class Unit(isometric.Unit, Selectable):
     def __init__(self, iso_world, player,
                  captain_name="No-name",
                  captain_is_elder=False,
@@ -182,9 +190,8 @@ class Unit(isometric.Unit):
                 self.soldier_type_counts["Recruit"]=0
             self.soldier_type_counts[to_type]+=amount
     
-    def handleClick(self, event):
-        print 'click and I obey!'
-        if event:self.goto=event
+    def rightClick(self, tile_position):
+        if tile_position:self.goto=tile_position
         print self.goto
 
 class House(isometric.Unit):
