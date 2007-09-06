@@ -1,4 +1,4 @@
-import time
+import time, random
 from pyglibs import isometric
 
 def spc_div(a, b):
@@ -23,11 +23,6 @@ class Race(object):
         self.house_image=house_image
 
         self.soldier_types=soldier_types
-        self.soldier_types["Recruit"]= {"speed":1,
-                                        "attack":1,
-                                        "defense":1,
-                                        "dodge":1,
-                                        "consumes":1}
 
         self.start_troops=start_troops
         self.start_food=start_food
@@ -108,18 +103,31 @@ class Unit(isometric.Unit, Selectable):
         glyph_group.append(GlyphGround(self.iso_world, a, pos))
         self.glyphs.remove(a)
 
-    def make_army(self, captain_name="None", soldier_counts={}):
-        for i in soldier_counts:
-            if i in self.soldier_type_count:
-                if soldier_counts[i]>self.soldier_type_counts[i]:
-                    soldier_counts[i]=self.soldier_type_counts[i]
-                self.soldier_type_counts[i]-=soldier_counts[i]
+    def make_army(self, captain_name="None", num_troops=10):
+        soldier_type_counts={}
+        tot_troops=0
+
+        for i in self.soldier_type_counts:
+            new_num = random.randint(0, num_troops-tot_troops)
+            if self.soldier_type_counts[i]>=new_num:
+                pass
             else:
-                del soldier_counts[i]
+                new_num=self.soldier_type_counts[i]
+            soldier_type_counts[i]=new_num
+            self.soldier_type_counts[i]-=new_num
+            tot_troops+=new_num
+        if tot_troops < num_troops:
+            choice=random.choice(list(self.soldier_type_counts))
+            new_num=num_troops-tot_troops
+            if new_num > self.soldier_type_counts[choice]:
+                new_num=self.soldier_type_counts[choice]
+            soldier_type_counts[i]+=new_num
+            self.soldier_type_counts[i]-=new_num
+
         a = Unit(self.iso_world, self.player, captain_name,
                  False, int(spc_div(self.army_xp,2)),
                  int(spc_div(self.army_xp,2)),
-                 soldier_counts, self.tile_pos)
+                 soldier_type_counts, self.tile_pos)
         a.move([0.5, 0.5])
         self.player.armies.append(a)
 
@@ -192,9 +200,8 @@ class Unit(isometric.Unit, Selectable):
     
     def rightClick(self, tile_position):
         if tile_position:self.goto=tile_position
-        print self.goto
 
-class House(isometric.Unit):
+class House(isometric.Unit, Selectable):
     def __init__(self, iso_world, player, pos=[0,0]):
 
         isometric.Unit.__init__(self, iso_world,
@@ -212,7 +219,7 @@ class House(isometric.Unit):
 
         self.leader_placed=False
 
-        self.soldier_type_counts={"Recruit":self.race.start_troops}
+        self.soldier_count=self.race.start_troops
 
         self.glyphs=[]
 
@@ -221,30 +228,42 @@ class House(isometric.Unit):
             if i.name==name:
                 return i
 
-    def make_unit(self, captain_name="None", soldier_counts={}):
-        for i in soldier_counts:
-            if i in self.soldier_type_counts:
-                if soldier_counts[i]>self.soldier_type_counts[i]:
-                    soldier_counts[i]=self.soldier_type_counts[i]
-                self.soldier_type_counts[i]-=soldier_counts[i]
+    def make_unit(self, captain_name="None",num_troops=10):
+        soldier_type_counts={}
+        tot_troops=0
+
+        for i in self.race.soldier_types:
+            new_num = random.randint(0, num_troops-tot_troops)
+            if self.soldier_count>=new_num:
+                pass
             else:
-                del soldier_counts[i]
+                new_num=self.soldier_count
+            soldier_type_counts[i]=new_num
+            self.soldier_count-=new_num
+            tot_troops+=new_num
+        if tot_troops < num_troops:
+            choice=random.choice(list(self.race.soldier_types))
+            new_num=num_troops-tot_troops
+            if new_num > self.soldier_count:
+                new_num=self.soldier_count
+            soldier_type_counts[i]+=new_num
+            self.soldier_count-=new_num
+
+
         a = Unit(self.iso_world, self.player, captain_name,
                  not self.leader_placed, 0, 0,
-                 soldier_counts, self.tile_pos)
+                 soldier_type_counts, self.tile_pos)
         a.move([0.5, 0.5])
         self.leader_placed=True
         self.player.armies.append(a)
 
     def update(self):
         if time.time()-self.food_counter >= 5:
-            print self.player.food
             self.player.food+=self.race.house_food_prod
-            print self.player.food
             self.food_counter=time.time()
 
         if time.time()-self.troop_counter >= self.race.house_troop_prod:
-            self.soldier_type_counts["Recruit"]+=1
+            self.soldier_count+=1
             self.troop_counter=time.time()
 
 class Player(isometric.UnitContainer):
