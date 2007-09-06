@@ -55,6 +55,12 @@ class Engine(object):
                             pyglibs.font.Font(antialias=True),
                             message="food: %s"%basic_player.food)
 
+        rightpanel=gui.Container()
+        
+        rightpanel.add(gui.Label([580,10],
+                                pyglibs.font.Font(antialias=True),
+                                message="unit_name?"))
+        
         pygame.key.set_repeat(5)
 
         clock=pygame.time.Clock()
