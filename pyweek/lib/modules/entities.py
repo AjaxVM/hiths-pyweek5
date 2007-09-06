@@ -35,7 +35,7 @@ class Race(object):
         self.house_food_prod=house_food_production
         self.house_troop_prod=house_troop_production
 
-class Selectable():
+class Selectable(object):
     def rightClick(self, tile_position):
         pass
 
