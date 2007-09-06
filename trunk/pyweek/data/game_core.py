@@ -59,9 +59,7 @@ races['default']=Race(name="default",#name and race['name'] should be the same
                                               "attack":1,
                                               "defense":1,
                                               "dodge":1,
-                                              'consumes':1}},#this will also create a basic Recruit
-                                                             #soldier type, this is hte default and cannot
-                                                             #be changed!
+                                              'consumes':1}},
                       start_troops=100,
                       start_food=100,
                       house_food_production=2,#amount per 5 seconds

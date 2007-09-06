@@ -33,9 +33,7 @@ races['default']=Race(name="default",#name and race['name'] should be the same
                                               "attack":1,
                                               "defense":1,
                                               "dodge":1,
-                                              'consumes':1}},#this will also create a basic Recruit
-                                                             #soldier type, this is hte default and cannot
-                                                             #be changed!
+                                              'consumes':1}},
                       start_troops=100,
                       start_food=100,
                       house_food_production=2,#amount per 5 seconds
@@ -53,7 +51,7 @@ scenario1=Scenario(name="scenario1",
                         event="bottompanel.get('messages').add_message('you moved your unit!')")],
                    player=Player("jimbob", races['default']))
 scenario1.player.create_house(world, [0,0])
-scenario1.player.houses[0].make_unit("bob II", {"Recruit":50})
+scenario1.player.houses[0].make_unit("bob II", 50)
 scenario1.player.active_entity = scenario1.player.armies[0]
 
 new_campaign.scenarios['scenario1']=scenario1
