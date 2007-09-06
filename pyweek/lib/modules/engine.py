@@ -51,7 +51,9 @@ class Engine(object):
         basic_player.houses[0].make_unit("bob II", {"Recruit":50})
         basic_player.active_entity = basic_player.armies[0]
 
-        normalfont = pyglibs.font.Font(antialias=True)
+        normalfont = pyglibs.font.Font(size=24,
+                                    antialias=True,
+                                    color=(232,232,232))
 
         rightpanel=gui.Container()
         
