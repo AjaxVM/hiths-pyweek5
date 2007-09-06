@@ -1,7 +1,7 @@
 
 #load our assets
-images['tile/red']=image.load_image(path('images', 'red_tile.bmp'), -1)
-images['tile/green']=image.load_image(path('images', 'tiles', 'grass_iso.bmp'), -1)
+images['tile/dirt']=image.load_image(path('images', 'tiles', 'dirt.bmp'), -1)
+images['tile/grass']=image.load_image(path('images', 'tiles', 'grass.bmp'), -1)
 
 images['player_mockup']=image.load_image(path('images', 'mud.bmp'), -1)
 images['map_bg_image']=None#image.load_surface(path('images', 'map_bg.bmp'))
@@ -24,8 +24,8 @@ sfx['blank']=Sound(None)#put your file name where None is, eg path('sfx', 'mysfx
 
 
 #create basic terrain
-terrain['r']=images['tile/red']
-terrain['g']=images['tile/green']
+terrain['d']=images['tile/dirt']
+terrain['g']=images['tile/grass']
 
 
 #create basic map
@@ -34,7 +34,7 @@ maps['default']=[]
 for y in range(50):
     maps['default'].append([])
     for x in range(50):
-        maps['default'][y].append(random.choice(["r", "g"]))
+        maps['default'][y].append(random.choice(["d", "g"]))
 
 #basic isometric world: a campaign can specify a new one,
 #or it can create a new class that inherets from World, that

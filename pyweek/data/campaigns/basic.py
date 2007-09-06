@@ -9,7 +9,7 @@ maps['default']=[]
 for y in range(50):
     maps['default'].append([])
     for x in range(50):
-        maps['default'][y].append(random.choice(["r", "g"]))
+        maps['default'][y].append(random.choice(["d", "g"]))
 
 #basic isometric world: a campaign can specify a new one,
 #or it can create a new class that inherets from World, that
