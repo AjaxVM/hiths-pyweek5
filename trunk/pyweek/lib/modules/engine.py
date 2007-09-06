@@ -51,6 +51,8 @@ class Engine(object):
         basic_player.houses[0].make_unit("bob II", {"Recruit":50})
         basic_player.active_entity = basic_player.armies[0]
 
+        normalfont = pyglibs.font.Font(antialias=True)
+
         rightpanel=gui.Container()
         
         rightpanel.add(gui.Panel([490,0], [200,480],
@@ -59,17 +61,17 @@ class Engine(object):
                         "background")
         
         rightpanel.add(gui.Label([500,10],
-                        pyglibs.font.Font(antialias=True),
+                        normalfont,
                         message="food: %s"%basic_player.food),
                         "info_food")
         rightpanel.add(gui.Label([500,80],
-                        pyglibs.font.Font(antialias=True),
+                        normalfont,
                         message="unit_name?"),
                         "unit_name")
 
         bottompanel=gui.Container()
         bottompanel.add(gui.MessageBox([0,340],
-                        pyglibs.font.Font(antialias=True),
+                        normalfont,
                         area=[500,140],
                         messages=["multiline","message","box"]),
                         "messages")
