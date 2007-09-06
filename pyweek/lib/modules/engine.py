@@ -51,16 +51,22 @@ class Engine(object):
         basic_player.houses[0].make_unit("bob II", {"Recruit":50})
         basic_player.active_entity = basic_player.armies[0]
 
-        info_food=gui.Label([500,10],
-                            pyglibs.font.Font(antialias=True),
-                            message="food: %s"%basic_player.food)
-
         rightpanel=gui.Container()
         
-        rightpanel.add(gui.Label([580,10],
-                                pyglibs.font.Font(antialias=True),
-                                message="unit_name?"))
+        rightpanel.add(gui.Panel([490,0], [200,480],
+                        image=data['images']['mosaic_bg'],
+                        image_mode="scale"),
+                        "background")
         
+        rightpanel.add(gui.Label([500,10],
+                        pyglibs.font.Font(antialias=True),
+                        message="food: %s"%basic_player.food),
+                        "info_food")
+        rightpanel.add(gui.Label([500,80],
+                        pyglibs.font.Font(antialias=True),
+                        message="unit_name?"),
+                        "unit_name")
+
         pygame.key.set_repeat(5)
 
         clock=pygame.time.Clock()
@@ -94,7 +100,7 @@ class Engine(object):
             self.screen.fill((0,0,0,0))
             camera.render(self.screen, basic_player)
             basic_player.update()
-            info_food.render(self.screen)
-            info_food.message="food: %s"%basic_player.food
-            info_food.refactor()
+            rightpanel.render(self.screen)
+            rightpanel.get("info_food").message="food: %s"%basic_player.food
+            rightpanel.get("info_food").refactor()
             pygame.display.flip()

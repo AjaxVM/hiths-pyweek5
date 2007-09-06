@@ -8,7 +8,7 @@ images['map_bg_image']=None#image.load_surface(path('images', 'map_bg.bmp'))
 #we really shouldn't use map_bg_image right now...
 
 images['button']=image.load_image(path('images', 'button.bmp'), -1)
-
+images['mosaic_bg']=image.load_image(path('images', 'gui', 'mosaic_bg.bmp'), -1)
 
 music['darktheme']=path('music', 'darktheme.ogg')
 music['kreuzzug']=path('music', 'kreuzzug.ogg')

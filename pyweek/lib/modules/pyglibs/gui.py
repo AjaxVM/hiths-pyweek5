@@ -11,6 +11,53 @@ except:
     print "module <gui>, pixelperfect not found, will ignore all pixelperfect calls"
     can_do_pp=False
 
+class Panel(object):
+    '''Non-interactive background panel object
+        pos = [0,0]
+        dim = [10,10]
+        visible = True
+        image_mode=scale
+    ''' 
+    def __init__(self, pos=[0,0], dim=[10,10], image=None,
+                 visible=True, image_mode=None):
+
+        self.pos=pos
+        self.dim=dim
+
+        self.kind="Panel"
+
+        self.image=image
+
+        self.image_mode=image_mode
+
+        self.visible=visible
+        self.refactor()
+
+    def refactor(self):
+        self.area = self.dim
+        
+        if isinstance(self.image, pygame.Surface):
+            pass
+        else:
+            self.image=self.image.resize(self.area, self.image_mode)
+
+##        if self.image.get_width() > self.area[0]:
+##                self.area[0]=self.image.get_width()
+##        if self.image.get_height() > self.area[1]:
+##                self.area[1]=self.image.get_height()
+        
+        self.rect=pygame.Rect(self.pos, self.dim)
+
+    def update(self, event):
+        pass
+
+    def render(self, surface):
+        if self.visible:
+            if isinstance(self.image, pygame.Surface):
+                surface.blit(self.image, self.rect)
+            else:
+                self.image.render(surface, self.rect)
+
 class Label(object):
     ''' Text Label Object
         init args:
