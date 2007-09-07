@@ -144,9 +144,9 @@ class Image(object):
 ##            size[1]=self.surface.get_height()
             surf=pygame.transform.scale(surf, [surf.get_width(), size[1]])
 
-##        if size[0]==self.surface.get_width() and\
-##           size[1]==self.surface.get_height():
-##            return
+        if size[0]==self.surface.get_width() and\
+           size[1]==self.surface.get_height():
+            return Image(surf)
 
         colorkey=surf.get_colorkey()
         surf.set_colorkey(None)

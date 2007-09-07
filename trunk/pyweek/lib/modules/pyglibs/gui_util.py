@@ -57,7 +57,7 @@ def wrap_text(font, text, wrap):
                         if font.size(ok+word)[0]<=wrap:
                             ok=" ".join([ok,word])
                         else:
-                            for i in split_word(word):
+                            for i in split_word(font, word, wrap):
                                 new_lines.append(i)
                 if ok:
                     new_lines.append(ok)
