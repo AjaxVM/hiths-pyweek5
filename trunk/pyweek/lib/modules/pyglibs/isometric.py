@@ -282,7 +282,7 @@ class Camera(object):
             surface.blit(self.background_image, new_clip.topleft)
 
         pos=self.convert_pos()
-        r=pygame.Rect((-pos[0], -pos[1]), self.rect.size)
+        r=pygame.Rect((-pos[0], -pos[1]), [self.rect.width, self.rect.height+25])
         big=self.world.get_tiles_in_area(r)
 
         for i in big:
