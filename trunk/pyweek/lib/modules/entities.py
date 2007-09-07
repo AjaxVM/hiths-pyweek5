@@ -388,6 +388,8 @@ class City(isometric.Unit):
 
         isometric.Unit.__init__(self, iso_world, image, pos)
 
+        self.rect.center=tuple(self.pos)
+
         self.name=name
         self.population=population
         self.defences=defences
