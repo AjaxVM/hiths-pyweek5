@@ -288,8 +288,10 @@ class Engine(object):
 
             #clear the screen
             self.screen.fill((0,0,0,0))
-            camera.render(self.screen, [player, cities])
+            camera.render(self.screen, [player, cities]+scenario.enemies)
             player.update()
+            for badGuy in scenario.enemies:
+                badGuy.update()
             rightpanel.render(self.screen)
             rightpanel.get("info_food").message="food: %s"%player.food
             rightpanel.get("info_food").refactor()
