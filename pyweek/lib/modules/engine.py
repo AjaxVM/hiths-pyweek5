@@ -187,7 +187,6 @@ class Engine(object):
             self.screen.fill((0,0,0,0))
             camera.render(self.screen, [player, cities])
             player.update()
-            rightpanel.update()
             rightpanel.render(self.screen)
             rightpanel.get("info_food").message="food: %s"%player.food
             rightpanel.get("info_food").refactor()
