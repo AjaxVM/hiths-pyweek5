@@ -20,7 +20,7 @@ world=isometric.World(map=maps['default'],
 
 #the starting camera pos, change this to where you place
 #the players first house, or to where you want them to start
-camera_pos=[0,0]
+camera_pos=[-10,-10]
 
 
 #create basic race and other datas :)
@@ -48,7 +48,7 @@ races['default']=Race(name="default",#name and race['name'] should be the same
 new_campaign=Campaign(name="basic")
 
 thePlayer = Player("jimbob", races['default'])
-thePlayer.create_house(world, [0,0])
+thePlayer.create_house(world, [10,10])
 thePlayer.create_house(world, [1,5])
 thePlayer.houses[0].make_unit("bob II", 50)
 thePlayer.houses[1].make_unit("bob III", 50)

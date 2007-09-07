@@ -244,6 +244,8 @@ class Engine(object):
                     elif event.key ==K_ESCAPE:
                         self.state="mainmenu"
                         return
+                    if event.key == K_f:
+                        print clock.get_fps()
                     
                 if event.type == MOUSEBUTTONDOWN:
                     if camera.rect.collidepoint(event.pos):
