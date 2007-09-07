@@ -1,7 +1,11 @@
 
 #load our assets
-images['building/vamp_castle']=image.load_image(path('images', 'buildings', 'vamp_castle1.bmp'), -1)
-images['building/frostlen_castle']=image.load_image(path('images', 'buildings', 'frostlen_castle1.bmp'), -1)
+images['building/vamp_manor']=image.load_image(path('images', 'buildings',
+                                                     'vamp_manor.png'),
+                                                alpha=True)
+images['building/frostlen_castle']=image.load_image(path('images', 'buildings',
+                                                         'frostlen_castle.png'),
+                                                    alpha=True)
 
 #create basic map
 import random
@@ -26,9 +30,9 @@ camera_pos=[-10,-10]
 #create basic race and other datas :)
 #any of these things can be left blank, but it is recommended that you fill them ;)
 races['default']=Race(name="default",#name and race['name'] should be the same
-                      captain_image=images['vamp-bat'],#the image for a unit that doesnt have your elder
-                      elder_image=images['snake'],#the image for your elder unit
-                      house_image=images['building/vamp_castle'],
+                      captain_image=images['coil_captain'],#the image for a unit that doesnt have your elder
+                      elder_image=images['coil_elder'],#the image for your elder unit
+                      house_image=images['building/vamp_manor'],
                       soldier_types={"Shock":{"speed":1,
                                               "attack":1,
                                               "defense":1,
@@ -42,8 +46,8 @@ races['default']=Race(name="default",#name and race['name'] should be the same
 
 # and a race for the baddies
 races['frostlen']=Race(name="frostlen",#name and race['name'] should be the same
-                      captain_image=images['snowman'],#the image for a unit that doesnt have your elder
-                      elder_image=images['snowman'],#the image for your elder unit
+                      captain_image=images['frostlen_captain'],#the image for a unit that doesnt have your elder
+                      elder_image=images['vampire_captain'],#the image for your elder unit
                       house_image=images['building/frostlen_castle'],
                       soldier_types={"Shock":{"speed":1,
                                               "attack":1,
