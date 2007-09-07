@@ -373,13 +373,13 @@ class UnitAnimatedImage(AnimatedImage):
         AnimatedImage.__init__(self, surface, frame_delay=frame_delay)
 
         self.all_directions={"bottom":0,
-                             "bottomright":1,
-                             "right":2,
-                             "topright":3,
+                             "bottomright":7,
+                             "right":6,
+                             "topright":5,
                              "top":4,
-                             "topleft":5,
-                             "left":6,
-                             "bottomleft":7}
+                             "topleft":3,
+                             "left":2,
+                             "bottomleft":1}
         self.actions={'still':[0],
                       "moving":[1,2,3,4,5,6,7,8],
                       "attack":[9,10,11,12,13,14,15,16]}
