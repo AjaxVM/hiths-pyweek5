@@ -487,7 +487,8 @@ class InputBox(object):
                  cache_on_KEY=None, ignore_active=False,
 
                  align=["left","top"],
-                 text_padding=[0,0]):
+                 text_padding=[0,0],
+                 ignore_events=[]):
 
         self.kind="InputBox"
 
@@ -503,6 +504,8 @@ class InputBox(object):
         self.ignore_active=ignore_active
 
         self.width=width
+
+        self.ignore_events=ignore_events
 
         self.font=font
         if not self.font:
@@ -582,6 +585,9 @@ class InputBox(object):
                 if self.active or self.ignore_active:
                     a=gui_util.convert_event_to_key(event)
                     if not a:
+                        return
+
+                    if a in self.ignore_events:
                         return
 
                     if self.cache_on_KEY:
@@ -865,3 +871,7 @@ class Container(object):
     def update(self, event):
         for i in self.all:
             i.update(event)
+
+    def set_visible(self, b):
+        for i in self.all:
+            i.visible=b

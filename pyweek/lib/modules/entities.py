@@ -14,6 +14,7 @@ class Race(object):
                  soldier_types={},
                  start_troops=100,
                  start_food=100,
+                 flag_image=None,
                  house_food_production=1,#seconds
                  house_troop_production=5):#seconds
         self.name=name
@@ -23,6 +24,8 @@ class Race(object):
         self.house_image=house_image
 
         self.soldier_types=soldier_types
+
+        self.flag_image=flag_image
 
         self.start_troops=start_troops
         self.start_food=start_food
@@ -108,34 +111,6 @@ class Unit(isometric.Unit, Selectable):
         glyph_group.append(GlyphGround(self.iso_world, a, pos))
         self.glyphs.remove(a)
 
-    def make_army(self, captain_name="None", num_troops=10):
-        soldier_type_counts={}
-        tot_troops=0
-
-        for i in self.soldier_type_counts:
-            new_num = random.randint(0, num_troops-tot_troops)
-            if self.soldier_type_counts[i]>=new_num:
-                pass
-            else:
-                new_num=self.soldier_type_counts[i]
-            soldier_type_counts[i]=new_num
-            self.soldier_type_counts[i]-=new_num
-            tot_troops+=new_num
-        if tot_troops < num_troops:
-            choice=random.choice(list(self.soldier_type_counts))
-            new_num=num_troops-tot_troops
-            if new_num > self.soldier_type_counts[choice]:
-                new_num=self.soldier_type_counts[choice]
-            soldier_type_counts[i]+=new_num
-            self.soldier_type_counts[i]-=new_num
-
-        a = Unit(self.iso_world, self.player, captain_name,
-                 False, int(spc_div(self.army_xp,2)),
-                 int(spc_div(self.army_xp,2)),
-                 soldier_type_counts, self.tile_pos)
-        a.move([0.5, 0.5])
-        self.player.armies.append(a)
-
     def make_house(self):
         self.player.armies.remove(self)
         self.player.to_be_deleted.append(self)
@@ -166,6 +141,10 @@ class Unit(isometric.Unit, Selectable):
         self.image.on=self.image_on
         self.image.direction=self.image_direction
         self.image.action=self.image_action
+        x, y=self.rect.topleft
+        x+=camera_pos[0]
+        y+=camera_pos[1]
+        self.player.flag_image.render(surface, (x, y))
         isometric.Unit.render(self, surface, camera_pos)
 
     def update(self):
@@ -274,6 +253,14 @@ class House(isometric.Unit, Selectable):
             if i.name==name:
                 return i
 
+    def render(self, surface, camera_pos=[0,0]):
+        x, y=self.rect.topleft
+        x+=camera_pos[0]
+        y+=camera_pos[1]
+
+        self.image.render(surface, (x,y))
+        self.player.flag_image.render(surface, (x, y))
+
     def make_unit(self, captain_name="None",num_troops=10):
         soldier_type_counts={}
         tot_troops=0
@@ -316,7 +303,7 @@ class House(isometric.Unit, Selectable):
         pass
 
 class Player(isometric.UnitContainer):
-    def __init__(self, name=None, race=None):
+    def __init__(self, name=None, race=None, color=[255,255,255,255]):
         self.name=name
 
         self.race=race
@@ -328,6 +315,20 @@ class Player(isometric.UnitContainer):
         self.food=int(race.start_food)
         self.food_counter=time.time()
         self.active_entity = None
+
+        self.flag_image=self.race.flag_image.copy()
+        self.color=color
+
+        for x in xrange(self.flag_image.get_width()):
+            for y in xrange(self.flag_image.get_height()):
+                a = tuple(self.flag_image.get_at((x, y)))
+                if a[0]>=100 and a[1]==0 and a[2]==0 and a[3]==255:
+                    amount=spc_div(float(a[0]), 255)
+                    r, g, b, a = self.color
+                    r=r*amount
+                    g=g*amount
+                    b=b*amount
+                    self.flag_image.set_at((x, y), (r, g, b, a))
 
     def create_house(self, iso_world, pos=[0,0]):
         a=House(iso_world, self, pos)

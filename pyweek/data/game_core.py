@@ -10,6 +10,9 @@ images['snake']=image.UnitAnimatedImage(image.load_image(path('images',
                                                            alpha=True),
                                                 frame_delay=0.15)
 
+
+images['flag']=image.load_image(path('images', 'misc', 'flag.png'), alpha=True)
+
 images['snaketank']=image.UnitAnimatedImage(image.load_image(path('images',
                                                                 'units',
                                                                 'snaketank.png'),
@@ -31,6 +34,8 @@ images['snowman']=image.UnitAnimatedImage(image.load_image(path('images',
 images['city/camp']=image.load_image(path('images', 'forts', 'human_city1.png'), alpha=True)
 images['city/fortified']=image.load_image(path('images', 'forts', 'human_city2.png'), alpha=True)
 
+images['blank']=image.Image(pygame.Surface((5,5), SRCALPHA).convert_alpha())
+
 
 images['map_bg_image']=None#image.load_surface(path('images', 'map_bg.bmp'))
 #we really shouldn't use map_bg_image right now...
@@ -40,7 +45,7 @@ images['buttonh']=image.load_image(path('images', 'gui', 'button_bright.bmp'), -
 images['buttonc']=image.load_image(path('images', 'gui', 'button_dark.bmp'), -1)
 images['mosaic_panel']=image.load_image(path('images', 'gui', 'mosaic_panel.bmp'))
 images['cloth_panel']=image.load_image(path('images', 'gui', 'cloth_panel.bmp'))
-images['portrait_default']=image.load_image(path('images', 'gui', 'portrait_default.bmp'))
+images['input_box']=image.load_image(path('images', 'gui', 'input.bmp'), -1)
 
 music['darktheme']=path('music', 'darktheme.ogg')
 music['kreuzzug']=path('music', 'kreuzzug.ogg')
