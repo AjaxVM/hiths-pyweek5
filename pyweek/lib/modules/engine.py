@@ -53,22 +53,53 @@ class Engine(object):
                                     antialias=True,
                                     color=(232,232,232))
 
+        
+        blackfont = pyglibs.font.Font(size=24,
+                                    antialias=True,
+                                    color=(16,16,16))
+        
+        buttonfont = pyglibs.font.Font(size=24,
+                                    antialias=True,
+                                    color=(255,255,255))
+        
+
+
         rightpanel=gui.Container()
         
-        rightpanel.add(gui.Panel([490,0], [200,480],
+        rightpanel.add(gui.Panel([500,0], [200,480],
                         image=data['images']['mosaic_panel'],
                         image_mode="scale"),
                         "background")
         
-        rightpanel.add(gui.Label([500,10],
+        rightpanel.add(gui.Label([510,10],
                         normalfont,
                         message="food: %s"%player.food),
                         "info_food")
-        rightpanel.add(gui.Label([500,80],
+        rightpanel.add(gui.Label([510,70],
                         normalfont,
                         message="unit_name?"),
                         "unit_name")
-
+        
+        # portrait!
+        rightpanel.add(gui.Panel([520,100], [100, 100],
+                        image=data['images']['portrait_default'],
+                        image_mode="scale"),
+                        "portrait")
+        
+        # buttons
+        rightpanel.add(gui.Button([510,220],buttonfont,'recruit',
+                        image_normal=data['images']['button'],
+                        codes=[]),
+                        "recruit")
+        rightpanel.add(gui.Button([510,250],buttonfont,'dance!',
+                        image_normal=data['images']['button'],
+                        codes=[]),
+                        "dance!")
+        rightpanel.add(gui.Button([510,280],buttonfont,'loiter',
+                        image_normal=data['images']['button'],
+                        codes=[]),
+                        "loiter")
+                        
         bottompanel=gui.Container()
         bottompanel.add(gui.MessageBox([0,340],
                         normalfont,
