@@ -144,8 +144,8 @@ class Unit(isometric.Unit, Selectable):
         x, y=self.rect.topleft
         x+=camera_pos[0]
         y+=camera_pos[1]
-        self.player.flag_image.render(surface, (x, y))
         isometric.Unit.render(self, surface, camera_pos)
+        self.player.flag_image.render(surface, (x, y))
 
     def update(self):
         if self.getting_food:
