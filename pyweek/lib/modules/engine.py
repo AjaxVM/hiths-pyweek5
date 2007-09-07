@@ -58,21 +58,21 @@ class Engine(object):
                     image_hover=data['images']['buttonh'],
                     image_click=data['images']['buttonc'],
                     align=["center","center"],
-                    codes=[]),
+                    codes=[], image_mode="scale"),
                     "play_game")
         buttons.add(gui.Button([250,250],buttonfont,'Credits',
                     image_normal=data['images']['button'],
                     image_hover=data['images']['buttonh'],
                     image_click=data['images']['buttonc'],
                     align=["center","center"],
-                    codes=[]),
+                    codes=[], image_mode="scale"),
                     "credits")
         buttons.add(gui.Button([250,300],buttonfont,'Quit',
                     image_normal=data['images']['button'],
                     image_hover=data['images']['buttonh'],
                     image_click=data['images']['buttonc'],
                     align=["center","center"],
-                    codes=[]),
+                    codes=[], image_mode="scale"),
                     "quit")
         
         
@@ -85,7 +85,7 @@ class Engine(object):
         clock=pygame.time.Clock()
 
         while 1:
-            clock.tick(999)#the fastest we can go, change to something reasonable, like 40-50 later
+            clock.tick(45)
 
             for event in pygame.event.get():
                 if event.type==QUIT:
@@ -93,24 +93,22 @@ class Engine(object):
                     pygame.quit()
                     return
 
+                buttons.update(event)
+
                 if event.type==KEYDOWN:
                     if event.key==K_s:
                         pygame.image.save(self.screen, os.path.join("data", "screens",
                                             "screenie--%s.bmp"%time.strftime("%d-%m-%Y-%H-%M")))
                     elif event.key ==K_ESCAPE:
                         pygame.quit()
-                    
-                if event.type == MOUSEBUTTONDOWN:
-                    # send it to the gui
-                    buttons.update(event)
 
-                    # quit/play game
-                    if buttons.get("play_game").was_clicked:
-                        self.state="game"
-                        return
-                    if buttons.get("quit").was_clicked:
-                        self.state="QUIT"
-                        return
+            # quit/play game
+            if buttons.get("play_game").was_clicked:
+                self.state="game"
+                return
+            if buttons.get("quit").was_clicked:
+                self.state="QUIT"
+                return
 
             #clear the screen
             self.screen.fill((0,0,0,0))
@@ -235,8 +233,7 @@ class Engine(object):
 
             for event in pygame.event.get():
                 if event.type==QUIT:
-                    print clock.get_fps()
-                    pygame.quit()
+                    self.state="mainmenu"
                     return
 
                 rightpanel.update(event)
@@ -246,26 +243,28 @@ class Engine(object):
                         pygame.image.save(self.screen, os.path.join("data", "screens",
                                             "screenie--%s.bmp"%time.strftime("%d-%m-%Y-%H-%M")))
                     elif event.key ==K_ESCAPE:
-                        pygame.quit()
+                        self.state="mainmenu"
+                        return
                     
                 if event.type == MOUSEBUTTONDOWN:
                     if camera.rect.collidepoint(event.pos):
                         # test if one of the player's units or builings was clicked
                         clicked_tile = camera.get_mouse_pos()
-                        for entity in player.armies+player.houses:
-                            if entity.tile_pos == clicked_tile:
-                                player.active_entity = entity
-                                break
                             
                         # make the unit do something
                         # we really need to send unit what tile was clicked...
                         if event.button == 1:
-                            player.active_entity.leftClick(clicked_tile)
+                            gotit=False
+                            for entity in player.armies+player.houses:
+                                if entity.tile_pos == clicked_tile:
+                                    player.active_entity = entity
+                                    gotit=True
+                                    break
+                            if not gotit:
+                                player.active_entity=None
                         if event.button == 3:
-                            player.active_entity.rightClick(clicked_tile)
-                    else:
-                        # send it to the gui
-                        pass
+                            if player.active_entity:
+                                player.active_entity.rightClick(clicked_tile)
 
             #lets handle the scenarios events...
             for event in scenario.events:

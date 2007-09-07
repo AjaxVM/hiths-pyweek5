@@ -47,7 +47,8 @@ races['default']=Race(name="default",#name and race['name'] should be the same
 
 new_campaign=Campaign(name="basic")
 scenario1=Scenario(name="scenario1",
-                   events=[Event(trigger="if not player.active_entity.tile_pos==[0,0]:trigger=True",
+                   events=[Event(trigger="""if player.active_entity and not\
+                                               player.active_entity.tile_pos==[0,0]:trigger=True""",
                         event="bottompanel.get('messages').add_message('you moved your unit!')")],
                    player=Player("jimbob", races['default']))
 scenario1.player.create_house(world, [0,0])
