@@ -214,19 +214,24 @@ class Camera(object):
                 self.pos[1]+=1
                 self.offset[1]-=1
 
-            if self.pos[0] < 0:
+            if self.pos[0] > 0:
                 self.pos[0]=0
-            if self.pos[0]>self.world.map_width:
-                self.pos[0]=self.world.map_width
+            if self.pos[0]<-self.world.map_width:
+                self.pos[0]=-self.world.map_width
 
-            if self.pos[1] < 0:
+            if self.pos[1] > 0:
                 self.pos[1]=0
-            if self.pos[1]>self.world.map_height:
-                self.pos[1]=self.world.map_height
+            if self.pos[1]<-self.world.map_height:
+                self.pos[1]=-self.world.map_height
 
     def to_pos(self, pos=[0,0], offset=[0,0]):
         self.pos=pos
         self.offset=offset
+
+    def move(self, pos):
+        self.pos[0]+=pos[0]
+        self.pos[1]+=pos[1]
+        self.check_pos()
 
     def mysort(self, a, b):
         if int(a.tile_pos[1])<int(b.tile_pos[1]):

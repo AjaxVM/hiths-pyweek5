@@ -27,7 +27,7 @@ class Engine(object):
 
     def init(self):
         pygame.init()
-        self.screen=pygame.display.set_mode((640, 480))
+        self.screen=pygame.display.set_mode((640, 480), FULLSCREEN)
 
         self.core_data=elements.load_file(os.path.join('data', 'game_core.py'))
 
@@ -184,6 +184,18 @@ class Engine(object):
                 if trigger:
                     exec event.event
                     scenario.events.remove(event)
+
+
+            mpos=pygame.mouse.get_pos()
+            if mpos[0] < 5:
+                camera.move([0.1, 0])
+            if mpos[1] < 5:
+                camera.move([0, 0.1])
+
+            if mpos[0] > 635:
+                camera.move([-0.1, 0])
+            if mpos[1] > 475:
+                camera.move([0, -0.1])
 
             #clear the screen
             self.screen.fill((0,0,0,0))
