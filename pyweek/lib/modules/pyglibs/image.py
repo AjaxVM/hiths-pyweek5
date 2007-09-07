@@ -179,6 +179,8 @@ class Image(object):
             midbottom=image.subsurface([nw,nh*2],[nw, nh]).copy()
             bottomright=image.subsurface([nw*2,nh*2],[nw,nh]).copy()
 
+            ph, pw = topleft.get_size()
+
             width=(int(size[0]/nw)+1)*nw
             height=(int(size[1]/nh)+1)*nh
 
@@ -207,7 +209,8 @@ class Image(object):
                     for x in range(1, num_x):
                         nsurf.blit(center, [x*nw, y*nh])
             else:
-                center=pygame.transform.scale(center, [nw*(num_x-1), nh*(num_y-1)])
+                center=pygame.transform.scale(center, [nw*(num_x-1),
+                                                       (nh*(num_y-1))])
                 nsurf.blit(center, [nw, nh])
 
         elif mode=="multiply":
@@ -232,7 +235,7 @@ class Image(object):
         surf.set_colorkey(colorkey, RLEACCEL)
         nsurf=nsurf.copy()
         nsurf.set_colorkey(colorkey, RLEACCEL)
-        return Image(nsurf)
+        return Image(pygame.transform.scale(nsurf, size))
 
 class AnimatedImage(object):
     def __init__(self, surface, split_color=[0,0,0,255],
