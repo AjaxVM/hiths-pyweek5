@@ -11,6 +11,10 @@ def spc_div(a, b):
         return a/b
     return 0
 
+#FIXME: just a dummy function
+def dummy(arg1):
+    pass
+
 class Engine(object):
     def __init__(self, state="game"):
         self.state=state
@@ -108,18 +112,24 @@ class Engine(object):
         # buttons
         rightpanel.add(gui.Button([510,250],buttonfont,'recruit',
                         image_normal=data['images']['button'],
+                        image_hover=data['images']['buttonh'],
+                        image_click=data['images']['buttonc'],
                         align=["center","center"],
-                        codes=[]),
+                        codes=[gui.ButtonCode(dummy, ['foo'])]),
                         "recruit")
-        rightpanel.add(gui.Button([510,280],buttonfont,'dance!',
+        rightpanel.add(gui.Button([510,280],buttonfont,'harvest',
                         image_normal=data['images']['button'],
+                        image_hover=data['images']['buttonh'],
+                        image_click=data['images']['buttonc'],
                         align=["center","center"],
-                        codes=[]),
-                        "dance!")
+                        codes=[gui.ButtonCode(dummy, ['foo'])]),
+                        "harvest")
         rightpanel.add(gui.Button([510,310],buttonfont,'loiter',
                         image_normal=data['images']['button'],
+                        image_hover=data['images']['buttonh'],
+                        image_click=data['images']['buttonc'],
                         align=["center","center"],
-                        codes=[]),
+                        codes=[gui.ButtonCode(dummy, ['foo'])]),
                         "loiter")
                         
         bottompanel=gui.Container()
@@ -177,6 +187,7 @@ class Engine(object):
             self.screen.fill((0,0,0,0))
             camera.render(self.screen, [player, cities])
             player.update()
+            rightpanel.update()
             rightpanel.render(self.screen)
             rightpanel.get("info_food").message="food: %s"%player.food
             rightpanel.get("info_food").refactor()
