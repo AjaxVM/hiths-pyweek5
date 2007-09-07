@@ -11,7 +11,7 @@ images['player_mockup']=image.UnitAnimatedImage(image.load_image(path('images',
 images['map_bg_image']=None#image.load_surface(path('images', 'map_bg.bmp'))
 #we really shouldn't use map_bg_image right now...
 
-images['button']=image.load_image(path('images', 'button.bmp'), -1)
+images['button']=image.load_image(path('images', 'gui', 'button.bmp'), -1)
 images['mosaic_panel']=image.load_image(path('images', 'gui', 'mosaic_panel.bmp'))
 images['cloth_panel']=image.load_image(path('images', 'gui', 'cloth_panel.bmp'))
 images['portrait_default']=image.load_image(path('images', 'gui', 'portrait_default.bmp'))
