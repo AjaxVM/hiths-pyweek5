@@ -5,35 +5,36 @@ images['tile/grass']=image.load_image(path('images', 'tiles', 'grass.bmp'), -1)
 images['tile/lava']=image.load_image(path('images', 'tiles', 'lava.bmp'), -1)
 images['tile/snow']=image.load_image(path('images', 'tiles', 'snow.bmp'), -1)
 
-images['snake']=image.UnitAnimatedImage(image.load_image(path('images',
+images['coil_captain']=image.UnitAnimatedImage(image.load_image(path('images',
                                                                 'units',
-                                                                'snake1.png'),
+                                                                'coil_captain.png'),
+                                                           alpha=True),
+                                                frame_delay=0.15)
+images['coil_elder']=image.UnitAnimatedImage(image.load_image(path('images',
+                                                                'units',
+                                                                'coil_elder.png'),
                                                            alpha=True),
                                                 frame_delay=0.15)
 
 
 images['flag']=image.load_image(path('images', 'misc', 'flag.png'), alpha=True)
 
-images['snaketank']=image.UnitAnimatedImage(image.load_image(path('images',
+
+images['vampire_captain']=image.UnitAnimatedImage(image.load_image(path('images',
                                                                 'units',
-                                                                'snaketank.png'),
+                                                                'vamp_captain.png'),
                                                            alpha=True),
                                                 frame_delay=0.05)
 
-images['vamp-bat']=image.UnitAnimatedImage(image.load_image(path('images',
+images['frostlen_captain']=image.UnitAnimatedImage(image.load_image(path('images',
                                                                 'units',
-                                                                'vamp-bat.png'),
+                                                                'frostlen_captain.png'),
                                                            alpha=True),
                                                 frame_delay=0.05)
 
-images['snowman']=image.UnitAnimatedImage(image.load_image(path('images',
-                                                                'units',
-                                                                'snowman.png'),
-                                                           alpha=True),
-                                                frame_delay=0.05)
-
-images['city/camp']=image.load_image(path('images', 'forts', 'human_city1.png'), alpha=True)
-images['city/fortified']=image.load_image(path('images', 'forts', 'human_city2.png'), alpha=True)
+images['city/camp']=image.load_image(path('images', 'forts', 'human_camp.png'), alpha=True)
+images['city/fortified']=image.load_image(path('images', 'forts', 'human_fort.png'), alpha=True)
+images['city/settle']=image.load_image(path('images', 'forts', 'human_settlement.png'), alpha=True)
 
 images['blank']=image.Image(pygame.Surface((5,5), SRCALPHA).convert_alpha())
 
@@ -91,8 +92,8 @@ camera_pos=[0,0]
 #create basic race and other datas :)
 #any of these things can be left blank, but it is recommended that you fill them ;)
 races['default']=Race(name="default",#name and race['name'] should be the same
-                      captain_image=images['snake'],#the image for a unit that doesnt have your elder
-                      elder_image=images['vamp-bat'],#the image for your elder unit
+                      captain_image=images['coil_elder'],#the image for a unit that doesnt have your elder
+                      elder_image=images['coil_captain'],#the image for your elder unit
                       house_image=images['button'],
                       soldier_types={"Shock":{"speed":1,#speed of unit, number is divided by 100 later
                                               "attack":1,
