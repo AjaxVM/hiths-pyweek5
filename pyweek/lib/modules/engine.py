@@ -156,6 +156,8 @@ class Engine(object):
                     pygame.quit()
                     return
 
+                rightpanel.update(event)
+
                 if event.type==KEYDOWN:
                     if event.key==K_s:
                         pygame.image.save(self.screen, os.path.join("data", "screens",
