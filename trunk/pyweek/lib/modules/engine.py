@@ -60,8 +60,10 @@ class Engine(object):
         
         buttonfont = pyglibs.font.Font(size=24,
                                     antialias=True,
-                                    color=(255,255,255))
+                                    color=(240,255,132))
         
+        infofont = pyglibs.font.Font(size=16, antialias=True,
+                                    color=(255,255,255))
 
 
         rightpanel=gui.Container()
@@ -86,18 +88,32 @@ class Engine(object):
                         image_mode="scale"),
                         "portrait")
         
+        # unit stats
+        rightpanel.add(gui.Label([550, 210],infofont,
+                        align=['center','center'],
+                        message='HP: (??/??)'),
+                        "unit_hp")
+        rightpanel.add(gui.Label([510, 230],infofont,
+                        align=['center','center'],
+                        message='AV: ??'),
+                        "unit_attack")
+        rightpanel.add(gui.Label([550, 230],infofont,
+                        align=['center','center'],
+                        message='DV: ??'),
+                        "unit_defense")
+        
         # buttons
-        rightpanel.add(gui.Button([510,220],buttonfont,'recruit',
+        rightpanel.add(gui.Button([510,250],buttonfont,'recruit',
                         image_normal=data['images']['button'],
                         align=["center","center"],
                         codes=[]),
                         "recruit")
-        rightpanel.add(gui.Button([510,250],buttonfont,'dance!',
+        rightpanel.add(gui.Button([510,280],buttonfont,'dance!',
                         image_normal=data['images']['button'],
                         align=["center","center"],
                         codes=[]),
                         "dance!")
-        rightpanel.add(gui.Button([510,280],buttonfont,'loiter',
+        rightpanel.add(gui.Button([510,310],buttonfont,'loiter',
                         image_normal=data['images']['button'],
                         align=["center","center"],
                         codes=[]),
