@@ -2,6 +2,7 @@
 #load our assets
 images['tile/dirt']=image.load_image(path('images', 'tiles', 'dirt.bmp'), -1)
 images['tile/grass']=image.load_image(path('images', 'tiles', 'grass.bmp'), -1)
+images['tile/lava']=image.load_image(path('images', 'tiles', 'lava.bmp'), -1)
 
 images['player_mockup']=image.UnitAnimatedImage(image.load_image(path('images',
                                                                 'units',
@@ -31,6 +32,7 @@ sfx['blank']=Sound(None)#put your file name where None is, eg path('sfx', 'mysfx
 #create basic terrain
 terrain['d']=images['tile/dirt']
 terrain['g']=images['tile/grass']
+terrain['l']=images['tile/lava']
 
 
 #create basic map
