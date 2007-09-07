@@ -296,6 +296,9 @@ class House(isometric.Unit, Selectable):
             self.soldier_count+=1
             self.troop_counter=time.time()
 
+    def rightClick(self, tile_position):
+        pass
+
 class Player(isometric.UnitContainer):
     def __init__(self, name=None, race=None):
         self.name=name
