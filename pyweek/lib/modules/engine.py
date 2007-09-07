@@ -230,7 +230,6 @@ class Engine(object):
 
         while 1:
             clock.tick(999)#the fastest we can go, change to something reasonable, like 40-50 later
-
             for event in pygame.event.get():
                 if event.type==QUIT:
                     self.state="mainmenu"
@@ -250,13 +249,20 @@ class Engine(object):
                     if camera.rect.collidepoint(event.pos):
                         # test if one of the player's units or builings was clicked
                         clicked_tile = camera.get_mouse_pos()
+                        mx, my=event.pos
+                        mx-=int(camera.rect.width/2)
+                        my-=int(camera.rect.height/2)+25
+
+                        mpos=(mx, my)
+
+                        print mpos
                             
                         # make the unit do something
                         # we really need to send unit what tile was clicked...
                         if event.button == 1:
                             gotit=False
                             for entity in player.armies+player.houses:
-                                if entity.tile_pos == clicked_tile:
+                                if entity.check_collision(mpos):
                                     player.active_entity = entity
                                     gotit=True
                                     break
