@@ -28,7 +28,7 @@ class Engine(object):
 
     def init(self):
         pygame.init()
-        self.screen=pygame.display.set_mode((640, 480), FULLSCREEN)
+        self.screen=pygame.display.set_mode((640, 480))
 
         self.core_data=elements.load_file(os.path.join('data', 'game_core.py'))
 
@@ -250,12 +250,19 @@ class Engine(object):
                     
                 if event.type == MOUSEBUTTONDOWN:
                     if camera.rect.collidepoint(event.pos):
+                        # test if one of the player's units or builings was clicked
+                        clicked_tile = camera.get_mouse_pos()
+                        for entity in player.armies+player.houses:
+                            if entity.tile_pos == clicked_tile:
+                                player.active_entity = entity
+                                break
+                            
                         # make the unit do something
                         # we really need to send unit what tile was clicked...
                         if event.button == 1:
-                            player.active_entity.leftClick(camera.get_mouse_pos())
+                            player.active_entity.leftClick(clicked_tile)
                         if event.button == 3:
-                            player.active_entity.rightClick(camera.get_mouse_pos())
+                            player.active_entity.rightClick(clicked_tile)
                     else:
                         # send it to the gui
                         pass
