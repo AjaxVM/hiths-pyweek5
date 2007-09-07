@@ -187,15 +187,15 @@ class Engine(object):
 
 
             mpos=pygame.mouse.get_pos()
-            if mpos[0] < 5:
-                camera.move([0.1, 0])
-            if mpos[1] < 5:
-                camera.move([0, 0.1])
+            if mpos[0] < 5:     #left
+                camera.move([0.1, -0.1])
+            if mpos[1] < 5:     #up
+                camera.move([0.1, 0.1])
 
-            if mpos[0] > 635:
-                camera.move([-0.1, 0])
-            if mpos[1] > 475:
-                camera.move([0, -0.1])
+            if mpos[0] > 635:   #right
+                camera.move([-0.1, 0.1])
+            if mpos[1] > 475:   #down
+                camera.move([-0.1, -0.1])
 
             #clear the screen
             self.screen.fill((0,0,0,0))
