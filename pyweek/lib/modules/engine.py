@@ -113,6 +113,9 @@ class Engine(object):
 
         pygame.key.set_repeat(5)
 
+        pygame.mixer.music.load(data['music']['warm_strings'])
+        pygame.mixer.music.play(-1)
+
         clock=pygame.time.Clock()
 
         while 1:
