@@ -256,7 +256,7 @@ class Engine(object):
                         image_hover=data['images']['input_box'],
                         image_click=data['images']['input_box'],
                         image_mode="enlarge", cache_on_KEY=K_RETURN,
-                        text_padding=[22,0], ignore_events=["RETURN", "TAB"]),
+                        text_padding=[10,2], ignore_events=["RETURN", "TAB"]),
                         "captain_name")
         #I'm think we might want to have it so that you use the whell on oyur mouse,
         #or the up/down arrows to specifiy troops, instead of inputting them...
@@ -266,7 +266,7 @@ class Engine(object):
                         image_hover=data['images']['input_box'],
                         image_click=data['images']['input_box'],
                         image_mode="scale", cache_on_KEY=K_RETURN,
-                        text_padding=[10,0], ignore_events=["RETURN", "TAB"]),
+                        text_padding=[10,2], ignore_events=["RETURN", "TAB"]),
                         "troops")
         toppanel_house.set_visible(False)
 
