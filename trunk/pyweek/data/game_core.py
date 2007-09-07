@@ -17,19 +17,19 @@ images['snaketank']=image.UnitAnimatedImage(image.load_image(path('images',
                                                                 'units',
                                                                 'snaketank.png'),
                                                            alpha=True),
-                                                frame_delay=0.15)
+                                                frame_delay=0.05)
 
 images['vamp-bat']=image.UnitAnimatedImage(image.load_image(path('images',
                                                                 'units',
                                                                 'vamp-bat.png'),
                                                            alpha=True),
-                                                frame_delay=0.15)
+                                                frame_delay=0.05)
 
 images['snowman']=image.UnitAnimatedImage(image.load_image(path('images',
                                                                 'units',
                                                                 'snowman.png'),
                                                            alpha=True),
-                                                frame_delay=0.15)
+                                                frame_delay=0.05)
 
 images['city/camp']=image.load_image(path('images', 'forts', 'human_city1.png'), alpha=True)
 images['city/fortified']=image.load_image(path('images', 'forts', 'human_city2.png'), alpha=True)
@@ -97,6 +97,7 @@ races['default']=Race(name="default",#name and race['name'] should be the same
                                               "defense":1,
                                               "dodge":1,
                                               'consumes':1}},
+                      flag_image=images['flag'],
                       start_troops=100,
                       start_food=100,
                       house_food_production=2,#amount per 5 seconds
