@@ -132,7 +132,7 @@ class Engine(object):
         for i in scenario.cities:
             cities.add(i)
         camera=isometric.Camera(world, data['camera_pos'],
-                                rect=pygame.rect.Rect([10,30], [480, 320]),
+                                rect=pygame.rect.Rect([10,10], [480, 320]),
                                 background_image=data['images']['map_bg_image'])
 
         player=scenario.player
@@ -210,28 +210,28 @@ class Engine(object):
 
 
         toppanel_unit=gui.Container()
-        toppanel_unit.add(gui.Button([10,5],buttonfont,'recruit',
+        toppanel_unit.add(gui.Button([10,335],buttonfont,'recruit',
                         image_normal=data['images']['button'],
                         image_hover=data['images']['buttonh'],
                         image_click=data['images']['buttonc'],
                         align=["center","center"],
                         codes=[gui.ButtonCode(dummy, ['foo'])]),
                         "recruit")
-        toppanel_unit.add(gui.Button([53,5],buttonfont,'harvest',
+        toppanel_unit.add(gui.Button([53,335],buttonfont,'harvest',
                         image_normal=data['images']['button'],
                         image_hover=data['images']['buttonh'],
                         image_click=data['images']['buttonc'],
                         align=["center","center"],
                         codes=[gui.ButtonCode(dummy, ['foo'])]),
                         "harvest")
-        toppanel_unit.add(gui.Button([100,5],buttonfont,'loiter',
+        toppanel_unit.add(gui.Button([100,335],buttonfont,'loiter',
                         image_normal=data['images']['button'],
                         image_hover=data['images']['buttonh'],
                         image_click=data['images']['buttonc'],
                         align=["center","center"],
                         codes=[gui.ButtonCode(dummy, ['foo'])]),
                         "loiter")
-        toppanel_unit.add(gui.Button([135,5],buttonfont,'found house',
+        toppanel_unit.add(gui.Button([135,335],buttonfont,'found house',
                         image_normal=data['images']['button'],
                         image_hover=data['images']['buttonh'],
                         image_click=data['images']['buttonc'],
@@ -242,7 +242,7 @@ class Engine(object):
         toppanel_unit.set_visible(False)
 
         toppanel_house=gui.Container()
-        toppanel_house.add(gui.Button([10,4],buttonfont,'create unit',
+        toppanel_house.add(gui.Button([10,335],buttonfont,'create unit',
                         image_normal=data['images']['button'],
                         image_hover=data['images']['buttonh'],
                         image_click=data['images']['buttonc'],
@@ -250,7 +250,7 @@ class Engine(object):
                         image_mode="scale",
                         codes=[gui.ButtonCode(dummy, ['foo'])]),
                         "make_unit")
-        toppanel_house.add(gui.InputBox(pos=[80,4], font=buttonfont,
+        toppanel_house.add(gui.InputBox(pos=[80,335], font=buttonfont,
                         width=250, start_text="Captain Name",
                         image_normal=data['images']['input_box'],
                         image_hover=data['images']['input_box'],
@@ -260,7 +260,7 @@ class Engine(object):
                         "captain_name")
         #I'm think we might want to have it so that you use the whell on oyur mouse,
         #or the up/down arrows to specifiy troops, instead of inputting them...
-        toppanel_house.add(gui.InputBox(pos=[335,4], font=buttonfont,
+        toppanel_house.add(gui.InputBox(pos=[335,335], font=buttonfont,
                         width=50, start_text="50",
                         image_normal=data['images']['input_box'],
                         image_hover=data['images']['input_box'],
