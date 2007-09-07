@@ -18,6 +18,7 @@ def dummy(arg1):
 class Engine(object):
     def __init__(self, state="game"):
         self.state=state
+        self.possiblestates = ["game", "mainmenu", "QUIT"]
         self.campaign="basic.py"
         self.scenario=None#we'll add this later when you can actually do somthing with the campaigns
 
@@ -35,8 +36,90 @@ class Engine(object):
         while 1:
             if self.state=="game":
                 self.play_game()
+            elif self.state=="mainmenu":
+                self.play_mainmenu()
             elif self.state=="QUIT":
                 return
+
+
+    def play_mainmenu(self):
+        data=elements.load_file(elements.path(self.campaign),
+                                self.core_data)        
+        
+        background=gui.Panel([0,0],[640,480],
+                            image=data['images']['mosaic_panel'])
+        
+        buttons = gui.Container()
+
+        buttonfont = pyglibs.font.Font(size=48, antialias=True)
+        
+        buttons.add(gui.Button([250,200],buttonfont,'Play Game',
+                    image_normal=data['images']['button'],
+                    image_hover=data['images']['buttonh'],
+                    image_click=data['images']['buttonc'],
+                    align=["center","center"],
+                    codes=[]),
+                    "play_game")
+        buttons.add(gui.Button([250,250],buttonfont,'Credits',
+                    image_normal=data['images']['button'],
+                    image_hover=data['images']['buttonh'],
+                    image_click=data['images']['buttonc'],
+                    align=["center","center"],
+                    codes=[]),
+                    "credits")
+        buttons.add(gui.Button([250,300],buttonfont,'Quit',
+                    image_normal=data['images']['button'],
+                    image_hover=data['images']['buttonh'],
+                    image_click=data['images']['buttonc'],
+                    align=["center","center"],
+                    codes=[]),
+                    "quit")
+        
+        
+        
+        pygame.key.set_repeat(5)
+
+        pygame.mixer.music.load(data['music']['darktheme'])
+        pygame.mixer.music.play(-1)
+
+        clock=pygame.time.Clock()
+
+        while 1:
+            clock.tick(999)#the fastest we can go, change to something reasonable, like 40-50 later
+
+            for event in pygame.event.get():
+                if event.type==QUIT:
+                    print clock.get_fps()
+                    pygame.quit()
+                    return
+
+                if event.type==KEYDOWN:
+                    if event.key==K_s:
+                        pygame.image.save(self.screen, os.path.join("data", "screens",
+                                            "screenie--%s.bmp"%time.strftime("%d-%m-%Y-%H-%M")))
+                    elif event.key ==K_ESCAPE:
+                        pygame.quit()
+                    
+                if event.type == MOUSEBUTTONDOWN:
+                    # send it to the gui
+                    buttons.update(event)
+
+                    # quit/play game
+                    if buttons.get("play_game").was_clicked:
+                        self.state="game"
+                        return
+                    if buttons.get("quit").was_clicked:
+                        self.state="QUIT"
+                        return
+
+            #clear the screen
+            self.screen.fill((0,0,0,0))
+            
+            background.render(self.screen)
+            buttons.render(self.screen)
+            
+            pygame.display.flip()
+
 
     def play_game(self):
         self.screen.fill((0,0,0,0))

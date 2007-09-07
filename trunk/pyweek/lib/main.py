@@ -9,4 +9,4 @@ from modules import pyglibs, entities, elements, engine
 from modules.pyglibs import isometric, image, gui
 
 def main():
-    e=engine.Engine(state="game")
+    e=engine.Engine(state="mainmenu")
