@@ -1,7 +1,7 @@
 
 #load our assets
 images['building/vamp_castle']=image.load_image(path('images', 'buildings', 'vamp_castle1.bmp'), -1)
-
+images['building/frostlen_castle']=image.load_image(path('images', 'buildings', 'frostlen_castle1.bmp'), -1)
 
 #create basic map
 import random
@@ -26,9 +26,24 @@ camera_pos=[-10,-10]
 #create basic race and other datas :)
 #any of these things can be left blank, but it is recommended that you fill them ;)
 races['default']=Race(name="default",#name and race['name'] should be the same
-                      captain_image=images['player_mockup'],#the image for a unit that doesnt have your elder
-                      elder_image=images['player_mockup'],#the image for your elder unit
+                      captain_image=images['vamp-bat'],#the image for a unit that doesnt have your elder
+                      elder_image=images['snake'],#the image for your elder unit
                       house_image=images['building/vamp_castle'],
+                      soldier_types={"Shock":{"speed":1,
+                                              "attack":1,
+                                              "defense":1,
+                                              "dodge":1,
+                                              'consumes':1}},
+                      start_troops=100,
+                      start_food=100,
+                      house_food_production=2,#amount per 5 seconds
+                      house_troop_production=10)#seconds
+
+# and a race for the baddies
+races['frostlen']=Race(name="frostlen",#name and race['name'] should be the same
+                      captain_image=images['snowman'],#the image for a unit that doesnt have your elder
+                      elder_image=images['snowman'],#the image for your elder unit
+                      house_image=images['building/frostlen_castle'],
                       soldier_types={"Shock":{"speed":1,
                                               "attack":1,
                                               "defense":1,
@@ -49,13 +64,13 @@ new_campaign=Campaign(name="basic")
 
 thePlayer = Player("jimbob", races['default'])
 thePlayer.create_house(world, [10,10])
-thePlayer.create_house(world, [1,5])
+thePlayer.create_house(world, [12,7])
 thePlayer.houses[0].make_unit("bob II", 50)
 thePlayer.houses[1].make_unit("bob III", 50)
 thePlayer.active_entity = thePlayer.armies[0]
 
-badGuyOne = Player("evilDoer", races['default'])
-badGuyOne.create_house(world, [3,2])
+badGuyOne = Player("evilDoer", races['frostlen'])
+badGuyOne.create_house(world, [7,8])
 badGuyOne.houses[0].make_unit("Evil Minion",75)
 
 event1_trigger = """if player.active_entity and not player.active_entity.tile_pos==[0,0]:trigger=True"""

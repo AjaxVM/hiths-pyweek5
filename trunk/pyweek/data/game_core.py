@@ -4,9 +4,27 @@ images['tile/dirt']=image.load_image(path('images', 'tiles', 'dirt.bmp'), -1)
 images['tile/grass']=image.load_image(path('images', 'tiles', 'grass.bmp'), -1)
 images['tile/lava']=image.load_image(path('images', 'tiles', 'lava.bmp'), -1)
 
-images['player_mockup']=image.UnitAnimatedImage(image.load_image(path('images',
+images['snake']=image.UnitAnimatedImage(image.load_image(path('images',
                                                                 'units',
                                                                 'snake1.png'),
+                                                           alpha=True),
+                                                frame_delay=0.15)
+
+images['snaketank']=image.UnitAnimatedImage(image.load_image(path('images',
+                                                                'units',
+                                                                'snaketank.png'),
+                                                           alpha=True),
+                                                frame_delay=0.15)
+
+images['vamp-bat']=image.UnitAnimatedImage(image.load_image(path('images',
+                                                                'units',
+                                                                'vamp-bat.png'),
+                                                           alpha=True),
+                                                frame_delay=0.15)
+
+images['snowman']=image.UnitAnimatedImage(image.load_image(path('images',
+                                                                'units',
+                                                                'snowman.png'),
                                                            alpha=True),
                                                 frame_delay=0.15)
 
@@ -66,8 +84,8 @@ camera_pos=[0,0]
 #create basic race and other datas :)
 #any of these things can be left blank, but it is recommended that you fill them ;)
 races['default']=Race(name="default",#name and race['name'] should be the same
-                      captain_image=images['player_mockup'],#the image for a unit that doesnt have your elder
-                      elder_image=images['player_mockup'],#the image for your elder unit
+                      captain_image=images['snake'],#the image for a unit that doesnt have your elder
+                      elder_image=images['vamp-bat'],#the image for your elder unit
                       house_image=images['button'],
                       soldier_types={"Shock":{"speed":1,#speed of unit, number is divided by 100 later
                                               "attack":1,
