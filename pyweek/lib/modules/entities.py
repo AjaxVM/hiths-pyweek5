@@ -265,6 +265,9 @@ class House(isometric.Unit, Selectable):
         soldier_type_counts={}
         tot_troops=0
 
+        if num_troops <= 0:
+            return
+
         for i in self.race.soldier_types:
             new_num = random.randint(0, num_troops-tot_troops)
             if self.soldier_count>=new_num:
@@ -281,6 +284,9 @@ class House(isometric.Unit, Selectable):
                 new_num=self.soldier_count
             soldier_type_counts[i]+=new_num
             self.soldier_count-=new_num
+
+        if new_num <= 0:
+            return
 
 
         a = Unit(self.iso_world, self.player, captain_name,

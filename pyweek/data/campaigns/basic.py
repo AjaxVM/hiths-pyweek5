@@ -50,6 +50,7 @@ races['frostlen']=Race(name="frostlen",#name and race['name'] should be the same
                                               "defense":1,
                                               "dodge":1,
                                               'consumes':1}},
+                      flag_image=images['flag'],
                       start_troops=100,
                       start_food=100,
                       house_food_production=2,#amount per 5 seconds
@@ -64,7 +65,7 @@ races['frostlen']=Race(name="frostlen",#name and race['name'] should be the same
 new_campaign=Campaign(name="basic")
 
 thePlayer = Player("jimbob", races['default'], color=[125,0,175,255])
-thePlayer.create_house(world, [10,10])
+thePlayer.create_house(world, [10,5])
 thePlayer.create_house(world, [12,7])
 thePlayer.houses[0].make_unit("bob II", 50)
 thePlayer.houses[1].make_unit("bob III", 50)

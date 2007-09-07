@@ -308,15 +308,18 @@ class Engine(object):
                         self.state="mainmenu"
                         return
                     if event.key == K_f:
-                        print clock.get_fps()
+                        bottompanel.get("messages").add_message("fps: %s"%str(clock.get_fps()))
                     
                 if event.type == MOUSEBUTTONDOWN:
                     if camera.rect.collidepoint(event.pos):
                         # test if one of the player's units or builings was clicked
                         clicked_tile = camera.get_mouse_pos()
-                        mx, my=event.pos
-                        mx-=int(camera.rect.width/2)
-                        my-=int(camera.rect.height/2)+25
+
+                        cx, cy = camera.convert_pos()
+
+                        mx, my = event.pos
+                        mx-=cx
+                        my-=cy
 
                         mpos=(mx, my)
                             
