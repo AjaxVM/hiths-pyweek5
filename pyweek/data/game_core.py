@@ -9,6 +9,11 @@ images['player_mockup']=image.UnitAnimatedImage(image.load_image(path('images',
                                                                 'snake1.png'),
                                                            alpha=True),
                                                 frame_delay=0.15)
+
+images['city/camp']=image.load_image(path('images', 'forts', 'human_city1.png'), alpha=True)
+images['city/fortified']=image.load_image(path('images', 'forts', 'human_city2.png'), alpha=True)
+
+
 images['map_bg_image']=None#image.load_surface(path('images', 'map_bg.bmp'))
 #we really shouldn't use map_bg_image right now...
 

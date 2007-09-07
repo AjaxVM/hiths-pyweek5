@@ -54,7 +54,7 @@ class Unit(isometric.Unit, Selectable):
         isometric.Unit.__init__(self, iso_world, cap_image,
                                 pos)
 
-        self.render_priority=2
+        self.render_priority=3
 
         self.captain_name=captain_name
 
@@ -378,6 +378,8 @@ class Fortification(isometric.Unit):
     def __init__(self, iso_world, fort, pos=[0,0]):
         isometric.Unit.__init__(self, iso_world, fort.image, pos)
 
+        self.rect.center=tuple(self.pos)
+
         self.fort=fort
 
 class City(isometric.Unit):
@@ -389,6 +391,8 @@ class City(isometric.Unit):
         self.name=name
         self.population=population
         self.defences=defences
+
+        self.render_priority=1
 
         self.counter=time.time()
 

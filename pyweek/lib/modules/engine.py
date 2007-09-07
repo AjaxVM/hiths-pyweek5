@@ -43,6 +43,9 @@ class Engine(object):
         world=data['world']
         scenario=data['campaigns']['default'].current_scenario
 
+        cities=isometric.UnitContainer()
+        for i in scenario.cities:
+            cities.add(i)
         camera=isometric.Camera(world, data['camera_pos'],
                                 rect=pygame.rect.Rect([10,10], [480, 320]),
                                 background_image=data['images']['map_bg_image'])
@@ -172,7 +175,7 @@ class Engine(object):
 
             #clear the screen
             self.screen.fill((0,0,0,0))
-            camera.render(self.screen, player)
+            camera.render(self.screen, [player, cities])
             player.update()
             rightpanel.render(self.screen)
             rightpanel.get("info_food").message="food: %s"%player.food

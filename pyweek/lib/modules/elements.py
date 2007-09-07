@@ -24,7 +24,6 @@ def load_file(filename, other=None):
         glyphs=other['glyphs']#glyphs
         ground_glyphs=other['ground_glyphs']#glyphs that are placed
         glyph_spawn_rate=other['glyph_spawn_rate']#how quickly new glyphs are created
-        cities=other['cities']#human cities
         fortifications=other['forts']#placed forts
         maps=other['maps']#any maps found in the file
         campaigns=other['campaigns']#any campaigns found in this file
@@ -39,7 +38,6 @@ def load_file(filename, other=None):
         glyphs=[]#glyphs
         ground_glyphs=[]#glyphs that are placed
         glyph_spawn_rate=0#how quickly new glyphs are created
-        cities=[]#human cities
         fortifications=[]#placed forts
         maps={}#any maps found in the file
         campaigns={}#any campaigns found in this file
@@ -54,7 +52,6 @@ def load_file(filename, other=None):
             'glyphs':glyphs,
             'ground_glyphs':ground_glyphs,
             'glyph_spawn_rate':glyph_spawn_rate,
-            'cities':cities,
             'maps':maps,
             'forts':fortifications,
             'terrain':terrain,

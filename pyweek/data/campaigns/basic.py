@@ -54,6 +54,10 @@ scenario1.player.create_house(world, [0,0])
 scenario1.player.houses[0].make_unit("bob II", 50)
 scenario1.player.active_entity = scenario1.player.armies[0]
 
+scenario1.cities.append(City(world, 'Hello', 150,
+                             125, images['city/camp'],
+                             [2,1]))
+
 new_campaign.scenarios['scenario1']=scenario1
 new_campaign.start_scenario='scenario1'
 new_campaign.current_scenario=scenario1
