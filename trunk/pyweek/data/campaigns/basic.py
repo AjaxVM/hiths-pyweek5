@@ -52,7 +52,9 @@ scenario1=Scenario(name="scenario1",
                         event="bottompanel.get('messages').add_message('you moved your unit!')")],
                    player=Player("jimbob", races['default']))
 scenario1.player.create_house(world, [0,0])
+scenario1.player.create_house(world, [1,5])
 scenario1.player.houses[0].make_unit("bob II", 50)
+scenario1.player.houses[1].make_unit("bob III", 50)
 scenario1.player.active_entity = scenario1.player.armies[0]
 
 scenario1.cities.append(City(world, 'Hello', 150,
