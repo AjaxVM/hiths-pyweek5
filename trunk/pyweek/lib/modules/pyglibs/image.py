@@ -413,11 +413,6 @@ class UnitAnimatedImage(AnimatedImage):
         return None
 
     def render(self, surface, pos=[0,0]):
-        if time.time()-self.last_time>self.frame_delay:
-            self.last_time=time.time()
-            self.on+=1
-            if self.on>=len(self.actions[self.action]):
-                self.on=0
         self.all_images[self.actions[self.action][self.on]]\
                        [self.all_directions[self.direction]]\
                        .render(surface, pos)

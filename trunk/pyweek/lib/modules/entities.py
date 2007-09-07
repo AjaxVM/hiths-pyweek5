@@ -76,6 +76,11 @@ class Unit(isometric.Unit, Selectable):
 
         self.goto=None
 
+        self.image_action="still"
+        self.image_on=0
+        self.image_direction="bottom"
+        self.image_last_time=time.time()
+
     def get_troop_count(self):
         c=0
         for i in self.soldier_type_counts:
@@ -152,6 +157,17 @@ class Unit(isometric.Unit, Selectable):
         speed=float(speed)/100
         return spc_div(speed, num)
 
+    def render(self, surface, camera_pos=[0,0]):
+        if time.time()-self.image_last_time>self.image.frame_delay:
+            self.image_last_time=time.time()
+            self.image_on+=1
+            if self.image_on>=len(self.image.actions[self.image_action]):
+                self.image_on=0
+        self.image.on=self.image_on
+        self.image.direction=self.image_direction
+        self.image.action=self.image_action
+        isometric.Unit.render(self, surface, camera_pos)
+
     def update(self):
         if self.getting_food:
             if time.time()-self.food_counter==1:
@@ -163,41 +179,41 @@ class Unit(isometric.Unit, Selectable):
 
         if not self.goto:
             if self.offset[0]==0.5 and self.offset[1]==0.5:
-                self.image.action="still"
-                self.image.on=0
+                self.image_action="still"
+                self.image_on=0
             else:
-                self.image.action="moving"
+                self.image_action="moving"
         else:
-            self.image.action="moving"
+            self.image_action="moving"
 
         if self.goto:
             if self.goto[0]<self.tile_pos[0]:
                 if self.goto[1]<self.tile_pos[1]:
                     self.move((-spd, -spd))
-                    self.image.direction="topleft"
+                    self.image_direction="topleft"
                 elif self.goto[1]>self.tile_pos[1]:
                     self.move((-spd, spd))
-                    self.image.direction="bottomleft"
+                    self.image_direction="bottomleft"
                 else:
                     self.move((-spd, 0))
-                    self.image.direction="left"
+                    self.image_direction="left"
             elif self.goto[0]>self.tile_pos[0]:
                 if self.goto[1]<self.tile_pos[1]:
                     self.move((spd, -spd))
-                    self.image.direction="topright"
+                    self.image_direction="topright"
                 elif self.goto[1]>self.tile_pos[1]:
                     self.move((spd, spd))
-                    self.image.direction="bottomright"
+                    self.image_direction="bottomright"
                 else:
                     self.move((spd, 0))
-                    self.image.direction="right"
+                    self.image_direction="right"
             else:
                 if self.goto[1]<self.tile_pos[1]:
                     self.move((0, -spd))
-                    self.image.direction="top"
+                    self.image_direction="top"
                 elif self.goto[1]>self.tile_pos[1]:
                     self.move((0, spd))
-                    self.image.direction="bottom"
+                    self.image_direction="bottom"
                 else:
                     pass#I mean come on!, why should this ever happen? :P
 
