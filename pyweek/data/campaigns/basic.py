@@ -46,16 +46,23 @@ races['default']=Race(name="default",#name and race['name'] should be the same
 
 
 new_campaign=Campaign(name="basic")
-scenario1=Scenario(name="scenario1",
-                   events=[Event(trigger="""if player.active_entity and not\
-                                               player.active_entity.tile_pos==[0,0]:trigger=True""",
-                        event="bottompanel.get('messages').add_message('you moved your unit!')")],
-                   player=Player("jimbob", races['default']))
-scenario1.player.create_house(world, [0,0])
-scenario1.player.create_house(world, [1,5])
-scenario1.player.houses[0].make_unit("bob II", 50)
-scenario1.player.houses[1].make_unit("bob III", 50)
-scenario1.player.active_entity = scenario1.player.armies[0]
+
+thePlayer = Player("jimbob", races['default'])
+thePlayer.create_house(world, [0,0])
+thePlayer.create_house(world, [1,5])
+thePlayer.houses[0].make_unit("bob II", 50)
+thePlayer.houses[1].make_unit("bob III", 50)
+thePlayer.active_entity = thePlayer.armies[0]
+
+badGuyOne = Player("evilDoer", races['default'])
+badGuyOne.create_house(world, [3,2])
+badGuyOne.houses[0].make_unit("Evil Minion",75)
+
+event1_trigger = """if player.active_entity and not player.active_entity.tile_pos==[0,0]:trigger=True"""
+event1_event = "bottompanel.get('messages').add_message('you moved your unit!')"
+event1 = Event(trigger = event1_trigger, event = event1_event)
+
+scenario1=Scenario(name="scenario1", events=[event1], player=thePlayer, enemies = [badGuyOne])
 
 scenario1.cities.append(City(world, 'Hello', 150,
                              125, images['city/camp'],
