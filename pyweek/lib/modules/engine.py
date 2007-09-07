@@ -89,14 +89,17 @@ class Engine(object):
         # buttons
         rightpanel.add(gui.Button([510,220],buttonfont,'recruit',
                         image_normal=data['images']['button'],
+                        align=["center","center"],
                         codes=[]),
                         "recruit")
         rightpanel.add(gui.Button([510,250],buttonfont,'dance!',
                         image_normal=data['images']['button'],
+                        align=["center","center"],
                         codes=[]),
                         "dance!")
         rightpanel.add(gui.Button([510,280],buttonfont,'loiter',
                         image_normal=data['images']['button'],
+                        align=["center","center"],
                         codes=[]),
                         "loiter")
                         
