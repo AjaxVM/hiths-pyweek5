@@ -161,16 +161,37 @@ class Unit(isometric.Unit, Selectable):
         if self.goto==self.tile_pos:
             self.goto=None
 
+        if not self.goto:
+            if self.offset[0]==0.5 and self.offset[1]==0.5:
+                self.image.action="still"
+                self.image.on=0
+            else:
+                self.image.action="moving"
+        else:
+            self.image.action="moving"
+
         if self.goto:
             if self.goto[0]<self.tile_pos[0]:
                 self.move((-spd, 0))
+                if self.goto[1]<self.tile_pos[1]:
+                    self.move((0, -spd))
+                    self.image.direction="topleft"
+                elif self.goto[1]>self.tile_pos[1]:
+                    self.move((0, spd))
+                    self.image.direction="bottomleft"
+                else:
+                    self.image.direction="left"
             elif self.goto[0]>self.tile_pos[0]:
                 self.move((spd, 0))
+                if self.goto[1]<self.tile_pos[1]:
+                    self.move((0, -spd))
+                    self.image.direction="topright"
+                elif self.goto[1]>self.tile_pos[1]:
+                    self.move((0, spd))
+                    self.image.direction="bottomright"
+                else:
+                    self.image.direction="right"
 
-            if self.goto[1]<self.tile_pos[1]:
-                self.move((0, -spd))
-            elif self.goto[1]>self.tile_pos[1]:
-                self.move((0, spd))
         else:
             if not self.offset[0]==0.5:
                 if abs(self.offset[0]-0.5) < spd:
