@@ -28,7 +28,7 @@ class Engine(object):
 
     def init(self):
         pygame.init()
-        self.screen=pygame.display.set_mode((640, 480), FULLSCREEN)
+        self.screen=pygame.display.set_mode((640, 480))# FULLSCREEN)
 
         self.core_data=elements.load_file(os.path.join('data', 'game_core.py'))
 
@@ -146,12 +146,9 @@ class Engine(object):
                                     antialias=True,
                                     color=(16,16,16))
         
-        buttonfont = pyglibs.font.Font(size=24,
+        buttonfont = pyglibs.font.Font(size=20,
                                     antialias=True,
-                                    color=(240,255,132))
-        buttonfontyellow = pyglibs.font.Font(size=24,
-                                    antialias=True,
-                                    color=(255,255,75))
+                                    color=(255,255,125))
         
         infofont = pyglibs.font.Font(size=20, antialias=True,
                                     color=(255,255,255))
@@ -213,28 +210,28 @@ class Engine(object):
 
 
         toppanel_unit=gui.Container()
-        toppanel_unit.add(gui.Button([10,4],buttonfont,'recruit',
+        toppanel_unit.add(gui.Button([10,5],buttonfont,'recruit',
                         image_normal=data['images']['button'],
                         image_hover=data['images']['buttonh'],
                         image_click=data['images']['buttonc'],
                         align=["center","center"],
                         codes=[gui.ButtonCode(dummy, ['foo'])]),
                         "recruit")
-        toppanel_unit.add(gui.Button([65,4],buttonfont,'harvest',
+        toppanel_unit.add(gui.Button([53,5],buttonfont,'harvest',
                         image_normal=data['images']['button'],
                         image_hover=data['images']['buttonh'],
                         image_click=data['images']['buttonc'],
                         align=["center","center"],
                         codes=[gui.ButtonCode(dummy, ['foo'])]),
                         "harvest")
-        toppanel_unit.add(gui.Button([127,4],buttonfont,'loiter',
+        toppanel_unit.add(gui.Button([100,5],buttonfont,'loiter',
                         image_normal=data['images']['button'],
                         image_hover=data['images']['buttonh'],
                         image_click=data['images']['buttonc'],
                         align=["center","center"],
                         codes=[gui.ButtonCode(dummy, ['foo'])]),
                         "loiter")
-        toppanel_unit.add(gui.Button([171,4],buttonfont,'found house',
+        toppanel_unit.add(gui.Button([135,5],buttonfont,'found house',
                         image_normal=data['images']['button'],
                         image_hover=data['images']['buttonh'],
                         image_click=data['images']['buttonc'],
@@ -253,17 +250,17 @@ class Engine(object):
                         image_mode="scale",
                         codes=[gui.ButtonCode(dummy, ['foo'])]),
                         "make_unit")
-        toppanel_house.add(gui.InputBox(pos=[95,4], font=buttonfontyellow,
+        toppanel_house.add(gui.InputBox(pos=[80,4], font=buttonfont,
                         width=250, start_text="Captain Name",
                         image_normal=data['images']['input_box'],
                         image_hover=data['images']['input_box'],
                         image_click=data['images']['input_box'],
-                        image_mode="scale", cache_on_KEY=K_RETURN,
+                        image_mode="enlarge", cache_on_KEY=K_RETURN,
                         text_padding=[22,0], ignore_events=["RETURN", "TAB"]),
                         "captain_name")
         #I'm think we might want to have it so that you use the whell on oyur mouse,
         #or the up/down arrows to specifiy troops, instead of inputting them...
-        toppanel_house.add(gui.InputBox(pos=[350,4], font=buttonfontyellow,
+        toppanel_house.add(gui.InputBox(pos=[335,4], font=buttonfont,
                         width=50, start_text="50",
                         image_normal=data['images']['input_box'],
                         image_hover=data['images']['input_box'],
@@ -312,7 +309,7 @@ class Engine(object):
                     
                 if event.type == MOUSEBUTTONDOWN:
                     if camera.rect.collidepoint(event.pos):
-                        # test if one of the player's units or builings was clicked
+                        # test if one of the player's units or buildings was clicked
                         clicked_tile = camera.get_mouse_pos()
 
                         cx, cy = camera.convert_pos()
@@ -392,7 +389,7 @@ class Engine(object):
                     rightpanel.get("unit_captain_xp").message="captain xp: %s"%unit.captain_xp
                     rightpanel.get("unit_captain_xp").refactor()
 
-                    rightpanel.get("unit_army_xp").message="captain xp: %s"%unit.army_xp
+                    rightpanel.get("unit_army_xp").message="army xp: %s"%unit.army_xp
                     rightpanel.get("unit_army_xp").refactor()
 
                     rightpanel.get("portrait").image=unit.image
