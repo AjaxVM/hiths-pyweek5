@@ -58,7 +58,7 @@ music['warm_strings']=path('music', 'warm_strings.ogg')
 
 
 sfx['blank']=Sound(None)#put your file name where None is, eg path('sfx', 'mysfx.wav')
-
+sfx['click']=Sound(path('sfx', 'click.wav'))
 
 
 #create basic terrain

@@ -59,21 +59,24 @@ class Engine(object):
                     image_hover=data['images']['buttonh'],
                     image_click=data['images']['buttonc'],
                     align=["center","center"],
-                    codes=[], image_mode="scale"),
+                    codes=[gui.ButtonCode(data['sfx']['click'].play, [])],
+                    image_mode="scale"),
                     "play_game")
         buttons.add(gui.Button([250,250],buttonfont,'Credits',
                     image_normal=data['images']['button'],
                     image_hover=data['images']['buttonh'],
                     image_click=data['images']['buttonc'],
                     align=["center","center"],
-                    codes=[], image_mode="scale"),
+                    codes=[gui.ButtonCode(data['sfx']['click'].play, [])],
+                    image_mode="scale"),
                     "credits")
         buttons.add(gui.Button([250,300],buttonfont,'Quit',
                     image_normal=data['images']['button'],
                     image_hover=data['images']['buttonh'],
                     image_click=data['images']['buttonc'],
                     align=["center","center"],
-                    codes=[], image_mode="scale"),
+                    codes=[gui.ButtonCode(data['sfx']['click'].play, [])],
+                    image_mode="scale"),
                     "quit")
         
         
@@ -205,7 +208,7 @@ class Engine(object):
                         image_click=data['images']['buttonc'],
                         image_mode="scale",
                         align=["center","center"],
-                        codes=[gui.ButtonCode(dummy, ['foo'])]),
+                        codes=[gui.ButtonCode(data['sfx']['click'].play, [])]),
                         "quit")
 
 
@@ -215,21 +218,21 @@ class Engine(object):
                         image_hover=data['images']['buttonh'],
                         image_click=data['images']['buttonc'],
                         align=["center","center"],
-                        codes=[gui.ButtonCode(dummy, ['foo'])]),
+                        codes=[gui.ButtonCode(data['sfx']['click'].play, [])]),
                         "recruit")
         toppanel_unit.add(gui.Button([53,335],buttonfont,'harvest',
                         image_normal=data['images']['button'],
                         image_hover=data['images']['buttonh'],
                         image_click=data['images']['buttonc'],
                         align=["center","center"],
-                        codes=[gui.ButtonCode(dummy, ['foo'])]),
+                        codes=[gui.ButtonCode(data['sfx']['click'].play, [])]),
                         "harvest")
         toppanel_unit.add(gui.Button([100,335],buttonfont,'loiter',
                         image_normal=data['images']['button'],
                         image_hover=data['images']['buttonh'],
                         image_click=data['images']['buttonc'],
                         align=["center","center"],
-                        codes=[gui.ButtonCode(dummy, ['foo'])]),
+                        codes=[gui.ButtonCode(data['sfx']['click'].play, [])]),
                         "loiter")
         toppanel_unit.add(gui.Button([135,335],buttonfont,'found house',
                         image_normal=data['images']['button'],
@@ -237,7 +240,7 @@ class Engine(object):
                         image_click=data['images']['buttonc'],
                         image_mode="scale",
                         align=["center","center"],
-                        codes=[gui.ButtonCode(dummy, ['foo'])]),
+                        codes=[gui.ButtonCode(data['sfx']['click'].play, [])]),
                         "found_house")
         toppanel_unit.set_visible(False)
 
@@ -248,7 +251,7 @@ class Engine(object):
                         image_click=data['images']['buttonc'],
                         align=["center","center"],
                         image_mode="scale",
-                        codes=[gui.ButtonCode(dummy, ['foo'])]),
+                        codes=[gui.ButtonCode(data['sfx']['click'].play, [])]),
                         "make_unit")
         toppanel_house.add(gui.InputBox(pos=[80,335], font=buttonfont,
                         width=250, start_text="Captain Name",
