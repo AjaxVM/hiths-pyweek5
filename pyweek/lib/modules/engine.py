@@ -27,6 +27,7 @@ class Engine(object):
         self.run()
 
     def init(self):
+        pygame.mixer.pre_init(22050, -16, 1, 2048)
         pygame.init()
         self.screen=pygame.display.set_mode((640, 480))# FULLSCREEN)
 
