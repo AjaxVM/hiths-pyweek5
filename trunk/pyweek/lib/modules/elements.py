@@ -26,9 +26,7 @@ def load_file(filename, other=None):
         glyph_spawn_rate=other['glyph_spawn_rate']#how quickly new glyphs are created
         cities=other['cities']#human cities
         fortifications=other['forts']#placed forts
-        monster_spawn_points=other['ms_points']#this is where nasties apwn when oyu pick up a glyph!
         maps=other['maps']#any maps found in the file
-        ancient_temples=other['temples']#this is where teh Rendth spawn from
         campaigns=other['campaigns']#any campaigns found in this file
         terrain=other['terrain']#the terrain types found in this file
         images=other['images']
@@ -43,9 +41,7 @@ def load_file(filename, other=None):
         glyph_spawn_rate=0#how quickly new glyphs are created
         cities=[]#human cities
         fortifications=[]#placed forts
-        monster_spawn_points=[]#this is where nasties apwn when oyu pick up a glyph!
         maps={}#any maps found in the file
-        ancient_temples=[]#this is where teh Rendth spawn from
         campaigns={}#any campaigns found in this file
         terrain={}#the terrain types found in this file
         images={}
@@ -59,11 +55,9 @@ def load_file(filename, other=None):
             'ground_glyphs':ground_glyphs,
             'glyph_spawn_rate':glyph_spawn_rate,
             'cities':cities,
-            'ms_points':monster_spawn_points,
             'maps':maps,
             'forts':fortifications,
             'terrain':terrain,
-            'temples':ancient_temples,
             'campaigns':campaigns,
             'images':images,
             'music':music,
