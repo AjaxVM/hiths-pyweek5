@@ -47,6 +47,8 @@ class Engine(object):
     def play_mainmenu(self):
         data=elements.load_file(elements.path(self.campaign),
                                 self.core_data)        
+        # sound for buttons
+        clicksound = data['sfx']['click'].play
         
         background=gui.Panel([0,0],[640,480],
                             image=data['images']['mosaic_panel'])
@@ -60,7 +62,7 @@ class Engine(object):
                     image_hover=data['images']['buttonh'],
                     image_click=data['images']['buttonc'],
                     align=["center","center"],
-                    codes=[gui.ButtonCode(data['sfx']['click'].play, [])],
+                    codes=[gui.ButtonCode(clicksound, [])],
                     image_mode="scale"),
                     "play_game")
         buttons.add(gui.Button([250,250],buttonfont,'Credits',
@@ -68,7 +70,7 @@ class Engine(object):
                     image_hover=data['images']['buttonh'],
                     image_click=data['images']['buttonc'],
                     align=["center","center"],
-                    codes=[gui.ButtonCode(data['sfx']['click'].play, [])],
+                    codes=[gui.ButtonCode(clicksound, [])],
                     image_mode="scale"),
                     "credits")
         buttons.add(gui.Button([250,300],buttonfont,'Quit',
@@ -76,7 +78,7 @@ class Engine(object):
                     image_hover=data['images']['buttonh'],
                     image_click=data['images']['buttonc'],
                     align=["center","center"],
-                    codes=[gui.ButtonCode(data['sfx']['click'].play, [])],
+                    codes=[gui.ButtonCode(clicksound, [])],
                     image_mode="scale"),
                     "quit")
         
@@ -157,6 +159,8 @@ class Engine(object):
         infofont = pyglibs.font.Font(size=20, antialias=True,
                                     color=(255,255,255))
 
+        # sound for buttons
+        clicksound = data['sfx']['click'].play
 
         rightpanel=gui.Container()
         
@@ -209,7 +213,7 @@ class Engine(object):
                         image_click=data['images']['buttonc'],
                         image_mode="scale",
                         align=["center","center"],
-                        codes=[gui.ButtonCode(data['sfx']['click'].play, [])]),
+                        codes=[gui.ButtonCode(clicksound, [])]),
                         "quit")
 
 
@@ -219,21 +223,21 @@ class Engine(object):
                         image_hover=data['images']['buttonh'],
                         image_click=data['images']['buttonc'],
                         align=["center","center"],
-                        codes=[gui.ButtonCode(data['sfx']['click'].play, [])]),
+                        codes=[gui.ButtonCode(clicksound, [])]),
                         "recruit")
         toppanel_unit.add(gui.Button([53,335],buttonfont,'harvest',
                         image_normal=data['images']['button'],
                         image_hover=data['images']['buttonh'],
                         image_click=data['images']['buttonc'],
                         align=["center","center"],
-                        codes=[gui.ButtonCode(data['sfx']['click'].play, [])]),
+                        codes=[gui.ButtonCode(clicksound, [])]),
                         "harvest")
         toppanel_unit.add(gui.Button([100,335],buttonfont,'loiter',
                         image_normal=data['images']['button'],
                         image_hover=data['images']['buttonh'],
                         image_click=data['images']['buttonc'],
                         align=["center","center"],
-                        codes=[gui.ButtonCode(data['sfx']['click'].play, [])]),
+                        codes=[gui.ButtonCode(clicksound, [])]),
                         "loiter")
         toppanel_unit.add(gui.Button([135,335],buttonfont,'found house',
                         image_normal=data['images']['button'],
@@ -241,7 +245,7 @@ class Engine(object):
                         image_click=data['images']['buttonc'],
                         image_mode="scale",
                         align=["center","center"],
-                        codes=[gui.ButtonCode(data['sfx']['click'].play, [])]),
+                        codes=[gui.ButtonCode(clicksound, [])]),
                         "found_house")
         toppanel_unit.set_visible(False)
 
@@ -252,7 +256,7 @@ class Engine(object):
                         image_click=data['images']['buttonc'],
                         align=["center","center"],
                         image_mode="scale",
-                        codes=[gui.ButtonCode(data['sfx']['click'].play, [])]),
+                        codes=[gui.ButtonCode(clicksound, [])]),
                         "make_unit")
         toppanel_house.add(gui.InputBox(pos=[80,335], font=buttonfont,
                         width=250, start_text="Captain Name",
