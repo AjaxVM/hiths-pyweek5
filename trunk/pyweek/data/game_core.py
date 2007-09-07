@@ -3,7 +3,10 @@
 images['tile/dirt']=image.load_image(path('images', 'tiles', 'dirt.bmp'), -1)
 images['tile/grass']=image.load_image(path('images', 'tiles', 'grass.bmp'), -1)
 
-images['player_mockup']=image.load_image(path('images', 'mud.bmp'), -1)
+images['player_mockup']=image.UnitAnimatedImage(image.load_image(path('images',
+                                                                'units',
+                                                                'snake1.png'),
+                                                           alpha=True))
 images['map_bg_image']=None#image.load_surface(path('images', 'map_bg.bmp'))
 #we really shouldn't use map_bg_image right now...
 

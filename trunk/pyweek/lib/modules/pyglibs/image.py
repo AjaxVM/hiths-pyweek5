@@ -364,3 +364,61 @@ class AnimatedImage(object):
                     self.on_x=0
         self.all_images[self.on_y][self.on_x].render(surface, pos)
         return None
+
+
+class UnitAnimatedImage(AnimatedImage):
+    def __init__(self, surface, tile_size=[50,75],
+                 frame_delay=0.25):
+        self.tile_size=tile_size
+        AnimatedImage.__init__(self, surface, frame_delay=frame_delay)
+
+        self.all_directions={"bottom":0,
+                             "bottomright":1,
+                             "right":2,
+                             "topright":3,
+                             "top":4,
+                             "topleft":5,
+                             "left":6,
+                             "bottomleft":7}
+        self.actions={'still':[0],
+                      "moving":[1,2,3,4,5,6,7,8],
+                      "attack":[9,10,11,12,13,14,15,16]}
+
+        self.direction="bottom"
+        self.action='still'
+
+        self.on=0
+
+    def find_dimensions(self):
+        return self.tile_size[0], self.tile_size[1]
+
+    def compile(self):
+        new_images=[]
+        dimensions=self.find_dimensions()
+        for y in range((self.surface.get_height())/dimensions[1]):
+            new_images.append([])
+            for x in range((self.surface.get_width())/dimensions[0]):
+                new_image=pygame.transform.scale(self.surface.copy(),
+                                                 dimensions)
+                if self.surface.get_colorkey():
+                    new_image.fill(self.surface.get_colorkey())
+                else:
+                    new_image.fill(self.surface.get_at((0,0)))
+                r=pygame.Rect(x*dimensions[0], y*dimensions[1],
+                              dimensions[0], dimensions[1])
+                new_image.blit(self.surface.subsurface(r), [0,0])
+                new_images[y].append(Image(new_image))
+        self.all_images=new_images
+        self.last_time=time.time()
+        return None
+
+    def render(self, surface, pos=[0,0]):
+        if time.time()-self.last_time>self.frame_delay:
+            self.last_time=time.time()
+            self.on+=1
+            if self.on>=len(self.actions[self.action]):
+                self.on=0
+        self.all_images[self.actions[self.action][self.on]]\
+                       [self.all_directions[self.direction]]\
+                       .render(surface, pos)
+        return None
