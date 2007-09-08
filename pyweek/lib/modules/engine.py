@@ -29,7 +29,7 @@ class Engine(object):
     def init(self):
         pygame.mixer.pre_init(22050, -16, 1, 2048)
         pygame.init()
-        self.screen=pygame.display.set_mode((640, 480))# FULLSCREEN)
+        self.screen=pygame.display.set_mode((640, 480), FULLSCREEN)
 
         self.core_data=elements.load_file(os.path.join('data', 'game_core.py'))
 
