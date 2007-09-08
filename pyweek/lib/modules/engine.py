@@ -400,7 +400,7 @@ class Engine(object):
                     rightpanel.get("unit_army_xp").message="army xp: %s"%unit.army_xp
                     rightpanel.get("unit_army_xp").refactor()
 
-                    rightpanel.get("portrait").image=unit.image
+                    rightpanel.get("portrait").image=unit.image.all_images[0][0]
 
                     rightpanel.get("unit_soldiers").message="soldiers:\n"
                     for i in unit.soldier_type_counts:

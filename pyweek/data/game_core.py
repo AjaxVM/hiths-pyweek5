@@ -61,6 +61,24 @@ sfx['blank']=Sound(None)#put your file name where None is, eg path('sfx', 'mysfx
 sfx['click']=Sound(path('sfx', 'click.wav'))
 
 
+#load our buildings
+images['building/vamp_manor']=image.load_image(path('images', 'buildings',
+                                                     'vamp_manor.png'),
+                                                alpha=True)
+images['building/frostlen_castle']=image.load_image(path('images', 'buildings',
+                                                         'frostlen_castle.png'),
+                                                    alpha=True)
+images['building/coil_tower']=image.load_image(path('images', 'buildings',
+                                                         'coil_tower.png'),
+                                                    alpha=True)
+images['building/lycan_fort']=image.load_image(path('images', 'buildings',
+                                                         'lycan_fort.png'),
+                                                    alpha=True)
+images['building/lycan_lair']=image.load_image(path('images', 'buildings',
+                                                         'lycan_lair.png'),
+                                                    alpha=True)
+
+
 #create basic terrain
 terrain['d']=images['tile/dirt']
 terrain['g']=images['tile/grass']

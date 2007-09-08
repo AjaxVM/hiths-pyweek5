@@ -1,12 +1,3 @@
-
-#load our assets
-images['building/vamp_manor']=image.load_image(path('images', 'buildings',
-                                                     'vamp_manor.png'),
-                                                alpha=True)
-images['building/frostlen_castle']=image.load_image(path('images', 'buildings',
-                                                         'frostlen_castle.png'),
-                                                    alpha=True)
-
 #create basic map
 import random
 maps['default']=[]
@@ -32,7 +23,7 @@ camera_pos=[-10,-10]
 races['default']=Race(name="default",#name and race['name'] should be the same
                       captain_image=images['coil_captain'],#the image for a unit that doesnt have your elder
                       elder_image=images['coil_elder'],#the image for your elder unit
-                      house_image=images['building/vamp_manor'],
+                      house_image=images['building/coil_tower'],
                       soldier_types={"Shock":{"speed":1,
                                               "attack":1,
                                               "defense":1,
