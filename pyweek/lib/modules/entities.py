@@ -93,6 +93,7 @@ class Unit(isometric.Unit, Selectable):
 
         self.recruit_city=None
         self.recruit_counter=time.time()
+        self.forage_counter=time.time()
 
         self.dead=False
 
@@ -114,6 +115,8 @@ class Unit(isometric.Unit, Selectable):
         for i in self.soldier_type_counts:
             val+=self.race.soldier_types[i]["attack"]*\
                   self.soldier_type_counts[i]
+        if self.captain_is_elder:
+            val=int(val*1.5)
         return val
 
     def get_defense_value(self):
@@ -192,6 +195,10 @@ class Unit(isometric.Unit, Selectable):
                     self.recruit_city.dead=True
                     self.recruit_city=None
                     self.action="loiter"
+        if self.action=="forage":
+            if time.time()-self.forage_counter >= self.race.house_food_prod:
+                self.player.food+=1
+                self.forage_counter=time.time()
 
         spd=self.get_speed()
         if self.goto==self.tile_pos:
@@ -242,22 +249,30 @@ class Unit(isometric.Unit, Selectable):
                     pass#I mean come on!, why should this ever happen? :P
 
         else:
+            o_dir=self.image_direction
+            self.image_direction=""
             if not self.offset[0]==0.5:
                 if abs(self.offset[0]-0.5) < spd:
                     self.offset[0]=0.5
                 else:
                     if self.offset[0]<0.5:
                         self.move((spd, 0))
+                        self.image_direction="right"
                     elif self.offset[0]>0.5:
                         self.move((-spd, 0))
+                        self.image_direction="left"
             if not self.offset[1]==0.5:
                 if abs(self.offset[1]-0.5) < spd:
                     self.offset[1]=0.5
                 else:
                     if self.offset[1]<0.5:
                         self.move((0, spd))
+                        self.image_direction="bottom"+self.image_direction
                     elif self.offset[1]>0.5:
                         self.move((0, -spd))
+                        self.image_direction="top"+self.image_direction
+            if not self.image_direction:
+                self.image_direction=o_dir
 
     def add_troops(self, num):
         tot_troops=0
