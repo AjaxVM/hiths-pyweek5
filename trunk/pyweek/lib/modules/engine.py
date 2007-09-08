@@ -233,14 +233,14 @@ class Engine(object):
                         align=["center","center"],
                         codes=[gui.ButtonCode(clicksound, [])]),
                         "forage")
-        toppanel_unit.add(gui.Button([100,335],buttonfont,'loiter',
+        toppanel_unit.add(gui.Button([95,335],buttonfont,'loiter',
                         image_normal=data['images']['button'],
                         image_hover=data['images']['buttonh'],
                         image_click=data['images']['buttonc'],
                         align=["center","center"],
                         codes=[gui.ButtonCode(clicksound, [])]),
                         "loiter")
-        toppanel_unit.add(gui.Button([135,335],buttonfont,'found house',
+        toppanel_unit.add(gui.Button([130,335],buttonfont,'found house',
                         image_normal=data['images']['button'],
                         image_hover=data['images']['buttonh'],
                         image_click=data['images']['buttonc'],
@@ -276,6 +276,22 @@ class Engine(object):
                         image_mode="scale", cache_on_KEY=K_RETURN,
                         text_padding=[10,2], ignore_events=["RETURN", "TAB"]),
                         "troops")
+        toppanel_house.add(gui.Button([390,335],normalfont,' + ',
+                        image_normal=data['images']['button'],
+                        image_hover=data['images']['buttonh'],
+                        image_click=data['images']['buttonc'],
+                        align=["center","center"],
+                        image_mode="scale",
+                        codes=[gui.ButtonCode(clicksound, [])]),
+                        "increase_troops")
+        toppanel_house.add(gui.Button([410,335],normalfont,' - ',
+                        image_normal=data['images']['button'],
+                        image_hover=data['images']['buttonh'],
+                        image_click=data['images']['buttonc'],
+                        align=["center","center"],
+                        image_mode="scale",
+                        codes=[gui.ButtonCode(clicksound, [])]),
+                        "decrease_troops")
         toppanel_house.set_visible(False)
 
 
@@ -287,7 +303,7 @@ class Engine(object):
                         messages=["here","is","a","multiline","message","box"]),
                         "messages")
 
-        pygame.key.set_repeat(10, 100)
+        pygame.key.set_repeat(10, 200)
 
         pygame.mixer.music.load(data['music']['warm_strings'])
         pygame.mixer.music.play(-1)
@@ -443,6 +459,23 @@ class Engine(object):
                     player.armies[1].image=player.race.elder_image
                     bottompanel.get("messages").add_message(\
                             "Your elder has created a new house,\nAnother captian chosen to lead")
+
+            if toppanel_house.get("increase_troops").am_clicked:
+                try:
+                    old=int(toppanel_house.get("troops").message)
+                except:
+                    old=50
+                old+=1
+                toppanel_house.get("troops").message=str(old)
+            if toppanel_house.get("decrease_troops").am_clicked:
+                try:
+                    old=int(toppanel_house.get("troops").message)
+                except:
+                    old=50
+                old-=1
+                if old < 0:
+                    old=0
+                toppanel_house.get("troops").message=str(old)
 
 
             #move the map
