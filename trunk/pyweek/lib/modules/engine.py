@@ -225,13 +225,13 @@ class Engine(object):
                         align=["center","center"],
                         codes=[gui.ButtonCode(clicksound, [])]),
                         "recruit")
-        toppanel_unit.add(gui.Button([53,335],buttonfont,'harvest',
+        toppanel_unit.add(gui.Button([53,335],buttonfont,'forage',
                         image_normal=data['images']['button'],
                         image_hover=data['images']['buttonh'],
                         image_click=data['images']['buttonc'],
                         align=["center","center"],
                         codes=[gui.ButtonCode(clicksound, [])]),
-                        "harvest")
+                        "forage")
         toppanel_unit.add(gui.Button([100,335],buttonfont,'loiter',
                         image_normal=data['images']['button'],
                         image_hover=data['images']['buttonh'],
@@ -387,6 +387,16 @@ class Engine(object):
                     player.active_entity=None
                     selected_object=gotone
                 toppanel_unit.get("recruit").was_clicked=False
+
+            if toppanel_unit.get("forage").was_clicked:
+                player.active_entity.action="forage"
+                player.active_entity.goto=None
+                toppanel_unit.get("forage").was_clicked=False
+
+            if toppanel_unit.get("loiter").was_clicked:
+                player.active_entity.goto=None
+                player.active_entity.action="loiter"
+                toppanel_unit.get("loiter").was_clicked=False
 
             mpos=pygame.mouse.get_pos()
             if mpos[0] < 3:     #left
