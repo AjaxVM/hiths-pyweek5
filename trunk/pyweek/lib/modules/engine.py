@@ -407,6 +407,7 @@ class Engine(object):
                     valname=toppanel_house.get("captain_name").message
                     valtroops=int(toppanel_house.get("troops").message)
                     player.active_entity.make_unit(valname, valtroops)
+                    player.active_entity=player.armies[-1]
                 except:
                     pass
                 toppanel_house.get("captain_name").message="Captain Name"
@@ -452,11 +453,6 @@ class Engine(object):
                                     break
                     if ok:
                         player.active_entity.make_house()
-                        if player.active_entity.captain_is_elder:
-                            player.armies[1].captain_is_elder=True
-                            player.armies[1].image=player.race.elder_image
-                            bottompanel.get("messages").add_message(\
-                            "Your elder has created a new house,\nAnother captian chosen to lead")
                         player.active_entity=None
                 toppanel_unit.get("found_house").was_clicked=False
 
@@ -588,7 +584,7 @@ class Engine(object):
             self.screen.fill((0,0,0,0))
             camera.render(self.screen, [player, cities]+enemies)
             player.update()
-            for badGuy in scenario.enemies:
+            for badGuy in enemies:
                 badGuy.update()
                 if 'ai' in dir(badGuy):
                     badGuy.ai.update()
