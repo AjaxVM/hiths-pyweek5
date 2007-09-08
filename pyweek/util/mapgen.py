@@ -1,21 +1,35 @@
 import sys
 
-if len(sys.argv) != 3:
-    print 'usage: '
-    print 'mapgen.py <width> <height>'
-    print 'where width and height are each a number of tiles'
+if len(sys.argv) != 2 and len(sys.argv) != 3:
+    print """
+    usage: 
+        mapgen.py <width> <height>
+        or
+        mapgen.py <mapfile>
+        width and height are each a number of tiles
+        the created map will be in mapfile.py
+        """
     sys.exit()
 
-width=int(sys.argv[1])
-height=int(sys.argv[2])
+elif len(sys.argv) == 3:
+    width=int(sys.argv[1])
+    height=int(sys.argv[2])
+    map = []
+    for y in range(height):
+        map.append([])
+        for x in range(width):
+            map[y].append('g')
+    
+elif len(sys.argv) == 2:
+    execfile(sys.argv[1])
+    map = m
+    width = len(map[0])
+    height = len(map)
+    
 TILESIZE = 20
 brush = 'd'
 
-map = []
-for y in range(height):
-    map.append([])
-    for x in range(width):
-        map[y].append('g')
+
 
 import pygame
 from pygame.locals import *
