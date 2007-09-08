@@ -55,7 +55,7 @@ class Engine(object):
         
         buttons = gui.Container()
 
-        buttonfont = pyglibs.font.Font(size=30, antialias=True)
+        buttonfont = pyglibs.font.Font(size=35, antialias=True)
         
         buttons.add(gui.Button([250,380],buttonfont,'Play Game',
                     image_normal=data['images']['button'],
@@ -65,15 +65,15 @@ class Engine(object):
                     codes=[gui.ButtonCode(clicksound, [])],
                     image_mode="scale"),
                     "play_game")
-        buttons.add(gui.Button([250,415],buttonfont,'Credits',
-                    image_normal=data['images']['button'],
-                    image_hover=data['images']['buttonh'],
-                    image_click=data['images']['buttonc'],
-                    align=["center","center"],
-                    codes=[gui.ButtonCode(clicksound, [])],
-                    image_mode="scale"),
-                    "credits")
-        buttons.add(gui.Button([250,450],buttonfont,'Quit',
+        # buttons.add(gui.Button([250,415],buttonfont,'Credits',
+                    # image_normal=data['images']['button'],
+                    # image_hover=data['images']['buttonh'],
+                    # image_click=data['images']['buttonc'],
+                    # align=["center","center"],
+                    # codes=[gui.ButtonCode(clicksound, [])],
+                    # image_mode="scale"),
+                    # "credits")
+        buttons.add(gui.Button([250,420],buttonfont,'Quit',
                     image_normal=data['images']['button'],
                     image_hover=data['images']['buttonh'],
                     image_click=data['images']['buttonc'],
