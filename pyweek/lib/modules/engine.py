@@ -51,13 +51,13 @@ class Engine(object):
         clicksound = data['sfx']['click'].play
         
         background=gui.Panel([0,0],[640,480],
-                            image=data['images']['mosaic_panel'])
+                            image=data['images']['title'])
         
         buttons = gui.Container()
 
-        buttonfont = pyglibs.font.Font(size=48, antialias=True)
+        buttonfont = pyglibs.font.Font(size=30, antialias=True)
         
-        buttons.add(gui.Button([250,200],buttonfont,'Play Game',
+        buttons.add(gui.Button([250,380],buttonfont,'Play Game',
                     image_normal=data['images']['button'],
                     image_hover=data['images']['buttonh'],
                     image_click=data['images']['buttonc'],
@@ -65,7 +65,7 @@ class Engine(object):
                     codes=[gui.ButtonCode(clicksound, [])],
                     image_mode="scale"),
                     "play_game")
-        buttons.add(gui.Button([250,250],buttonfont,'Credits',
+        buttons.add(gui.Button([250,415],buttonfont,'Credits',
                     image_normal=data['images']['button'],
                     image_hover=data['images']['buttonh'],
                     image_click=data['images']['buttonc'],
@@ -73,7 +73,7 @@ class Engine(object):
                     codes=[gui.ButtonCode(clicksound, [])],
                     image_mode="scale"),
                     "credits")
-        buttons.add(gui.Button([250,300],buttonfont,'Quit',
+        buttons.add(gui.Button([250,450],buttonfont,'Quit',
                     image_normal=data['images']['button'],
                     image_hover=data['images']['buttonh'],
                     image_click=data['images']['buttonc'],
