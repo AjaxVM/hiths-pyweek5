@@ -6,8 +6,8 @@ for y in range(50):
     for x in range(50):
         maps['default'][y].append(random.choice(["d", "g", "l", "s"]))
 
-execfile('data/campaigns/theroad.py')
-maps['default'] = m
+#maps['default'] = load_map('data/campaigns/theroad.py')
+load_map('data/campaigns/theroad.py')
 #basic isometric world: a campaign can specify a new one,
 #or it can create a new class that inherets from World, that
 #way they have access to every element of the engine :D
@@ -91,3 +91,4 @@ new_campaign.start_scenario='scenario1'
 new_campaign.current_scenario=scenario1
 
 campaigns['default']=new_campaign
+'data/campaigns/theroad.py'
