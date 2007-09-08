@@ -210,24 +210,23 @@ class Unit(isometric.Unit, Selectable):
                 self.player.food+=1
                 self.forage_counter=time.time()
 
+        if self.action=="fight":
+            self.image_action="attack"
+
         spd=self.get_speed()
         if self.goto==self.tile_pos:
             self.goto=None
 
         if not self.goto:
             if self.offset[0]==0.5 and self.offset[1]==0.5:
-                self.image_action="still"
-                self.image_on=0
-                if self.action=="move":
+                if self.image_action=="moving":
+                    self.image_action="still"
+                    self.image_on=0
                     self.action="loiter"
-            else:
-                self.image_action="moving"
-                self.action="move"
-        else:
-            self.image_action="moving"
-            self.action="move"
 
         if self.goto:
+            self.image_action="moving"
+            self.action="move"
             if self.goto[0]<self.tile_pos[0]:
                 if self.goto[1]<self.tile_pos[1]:
                     self.move((-spd, -spd))
@@ -259,30 +258,31 @@ class Unit(isometric.Unit, Selectable):
                     pass#I mean come on!, why should this ever happen? :P
 
         else:
-            o_dir=self.image_direction
-            self.image_direction=""
-            if not self.offset[0]==0.5:
-                if abs(self.offset[0]-0.5) < spd:
-                    self.offset[0]=0.5
-                else:
-                    if self.offset[0]<0.5:
-                        self.move((spd, 0))
-                        self.image_direction="right"
-                    elif self.offset[0]>0.5:
-                        self.move((-spd, 0))
-                        self.image_direction="left"
-            if not self.offset[1]==0.5:
-                if abs(self.offset[1]-0.5) < spd:
-                    self.offset[1]=0.5
-                else:
-                    if self.offset[1]<0.5:
-                        self.move((0, spd))
-                        self.image_direction="bottom"+self.image_direction
-                    elif self.offset[1]>0.5:
-                        self.move((0, -spd))
-                        self.image_direction="top"+self.image_direction
-            if not self.image_direction:
-                self.image_direction=o_dir
+            if self.action=="move":
+                o_dir=self.image_direction
+                self.image_direction=""
+                if not self.offset[0]==0.5:
+                    if abs(self.offset[0]-0.5) < spd:
+                        self.offset[0]=0.5
+                    else:
+                        if self.offset[0]<0.5:
+                            self.move((spd, 0))
+                            self.image_direction="right"
+                        elif self.offset[0]>0.5:
+                            self.move((-spd, 0))
+                            self.image_direction="left"
+                if not self.offset[1]==0.5:
+                    if abs(self.offset[1]-0.5) < spd:
+                        self.offset[1]=0.5
+                    else:
+                        if self.offset[1]<0.5:
+                            self.move((0, spd))
+                            self.image_direction="bottom"+self.image_direction
+                        elif self.offset[1]>0.5:
+                            self.move((0, -spd))
+                            self.image_direction="top"+self.image_direction
+                if not self.image_direction:
+                    self.image_direction=o_dir
 
     def add_troops(self, num):
         tot_troops=0
@@ -331,6 +331,12 @@ class House(isometric.Unit, Selectable):
         for i in self.glyphs:
             if i.name==name:
                 return i
+
+    def get_attack_value(self):
+        return self.soldier_count*self.race.soldier_types.itervalues().next()['defense']
+
+    def get_defense_value(self):
+        return self.soldier_count*self.race.soldier_types.itervalues().next()['attack']
 
     def render(self, surface, camera_pos=[0,0]):
         x, y=self.rect.topleft
