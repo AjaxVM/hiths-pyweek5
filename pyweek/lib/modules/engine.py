@@ -142,6 +142,7 @@ class Engine(object):
                                 background_image=data['images']['map_bg_image'])
 
         player=scenario.player
+        enemies=scenario.enemies
 
         normalfont = pyglibs.font.Font(size=24,
                                     antialias=True,
@@ -422,8 +423,20 @@ class Engine(object):
 
             if toppanel_unit.get("found_house").was_clicked:
                 if len(player.armies)>1:
-                    player.active_entity.make_house()
-                    player.active_entity=None
+                    ok=True
+                    for i in player.houses+cities.all:
+                        if i.tile_pos==player.active_entity.tile_pos:
+                            ok=False
+                            break
+                    if ok:
+                        for i in enemies:
+                            for x in i.houses:
+                                if x.tile_pos==player.active_entity.tile_pos:
+                                    ok=False
+                                    break
+                    if ok:
+                        player.active_entity.make_house()
+                        player.active_entity=None
                 toppanel_unit.get("found_house").was_clicked=False
                 if player.armies[0].dead:
                     player.armies[1].captain_is_elder=True
@@ -443,16 +456,6 @@ class Engine(object):
                 camera.move([-0.1, 0.1])
             if mpos[1] > 477 or arrow_keys[3]:   #down
                 camera.move([-0.1, -0.1])
-
-            #clear the screen
-            self.screen.fill((0,0,0,0))
-            camera.render(self.screen, [player, cities]+scenario.enemies)
-            player.update()
-            for badGuy in scenario.enemies:
-                badGuy.update()
-            rightpanel.render(self.screen)
-            rightpanel.get("info_food").message="food: %s"%player.food
-            rightpanel.get("info_food").refactor()
 
             ##Update panel and buttons:
             if selected_object:
@@ -546,6 +549,17 @@ class Engine(object):
                 toppanel_unit.set_visible(False)
                 toppanel_house.set_visible(False)
             ##End Panel
+
+
+            #clear the screen
+            self.screen.fill((0,0,0,0))
+            camera.render(self.screen, [player, cities]+enemies)
+            player.update()
+            for badGuy in scenario.enemies:
+                badGuy.update()
+            rightpanel.render(self.screen)
+            rightpanel.get("info_food").message="food: %s"%player.food
+            rightpanel.get("info_food").refactor()
             
             bottompanel.render(self.screen)
             toppanel_unit.render(self.screen)
