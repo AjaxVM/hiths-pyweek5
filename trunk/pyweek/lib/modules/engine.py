@@ -452,13 +452,13 @@ class Engine(object):
                                     break
                     if ok:
                         player.active_entity.make_house()
+                        if player.active_entity.captain_is_elder:
+                            player.armies[1].captain_is_elder=True
+                            player.armies[1].image=player.race.elder_image
+                            bottompanel.get("messages").add_message(\
+                            "Your elder has created a new house,\nAnother captian chosen to lead")
                         player.active_entity=None
                 toppanel_unit.get("found_house").was_clicked=False
-                if player.armies[0].dead:
-                    player.armies[1].captain_is_elder=True
-                    player.armies[1].image=player.race.elder_image
-                    bottompanel.get("messages").add_message(\
-                            "Your elder has created a new house,\nAnother captian chosen to lead")
 
             if toppanel_house.get("increase_troops").am_clicked:
                 try:
@@ -593,6 +593,11 @@ class Engine(object):
             rightpanel.render(self.screen)
             rightpanel.get("info_food").message="food: %s"%player.food
             rightpanel.get("info_food").refactor()
+
+            for i in cities.all:
+                i.update()
+                if i.dead:
+                    cities.remove(i)
             
             bottompanel.render(self.screen)
             toppanel_unit.render(self.screen)

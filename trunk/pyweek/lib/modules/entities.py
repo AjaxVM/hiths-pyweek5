@@ -187,6 +187,13 @@ class Unit(isometric.Unit, Selectable):
         self.player.flag_image.render(surface, (x, y))
 
     def update(self):
+        if self.get_num_troops()==0:
+            self.dead=True
+            self.player.armies.remove(self)
+            self.player.to_be_deleted.append(self)
+            if self.captain_is_elder:
+                self.player.armies[1].captain_is_elder=True
+                self.player.armies[1].image=player.race.elder_image
         if self.getting_food:
             if time.time()-self.food_counter==1:
                 self.player.food+=int(0.25*self.get_troop_count())
@@ -340,6 +347,7 @@ class House(isometric.Unit, Selectable):
         self.player.flag_image.render(surface, (x, y))
 
     def make_unit(self, captain_name="None",num_troops=10):
+##        print "..."
         soldier_type_counts={}
         tot_troops=0
 
@@ -366,7 +374,6 @@ class House(isometric.Unit, Selectable):
         if new_num <= 0:
             return
 
-
         a = Unit(self.iso_world, self.player, captain_name,
                  not self.player.elder_placed, 0, 0,
                  soldier_type_counts, self.tile_pos)
@@ -375,6 +382,10 @@ class House(isometric.Unit, Selectable):
         self.player.armies.append(a)
 
     def update(self):
+        if self.soldier_count<=0:
+            self.dead=True
+            self.player.houses.remove(self)
+            self.player.to_be_deleted.append(self)
         if time.time()-self.food_counter >= 5:
             self.player.food+=self.race.house_food_prod
             self.food_counter=time.time()
@@ -439,7 +450,6 @@ class Player(isometric.UnitContainer):
             del i
 
     def update(self):
-        self.flush()
         for i in self.houses:
             i.update()
         for i in self.armies:
@@ -448,6 +458,8 @@ class Player(isometric.UnitContainer):
             for i in self.armies:
                 self.food-=i.get_consumption()
             self.food_counter=time.time()
+
+        self.flush()
 
     def get_units_in_area(self, rect):
         cur=[]
@@ -520,6 +532,8 @@ class City(isometric.Unit):
         self.counter=time.time()
 
     def update(self):
+        if self.population <= 0:
+            self.dead=True
         if time.time()-self.counter > 1:
             self.population+=(((self.population/2)/2)/10)
             self.counter=time.time()
