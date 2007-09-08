@@ -76,7 +76,7 @@ badGuyOne = Player("evilDoer", races['frostlen'])
 badGuyOne.create_house(world, [7,8])
 badGuyOne.houses[0].make_unit("Evil Minion",75)
 badGuyOne.armies[0].goto = [10,5]
-##badGuyOne.ai = ChaserAI(badGuyOne,enemies=[thePlayer])
+badGuyOne.ai = ChaserAI(badGuyOne,enemies=[thePlayer])
 
 event1_trigger = """if player.active_entity and not player.active_entity.tile_pos==[0,0]:trigger=True"""
 event1_event = "bottompanel.get('messages').add_message('you moved your unit!')"
