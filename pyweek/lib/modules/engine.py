@@ -341,7 +341,7 @@ class Engine(object):
                                     break
                             if not gotit:
                                 player.active_entity=None
-                                for city in scenario.cities:
+                                for city in cities.all:
                                     if city.check_collision(mpos):
                                         selected_object=city
                                         gotit=True
@@ -376,7 +376,7 @@ class Engine(object):
 
             if toppanel_unit.get("recruit").was_clicked:
                 gotone=None
-                for city in scenario.cities:
+                for city in cities.all:
                     if city.check_collision(player.active_entity):
                         gotone=city
                         break
@@ -386,7 +386,7 @@ class Engine(object):
                     player.active_entity.recruit_city=gotone
                     player.active_entity=None
                     selected_object=gotone
-                toppanel_unit.get("recruit").was_clicked=False                    
+                toppanel_unit.get("recruit").was_clicked=False
 
             mpos=pygame.mouse.get_pos()
             if mpos[0] < 3:     #left
@@ -472,7 +472,7 @@ class Engine(object):
                         rightpanel.get("portrait").image=selected_object.image
 
                         rightpanel.get("unit_soldiers").message="population: %s"%\
-                                                                 selected_object.population
+                                                        selected_object.population
                         rightpanel.get("unit_soldiers").refactor()
                         rightpanel.get("unit_attack").message=""
                         rightpanel.get("unit_attack").refactor()
