@@ -300,7 +300,7 @@ class Engine(object):
                         normalfont,
                         image=data['images']['cloth_panel'],
                         area=[480,120],
-                        messages=["here","is","a","multiline","message","box"]),
+                        messages=["Welcome to Scions of Darkness!","Left-Click to select units","Right-click to move them","Have fun and try to destroy all enemies!"]),
                         "messages")
 
         pygame.key.set_repeat(10, 200)
