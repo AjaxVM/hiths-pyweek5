@@ -30,6 +30,8 @@ races['default']=Race(name="default",#name and race['name'] should be the same
                                               "dodge":1,
                                               'consumes':1}},
                       flag_image=images['flag'],
+                      select_image=images['select'],
+                      bubbles=images['bubbles'],
                       start_troops=100,
                       start_food=100,
                       house_food_production=2,#amount per 5 seconds
@@ -46,6 +48,8 @@ races['frostlen']=Race(name="frostlen",#name and race['name'] should be the same
                                               "dodge":1,
                                               'consumes':1}},
                       flag_image=images['flag'],
+                      select_image=images['select'],
+                      bubbles=images['bubbles'],
                       start_troops=100,
                       start_food=100,
                       house_food_production=2,#amount per 5 seconds
