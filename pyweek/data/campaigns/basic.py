@@ -80,7 +80,7 @@ event1 = Event(trigger = event1_trigger, event = event1_event)
 scenario1=Scenario(name="scenario1", events=[event1], player=thePlayer, enemies = [badGuyOne])
 
 scenario1.cities.append(City(world, 'Hello', 150,
-                             125, images['city/camp'],
+                             images['city/camp'],
                              [2,1]))
 
 new_campaign.scenarios['scenario1']=scenario1
