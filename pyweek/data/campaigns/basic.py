@@ -1,13 +1,14 @@
 #create basic map
-import random
-maps['default']=[]
-for y in range(50):
-    maps['default'].append([])
-    for x in range(50):
-        maps['default'][y].append(random.choice(["d", "g", "l", "s"]))
+##import random
+##maps['default']=[]
+##for y in range(50):
+##    maps['default'].append([])
+##    for x in range(50):
+##        maps['default'][y].append(random.choice(["d", "g", "l", "s"]))
 
-#maps['default'] = load_map('data/campaigns/theroad.py')
+
 maps['default']=load_map(path('campaigns','theroad.py'))
+
 #basic isometric world: a campaign can specify a new one,
 #or it can create a new class that inherets from World, that
 #way they have access to every element of the engine :D
@@ -75,7 +76,7 @@ badGuyOne = Player("evilDoer", races['frostlen'])
 badGuyOne.create_house(world, [7,8])
 badGuyOne.houses[0].make_unit("Evil Minion",75)
 badGuyOne.armies[0].goto = [10,12]
-badGuyOne.ai = ChaserAI(badGuyOne,enemies=[thePlayer])
+##badGuyOne.ai = ChaserAI(badGuyOne,enemies=[thePlayer])
 
 event1_trigger = """if player.active_entity and not player.active_entity.tile_pos==[0,0]:trigger=True"""
 event1_event = "bottompanel.get('messages').add_message('you moved your unit!')"
@@ -93,4 +94,3 @@ new_campaign.start_scenario='scenario1'
 new_campaign.current_scenario=scenario1
 
 campaigns['default']=new_campaign
-'data/campaigns/theroad.py'

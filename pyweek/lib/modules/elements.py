@@ -4,7 +4,7 @@ import pygame
 from pygame.locals import *
 
 from entities import *
-from ai import *
+##from ai import *
 import pyglibs
 from pyglibs import *
 from assets import *

@@ -191,9 +191,6 @@ class Unit(isometric.Unit, Selectable):
             self.dead=True
             self.player.armies.remove(self)
             self.player.to_be_deleted.append(self)
-            if self.captain_is_elder:
-                self.player.armies[1].captain_is_elder=True
-                self.player.armies[1].image=player.race.elder_image
         if self.getting_food:
             if time.time()-self.food_counter==1:
                 self.player.food+=int(0.25*self.get_troop_count())
@@ -347,7 +344,6 @@ class House(isometric.Unit, Selectable):
         self.player.flag_image.render(surface, (x, y))
 
     def make_unit(self, captain_name="None",num_troops=10):
-##        print "..."
         soldier_type_counts={}
         tot_troops=0
 
@@ -452,6 +448,8 @@ class Player(isometric.UnitContainer):
     def update(self):
         for i in self.houses:
             i.update()
+        self.armies[0].captain_is_elder=True
+        self.armies[0].image=self.race.elder_image
         for i in self.armies:
             i.update()
         if time.time()-self.food_counter>=5:
