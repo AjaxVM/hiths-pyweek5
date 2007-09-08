@@ -70,6 +70,7 @@ images['buttonc']=image.load_image(path('images', 'gui', 'button_dark.bmp'), -1)
 images['mosaic_panel']=image.load_image(path('images', 'gui', 'mosaic_panel.bmp'))
 images['cloth_panel']=image.load_image(path('images', 'gui', 'cloth_panel.bmp'))
 images['input_box']=image.load_image(path('images', 'gui', 'input.bmp'), -1)
+images['title']=image.load_image(path('images', 'gui', 'title.png'), -1)
 
 music['darktheme']=path('music', 'darktheme.ogg')
 music['kreuzzug']=path('music', 'kreuzzug.ogg')
