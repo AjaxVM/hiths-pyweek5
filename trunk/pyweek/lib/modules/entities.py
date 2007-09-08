@@ -143,14 +143,20 @@ class Unit(isometric.Unit, Selectable):
     def make_house(self):
         self.player.armies.remove(self)
         self.player.to_be_deleted.append(self)
+        self.dead=True
 
         new=House(self.iso_world, self.player, self.tile_pos)
-        new.move([0.5, 0.5])
-        new.soldier_type_count=self.soldier_type_count
+        new.soldier_count=self.get_num_troops()
         new.glyphs=self.glyphs
         new.leader_placed=True
 
         self.player.houses.append(new)
+
+    def get_num_troops(self):
+        soldiers=0
+        for i in self.soldier_type_counts:
+            soldiers+=self.soldier_type_counts[i]
+        return soldiers
 
     def get_speed(self):
         speed=0
@@ -313,6 +319,7 @@ class House(isometric.Unit, Selectable):
         self.soldier_count=self.race.start_troops
 
         self.glyphs=[]
+        self.move([0.5, 0.5])
 
         self.dead=False
 
@@ -423,7 +430,6 @@ class Player(isometric.UnitContainer):
 
     def create_house(self, iso_world, pos=[0,0]):
         a=House(iso_world, self, pos)
-        a.move([0.5, 0.5])
         self.houses.append(a)
         return a
 

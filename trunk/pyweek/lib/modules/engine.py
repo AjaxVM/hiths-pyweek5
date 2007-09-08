@@ -295,8 +295,11 @@ class Engine(object):
 
         selected_object=None
 
+        arrow_keys=[0,0,0,0]
+
         while 1:
             clock.tick(999)#the fastest we can go, change to something reasonable, like 40-50 later
+
             for event in pygame.event.get():
                 if event.type==QUIT:
                     self.state="QUIT"
@@ -315,18 +318,25 @@ class Engine(object):
                         return
                     elif event.key == K_f:
                         bottompanel.get("messages").add_message("fps: %s"%str(clock.get_fps()))
+
                     elif event.key == K_LEFT:
-                        #left
-                        camera.move([0.1, -0.1])
+                        arrow_keys[0]=1
                     elif event.key == K_UP:
-                        #up
-                        camera.move([0.1, 0.1])
+                        arrow_keys[1]=1
                     elif event.key == K_RIGHT:
-                        #right
-                        camera.move([-0.1, 0.1])
-                    elif event.key == K_DOWN:    
-                        #down
-                        camera.move([-0.1, -0.1])
+                        arrow_keys[2]=1
+                    elif event.key == K_DOWN:
+                        arrow_keys[3]=1
+
+                if event.type==KEYUP:
+                    if event.key == K_LEFT:
+                        arrow_keys[0]=0
+                    elif event.key == K_UP:
+                        arrow_keys[1]=0
+                    elif event.key == K_RIGHT:
+                        arrow_keys[2]=0
+                    elif event.key == K_DOWN:
+                        arrow_keys[3]=0
                     
                 if event.type == MOUSEBUTTONDOWN:
                     if camera.rect.collidepoint(event.pos):
@@ -410,15 +420,28 @@ class Engine(object):
                 player.active_entity.action="loiter"
                 toppanel_unit.get("loiter").was_clicked=False
 
+            if toppanel_unit.get("found_house").was_clicked:
+                if len(player.armies)>1:
+                    player.active_entity.make_house()
+                    player.active_entity=None
+                toppanel_unit.get("found_house").was_clicked=False
+                if player.armies[0].dead:
+                    player.armies[1].captain_is_elder=True
+                    player.armies[1].image=player.race.elder_image
+                    bottompanel.get("messages").add_message(\
+                            "Your elder has created a new house,\nAnother captian chosen to lead")
+
+
+            #move the map
             mpos=pygame.mouse.get_pos()
-            if mpos[0] < 3:     #left
+            if mpos[0] < 3 or arrow_keys[0]:     #left
                 camera.move([0.1, -0.1])
-            if mpos[1] < 3:     #up
+            if mpos[1] < 3 or arrow_keys[1]:     #up
                 camera.move([0.1, 0.1])
 
-            if mpos[0] > 637:   #right
+            if mpos[0] > 637 or arrow_keys[2]:   #right
                 camera.move([-0.1, 0.1])
-            if mpos[1] > 477:   #down
+            if mpos[1] > 477 or arrow_keys[3]:   #down
                 camera.move([-0.1, -0.1])
 
             #clear the screen
