@@ -9,7 +9,7 @@
 
 maps['default']=load_map(path('maps','theroad.py'))
 
-#basic isometric world: a campaign can specify a new one,
+#basic isometric world: a campaign can specify a new Two,
 #or it can create a new class that inherets from World, that
 #way they have access to every element of the engine :D
 world=isometric.World(map=maps['default'],
@@ -28,7 +28,7 @@ races['default']=Race(name="default",#name and race['name'] should be the same
                       elder_image=images['coil_elder'],#the image for your elder unit
                       house_image=images['building/coil_tower'],
                       soldier_types={"Shock":{"speed":1,
-                                              "attack":1,
+                                              "attack":2,
                                               "defense":1,
                                               "dodge":1,
                                               'consumes':1}},
@@ -53,12 +53,27 @@ races['frostlen']=Race(name="frostlen",#name and race['name'] should be the same
                       flag_image=images['flag'],
                       select_image=images['select'],
                       bubbles=images['bubbles'],
-                      start_troops=100,
-                      start_food=100,
+                      start_troops=75,
+                      start_food=75,
                       house_food_production=2,#amount per 5 seconds
                       house_troop_production=10)#seconds
 
-
+races['vampire']=Race(name="vampire",#name and race['name'] should be the same
+                      captain_image=images['vampire_captain'],#the image for a unit that doesnt have your elder
+                      elder_image=images['vampire_elder'],#the image for your elder unit
+                      house_image=images['building/lycan_lair'],
+                      soldier_types={"Shock":{"speed":1,
+                                              "attack":1,
+                                              "defense":1,
+                                              "dodge":1,
+                                              'consumes':1}},
+                      flag_image=images['flag'],
+                      select_image=images['select'],
+                      bubbles=images['bubbles'],
+                      start_troops=65,
+                      start_food=65,
+                      house_food_production=2,#amount per 5 seconds
+                      house_troop_production=10)#seconds
           
 #the campaign stuff, which includes actually creating players and stuff will
 #go here later, for now just make the races ;)
@@ -67,22 +82,31 @@ races['frostlen']=Race(name="frostlen",#name and race['name'] should be the same
 new_campaign=Campaign(name="basic")
 
 thePlayer = Player("jimbob", races['default'], color=[125,0,175,255])
-thePlayer.create_house(world, [10,5])
-thePlayer.create_house(world, [12,7])
+thePlayer.create_house(world, [11,9])
+thePlayer.create_house(world, [12,11])
 thePlayer.houses[0].make_unit("bob II", 50)
 thePlayer.houses[1].make_unit("bob III", 50)
 
 badGuyOne = Player("evilDoer", races['frostlen'])
-badGuyOne.create_house(world, [7,8])
-badGuyOne.houses[0].make_unit("Evil Minion",75)
-badGuyOne.armies[0].goto = [10,5]
-badGuyOne.ai = ChaserAI(badGuyOne,enemies=[thePlayer])
+badGuyOne.create_house(world, [8,16])
+badGuyOne.create_house(world, [20,25])
+badGuyOne.houses[0].make_unit("Evil Minion",65)
+badGuyOne.houses[1].make_unit("Bad Mr. Frosty",15)
+badGuyOne.houses[1].make_unit("Mr. Snow-Evils",15)
+badGuyOne.armies[0].goto = [11,9]
+
+badGuyTwo = Player("vampy", races['vampire'])
+badGuyTwo.create_house(world, [20,8])
+badGuyTwo.houses[0].make_unit("Vampireguy",65)
+badGuyTwo.ai = ChaserAI(badGuyTwo,enemies=[thePlayer, badGuyOne])
+
+badGuyOne.ai = ChaserAI(badGuyOne,enemies=[badGuyTwo])
 
 event1_trigger = """if player.active_entity and not player.active_entity.tile_pos==[0,0]:trigger=True"""
-event1_event = "bottompanel.get('messages').add_message('you moved your unit!')"
+event1_event = "bottompanel.get('messages').add_message('You moved your unit! Great Job!')"
 event1 = Event(trigger = event1_trigger, event = event1_event)
 
-scenario1=Scenario(name="scenario1", events=[event1], player=thePlayer, enemies = [badGuyOne])
+scenario1=Scenario(name="scenario1", events=[event1], player=thePlayer, enemies = [badGuyOne, badGuyTwo])
 
 scenario1.cities=[]
 scenario1.cities.append(City(world, 'Hello', 150,

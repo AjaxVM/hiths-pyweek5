@@ -26,6 +26,18 @@ Othewise open a terminal / console and "cd" to the game directory and run:
 
 HOW TO PLAY THE GAME:
 
+The aim of the game is to destroy the enemy forces and buildings using your own!
+You are playing as the fearsome Coil race, consisting of snakes and poisonous snaketanks!
+You can select your own units with the left mouse button.
+Use the right mouse button to move your units to a desired location. Moving a unit to an
+  enemy location or structure will make your unit attack! Pow!
+
+You may also find a lost city in the game. Use the recruit function with your elder unit (snaketank)
+  to gain in army size!
+
+Keyboard Shortcuts:
+f - view FPS
+arrow keys - move the game camera around
 
 
 
