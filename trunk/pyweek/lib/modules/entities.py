@@ -91,6 +91,11 @@ class Unit(isometric.Unit, Selectable):
 
         self.action='loiter'#can be loiter, recruit, attack, forage, or move
 
+        self.recruit_city=None
+        self.recruit_counter=time.time()
+
+        self.dead=False
+
     def get_troop_count(self):
         c=0
         for i in self.soldier_type_counts:
@@ -103,6 +108,20 @@ class Unit(isometric.Unit, Selectable):
             con+=self.race.soldier_types[i]["consumes"]*\
                   self.soldier_type_counts[i]
         return spc_div(con, 100)
+
+    def get_attack_value(self):
+        val=0
+        for i in self.soldier_type_counts:
+            val+=self.race.soldier_types[i]["attack"]*\
+                  self.soldier_type_counts[i]
+        return val
+
+    def get_defense_value(self):
+        val=0
+        for i in self.soldier_type_counts:
+            val+=self.race.soldier_types[i]["speed"]*\
+                  self.soldier_type_counts[i]
+        return val
 
     def get_glyph_by_name(self, name):
         for i in self.glyphs:
@@ -163,6 +182,17 @@ class Unit(isometric.Unit, Selectable):
             if time.time()-self.food_counter==1:
                 self.player.food+=int(0.25*self.get_troop_count())
 
+        if self.action=="recruit":
+            if time.time()-self.recruit_counter >= 1.5:
+                self.recruit_counter=time.time()
+                if self.recruit_city.population>0:
+                    self.recruit_city.population-=1
+                    self.add_troops(1)
+                else:
+                    self.recruit_city.dead=True
+                    self.recruit_city=None
+                    self.action="loiter"
+
         spd=self.get_speed()
         if self.goto==self.tile_pos:
             self.goto=None
@@ -171,7 +201,8 @@ class Unit(isometric.Unit, Selectable):
             if self.offset[0]==0.5 and self.offset[1]==0.5:
                 self.image_action="still"
                 self.image_on=0
-                self.action="loiter"
+                if self.action=="move":
+                    self.action="loiter"
             else:
                 self.image_action="moving"
                 self.action="move"
@@ -228,14 +259,22 @@ class Unit(isometric.Unit, Selectable):
                     elif self.offset[1]>0.5:
                         self.move((0, -spd))
 
-    def train_unit(self, amount, to_type):
-        if to_type in self.soldier_type_counts:
-            if amount <= self.soldier_type_counts["Recruit"]:
-                self.soldier_type_counts["Recruit"]-=amount
+    def add_troops(self, num):
+        tot_troops=0
+        for i in self.race.soldier_types:
+            new_num = random.randint(0, num-tot_troops)
+            if self.soldier_type_counts[i]>=num:
+                pass
             else:
-                amount=self.soldier_type_counts["Recruit"]
-                self.soldier_type_counts["Recruit"]=0
-            self.soldier_type_counts[to_type]+=amount
+                new_num=self.soldier_type_counts[i]
+            self.soldier_type_counts[i]+=new_num
+            tot_troops+=new_num
+        if tot_troops < num:
+            choice=random.choice(list(self.race.soldier_types))
+            new_num=num-tot_troops
+            if new_num > self.soldier_type_counts[i]:
+                new_num=self.soldier_type_counts[i]
+            self.soldier_type_counts[i]+=new_num
     
     def rightClick(self, tile_position):
         if tile_position:self.goto=tile_position
@@ -259,6 +298,8 @@ class House(isometric.Unit, Selectable):
         self.soldier_count=self.race.start_troops
 
         self.glyphs=[]
+
+        self.dead=False
 
     def get_glyph_by_name(self, name):
         for i in self.glyphs:
@@ -436,10 +477,13 @@ class Fortification(isometric.Unit):
         self.rect.center=tuple(self.pos)
 
         self.fort=fort
+        self.render_priority=1
+
+        self.dead=False
 
 class City(isometric.Unit):
     def __init__(self, iso_world, name="None", population=100,
-                 defences=100, image=None, pos=[0,0]):
+                 image=None, pos=[0,0]):
 
         isometric.Unit.__init__(self, iso_world, image, pos)
 
@@ -447,9 +491,10 @@ class City(isometric.Unit):
 
         self.name=name
         self.population=population
-        self.defences=defences
 
         self.render_priority=1
+
+        self.dead=False
 
         self.counter=time.time()
 

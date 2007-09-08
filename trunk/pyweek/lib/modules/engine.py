@@ -266,8 +266,7 @@ class Engine(object):
                         image_mode="enlarge", cache_on_KEY=K_RETURN,
                         text_padding=[10,2], ignore_events=["RETURN", "TAB"]),
                         "captain_name")
-        #I'm think we might want to have it so that you use the whell on oyur mouse,
-        #or the up/down arrows to specifiy troops, instead of inputting them...
+        #make sure to add a + and a - button up there, so you can click them ;)
         toppanel_house.add(gui.InputBox(pos=[335,335], font=buttonfont,
                         width=50, start_text="50",
                         image_normal=data['images']['input_box'],
@@ -293,6 +292,8 @@ class Engine(object):
         pygame.mixer.music.play(-1)
 
         clock=pygame.time.Clock()
+
+        selected_object=None
 
         while 1:
             clock.tick(999)#the fastest we can go, change to something reasonable, like 40-50 later
@@ -336,9 +337,16 @@ class Engine(object):
                                 if entity.check_collision(mpos):
                                     player.active_entity = entity
                                     gotit=True
+                                    selected_object=entity
                                     break
                             if not gotit:
                                 player.active_entity=None
+                                for city in scenario.cities:
+                                    if city.check_collision(mpos):
+                                        selected_object=city
+                                        gotit=True
+                            if not gotit:
+                                selected_object=None
                         if event.button == 3:
                             if player.active_entity:
                                 player.active_entity.rightClick(clicked_tile)
@@ -365,7 +373,20 @@ class Engine(object):
                 toppanel_house.get("captain_name").message="Captain Name"
                 toppanel_house.get("troops").message="50"
                 toppanel_house.get("make_unit").was_clicked=False
-                    
+
+            if toppanel_unit.get("recruit").was_clicked:
+                gotone=None
+                for city in scenario.cities:
+                    if city.check_collision(player.active_entity):
+                        gotone=city
+                        break
+                if gotone:
+                    player.active_entity.goto=None
+                    player.active_entity.action="recruit"
+                    player.active_entity.recruit_city=gotone
+                    player.active_entity=None
+                    selected_object=gotone
+                toppanel_unit.get("recruit").was_clicked=False                    
 
             mpos=pygame.mouse.get_pos()
             if mpos[0] < 3:     #left
@@ -388,43 +409,77 @@ class Engine(object):
             rightpanel.get("info_food").message="food: %s"%player.food
             rightpanel.get("info_food").refactor()
 
-            if player.active_entity:
-                unit=player.active_entity
-                if isinstance(unit, entities.Unit):
-                    rightpanel.get("unit_name").message="captain: %s"%unit.captain_name
-                    rightpanel.get("unit_name").refactor()
+            ##Update panel and buttons:
+            if selected_object:
+                if selected_object==player.active_entity:
+                    unit=player.active_entity
+                    if isinstance(unit, entities.Unit):
+                        rightpanel.get("unit_name").message="captain: %s"%unit.captain_name
+                        rightpanel.get("unit_name").refactor()
 
-                    rightpanel.get("unit_captain_xp").message="captain xp: %s"%unit.captain_xp
-                    rightpanel.get("unit_captain_xp").refactor()
+                        rightpanel.get("unit_captain_xp").message="captain xp: %s"%unit.captain_xp
+                        rightpanel.get("unit_captain_xp").refactor()
 
-                    rightpanel.get("unit_army_xp").message="army xp: %s"%unit.army_xp
-                    rightpanel.get("unit_army_xp").refactor()
+                        rightpanel.get("unit_army_xp").message="army xp: %s"%unit.army_xp
+                        rightpanel.get("unit_army_xp").refactor()
 
-                    rightpanel.get("portrait").image=unit.image.all_images[0][0]
+                        rightpanel.get("portrait").image=unit.image.all_images[0][0]
 
-                    rightpanel.get("unit_soldiers").message="soldiers:\n"
-                    for i in unit.soldier_type_counts:
-                        rightpanel.get("unit_soldiers").message+="    %s: %s"%(i,
-                                                    unit.soldier_type_counts[i])
-                    rightpanel.get("unit_soldiers").refactor()
-                    toppanel_unit.set_visible(True)
-                    toppanel_house.set_visible(False)
+                        rightpanel.get("unit_soldiers").message="soldiers:\n"
+                        for i in unit.soldier_type_counts:
+                            rightpanel.get("unit_soldiers").message+="    %s: %s"%(i,
+                                                        unit.soldier_type_counts[i])
+                        rightpanel.get("unit_soldiers").refactor()
+
+                        rightpanel.get("unit_attack").message="AV: %s"%unit.get_attack_value()
+                        rightpanel.get("unit_attack").refactor()
+                        rightpanel.get("unit_defense").message="DV: %s"%unit.get_defense_value()
+                        rightpanel.get("unit_defense").refactor()
+                        toppanel_unit.set_visible(True)
+                        toppanel_house.set_visible(False)
+                    else:
+                        rightpanel.get("unit_name").message=""
+                        rightpanel.get("unit_name").refactor()
+
+                        rightpanel.get("unit_captain_xp").message=""
+                        rightpanel.get("unit_captain_xp").refactor()
+
+                        rightpanel.get("unit_army_xp").message=""
+                        rightpanel.get("unit_army_xp").refactor()
+
+                        rightpanel.get("portrait").image=unit.image
+
+                        rightpanel.get("unit_soldiers").message="soldiers: %s"%unit.soldier_count
+                        rightpanel.get("unit_soldiers").refactor()
+
+                        rightpanel.get("unit_attack").message=""
+                        rightpanel.get("unit_attack").refactor()
+                        rightpanel.get("unit_defense").message=""
+                        rightpanel.get("unit_defense").refactor()
+                        toppanel_unit.set_visible(False)
+                        toppanel_house.set_visible(True)
                 else:
-                    rightpanel.get("unit_name").message=""
-                    rightpanel.get("unit_name").refactor()
+                    if isinstance(selected_object, entities.City):
+                        rightpanel.get("unit_name").message="city name: %s"%selected_object.name
+                        rightpanel.get("unit_name").refactor()
 
-                    rightpanel.get("unit_captain_xp").message=""
-                    rightpanel.get("unit_captain_xp").refactor()
+                        rightpanel.get("unit_captain_xp").message=""
+                        rightpanel.get("unit_captain_xp").refactor()
 
-                    rightpanel.get("unit_army_xp").message=""
-                    rightpanel.get("unit_army_xp").refactor()
+                        rightpanel.get("unit_army_xp").message=""
+                        rightpanel.get("unit_army_xp").refactor()
 
-                    rightpanel.get("portrait").image=unit.image
+                        rightpanel.get("portrait").image=selected_object.image
 
-                    rightpanel.get("unit_soldiers").message="soldiers: %s"%unit.soldier_count
-                    rightpanel.get("unit_soldiers").refactor()
-                    toppanel_unit.set_visible(False)
-                    toppanel_house.set_visible(True)
+                        rightpanel.get("unit_soldiers").message="population: %s"%\
+                                                                 selected_object.population
+                        rightpanel.get("unit_soldiers").refactor()
+                        rightpanel.get("unit_attack").message=""
+                        rightpanel.get("unit_attack").refactor()
+                        rightpanel.get("unit_defense").message=""
+                        rightpanel.get("unit_defense").refactor()
+                        toppanel_unit.set_visible(False)
+                        toppanel_house.set_visible(False)
             else:
                 rightpanel.get("unit_name").message=""
                 rightpanel.get("unit_name").refactor()
@@ -439,8 +494,13 @@ class Engine(object):
 
                 rightpanel.get("unit_soldiers").message=""
                 rightpanel.get("unit_soldiers").refactor()
+                rightpanel.get("unit_attack").message=""
+                rightpanel.get("unit_attack").refactor()
+                rightpanel.get("unit_defense").message=""
+                rightpanel.get("unit_defense").refactor()
                 toppanel_unit.set_visible(False)
                 toppanel_house.set_visible(False)
+            ##End Panel
             
             bottompanel.render(self.screen)
             toppanel_unit.render(self.screen)
