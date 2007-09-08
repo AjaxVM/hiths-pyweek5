@@ -313,8 +313,20 @@ class Engine(object):
                     elif event.key ==K_ESCAPE:
                         self.state="mainmenu"
                         return
-                    if event.key == K_f:
+                    elif event.key == K_f:
                         bottompanel.get("messages").add_message("fps: %s"%str(clock.get_fps()))
+                    elif event.key == K_LEFT:
+                        #left
+                        camera.move([0.1, -0.1])
+                    elif event.key == K_UP:
+                        #up
+                        camera.move([0.1, 0.1])
+                    elif event.key == K_RIGHT:
+                        #right
+                        camera.move([-0.1, 0.1])
+                    elif event.key == K_DOWN:    
+                        #down
+                        camera.move([-0.1, -0.1])
                     
                 if event.type == MOUSEBUTTONDOWN:
                     if camera.rect.collidepoint(event.pos):
