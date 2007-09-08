@@ -6,6 +6,8 @@ for y in range(50):
     for x in range(50):
         maps['default'][y].append(random.choice(["d", "g", "l", "s"]))
 
+execfile('data/campaigns/theroad.py')
+maps['default'] = m
 #basic isometric world: a campaign can specify a new one,
 #or it can create a new class that inherets from World, that
 #way they have access to every element of the engine :D
