@@ -1,5 +1,8 @@
 
 #load our assets
+images['blank']=image.Image(pygame.Surface((5,5), SRCALPHA).convert_alpha())
+images['blank'].surface.fill((0,0,0,0))
+
 images['tile/dirt']=image.load_image(path('images', 'tiles', 'dirt.bmp'), -1)
 images['tile/grass']=image.load_image(path('images', 'tiles', 'grass.bmp'), -1)
 images['tile/lava']=image.load_image(path('images', 'tiles', 'lava.bmp'), -1)
@@ -18,6 +21,7 @@ images['coil_elder']=image.UnitAnimatedImage(image.load_image(path('images',
 
 
 images['flag']=image.load_image(path('images', 'misc', 'flag.png'), alpha=True)
+images['select']=image.load_image(path('images', 'misc', 'selected_unit.png'), alpha=True)
 
 
 images['vampire_captain']=image.UnitAnimatedImage(image.load_image(path('images',
@@ -36,7 +40,13 @@ images['city/camp']=image.load_image(path('images', 'forts', 'human_camp.png'), 
 images['city/fortified']=image.load_image(path('images', 'forts', 'human_fort.png'), alpha=True)
 images['city/settle']=image.load_image(path('images', 'forts', 'human_settlement.png'), alpha=True)
 
-images['blank']=image.Image(pygame.Surface((5,5), SRCALPHA).convert_alpha())
+images['bubble/fight']=image.load_image(path('images', 'misc', 'bubble-fight.png'), alpha=True)
+images['bubble/forage']=image.load_image(path('images', 'misc', 'bubble-forage.png'), alpha=True)
+images['bubble/recruit']=image.load_image(path('images', 'misc', 'bubble-recruit.png'), alpha=True)
+images['bubbles']={"fight":images['bubble/fight'],
+                   "forage":images['bubble/forage'],
+                   "recruit":images['bubble/recruit'],
+                   "loiter":images['blank']}
 
 
 images['map_bg_image']=None#image.load_surface(path('images', 'map_bg.bmp'))
@@ -104,27 +114,3 @@ world=isometric.World(map=maps['default'],
 #the starting camera pos, change this to where you place
 #the players first house, or to where you want them to start
 camera_pos=[0,0]
-
-
-
-#create basic race and other datas :)
-#any of these things can be left blank, but it is recommended that you fill them ;)
-races['default']=Race(name="default",#name and race['name'] should be the same
-                      captain_image=images['coil_elder'],#the image for a unit that doesnt have your elder
-                      elder_image=images['coil_captain'],#the image for your elder unit
-                      house_image=images['button'],
-                      soldier_types={"Shock":{"speed":1,#speed of unit, number is divided by 100 later
-                                              "attack":1,
-                                              "defense":1,
-                                              "dodge":1,
-                                              'consumes':1}},
-                      flag_image=images['flag'],
-                      start_troops=100,
-                      start_food=100,
-                      house_food_production=2,#amount per 5 seconds
-                      house_troop_production=10)#seconds
-
-
-          
-#the campaign stuff, which includes actually creating players and stuff will
-#go here later, for now just make the races ;)

@@ -15,6 +15,8 @@ class Race(object):
                  start_troops=100,
                  start_food=100,
                  flag_image=None,
+                 select_image=None,
+                 bubbles={},
                  house_food_production=1,#seconds
                  house_troop_production=5):#seconds
         self.name=name
@@ -26,6 +28,8 @@ class Race(object):
         self.soldier_types=soldier_types
 
         self.flag_image=flag_image
+        self.select_image=select_image
+        self.bubbles=bubbles
 
         self.start_troops=start_troops
         self.start_food=start_food
@@ -83,6 +87,9 @@ class Unit(isometric.Unit, Selectable):
         self.image_on=0
         self.image_direction="bottom"
         self.image_last_time=time.time()
+
+
+        self.action='loiter'#can be loiter, recruit, attack, or forage
 
     def get_troop_count(self):
         c=0
@@ -144,8 +151,12 @@ class Unit(isometric.Unit, Selectable):
         x, y=self.rect.topleft
         x+=camera_pos[0]
         y+=camera_pos[1]
+        if self.player.active_entity==self:
+            self.player.select_image.render(surface, (x, y))
         isometric.Unit.render(self, surface, camera_pos)
         self.player.flag_image.render(surface, (x, y))
+        if self.action in self.race.bubbles:
+            self.race.bubbles[self.action].render(surface, (x, y))
 
     def update(self):
         if self.getting_food:
@@ -242,8 +253,6 @@ class House(isometric.Unit, Selectable):
         self.food_counter=time.time()
         self.troop_counter=time.time()
 
-        self.leader_placed=False
-
         self.soldier_count=self.race.start_troops
 
         self.glyphs=[]
@@ -257,6 +266,9 @@ class House(isometric.Unit, Selectable):
         x, y=self.rect.topleft
         x+=camera_pos[0]
         y+=camera_pos[1]
+
+        if self.player.active_entity==self:
+            self.player.select_image.render(surface, (x, y+18))
 
         self.image.render(surface, (x,y))
         self.player.flag_image.render(surface, (x, y))
@@ -290,10 +302,10 @@ class House(isometric.Unit, Selectable):
 
 
         a = Unit(self.iso_world, self.player, captain_name,
-                 not self.leader_placed, 0, 0,
+                 not self.player.elder_placed, 0, 0,
                  soldier_type_counts, self.tile_pos)
         a.move([0.5, 0.5])
-        self.leader_placed=True
+        self.player.elder_placed=True
         self.player.armies.append(a)
 
     def update(self):
@@ -323,7 +335,10 @@ class Player(isometric.UnitContainer):
         self.active_entity = None
 
         self.flag_image=self.race.flag_image.copy()
+        self.select_image=self.race.select_image.copy()
         self.color=color
+
+        self.elder_placed=False
 
         for x in xrange(self.flag_image.get_width()):
             for y in xrange(self.flag_image.get_height()):
@@ -335,6 +350,17 @@ class Player(isometric.UnitContainer):
                     g=g*amount
                     b=b*amount
                     self.flag_image.set_at((x, y), (r, g, b, a))
+
+        for x in xrange(self.select_image.get_width()):
+            for y in xrange(self.select_image.get_height()):
+                a = tuple(self.select_image.get_at((x, y)))
+                if a[0]>=100 and a[1]==0 and a[2]==0 and a[3]==255:
+                    amount=spc_div(float(a[0]), 255)
+                    r, g, b, a = self.color
+                    r=r*amount
+                    g=g*amount
+                    b=b*amount
+                    self.select_image.set_at((x, y), (r, g, b, a))
 
     def create_house(self, iso_world, pos=[0,0]):
         a=House(iso_world, self, pos)
