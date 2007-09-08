@@ -59,3 +59,7 @@ def load_file(filename, other=None):
             'images':images,
             'music':music,
             'sfx':sfx}
+
+def load_map(filename):
+    execfile(filename)
+    return themap

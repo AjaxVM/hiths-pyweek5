@@ -14,17 +14,16 @@ if len(sys.argv) != 2 and len(sys.argv) != 3:
 elif len(sys.argv) == 3:
     width=int(sys.argv[1])
     height=int(sys.argv[2])
-    map = []
+    themap = []
     for y in range(height):
-        map.append([])
+        themap.append([])
         for x in range(width):
-            map[y].append('g')
+            themap[y].append('g')
     
 elif len(sys.argv) == 2:
     execfile(sys.argv[1])
-    map = m
-    width = len(map[0])
-    height = len(map)
+    width = len(themap[0])
+    height = len(themap)
     
 TILESIZE = 20
 brush = 'd'
@@ -42,7 +41,7 @@ colors = {'g':(0,200,0,0),'d':(100,50,50,0),'l':(200,0,0,0),'s':(200,200,200,0)}
 def draw():
     for y in range(height):
         for x in range(width):
-            color = colors[map[x][y]]
+            color = colors[themap[x][y]]
             rect= pygame.Rect((x*TILESIZE, y*TILESIZE), (TILESIZE, TILESIZE))
             screen.fill(color, rect)
     pygame.display.flip()
@@ -63,11 +62,11 @@ while running:
             running = False
         elif event.type == MOUSEBUTTONDOWN or event.type == MOUSEMOTION and event.buttons[0]:
             x,y = event.pos[0]/TILESIZE,event.pos[1]/TILESIZE
-            map[x][y] = brush
+            themap[x][y] = brush
             draw()
 
-#output map to a file
-mapstring = str(map).replace('], [','],\n[')
-mapfile = open('mapfile.py','w')
-mapfile.write('m = '+mapstring)
-mapfile.close()
+#output themap to a file
+themapstring = str(themap).replace('], [','],\n[')
+themapfile = open('mapfile.py','w')
+themapfile.write('themap = '+themapstring)
+themapfile.close()
