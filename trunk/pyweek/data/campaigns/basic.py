@@ -7,7 +7,7 @@
 ##        maps['default'][y].append(random.choice(["d", "g", "l", "s"]))
 
 
-maps['default']=load_map(path('campaigns','theroad.py'))
+maps['default']=load_map(path('maps','theroad.py'))
 
 #basic isometric world: a campaign can specify a new one,
 #or it can create a new class that inherets from World, that

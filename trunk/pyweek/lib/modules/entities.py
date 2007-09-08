@@ -78,6 +78,8 @@ class Unit(isometric.Unit, Selectable):
 
         self.glyphs=[]
 
+        self.active_enemy=None
+
         self.getting_food=False
         self.food_counter=0
 
@@ -96,6 +98,7 @@ class Unit(isometric.Unit, Selectable):
         self.forage_counter=time.time()
 
         self.dead=False
+        self.attack_counter=time.time()
 
     def get_troop_count(self):
         c=0
@@ -114,7 +117,7 @@ class Unit(isometric.Unit, Selectable):
         val=0
         for i in self.soldier_type_counts:
             val+=self.race.soldier_types[i]["attack"]*\
-                  self.soldier_type_counts[i]
+                self.soldier_type_counts[i]
         if self.captain_is_elder:
             val=int(val*1.5)
         return val
@@ -123,7 +126,14 @@ class Unit(isometric.Unit, Selectable):
         val=0
         for i in self.soldier_type_counts:
             val+=self.race.soldier_types[i]["speed"]*\
-                  self.soldier_type_counts[i]
+                self.soldier_type_counts[i]
+        return val
+
+    def get_dodge_value(self):
+        val=0
+        for i in self.soldier_type_counts:
+            val+=self.race.soldier_types[i]["dodge"]*\
+                self.soldier_type_counts[i]
         return val
 
     def get_glyph_by_name(self, name):
@@ -210,8 +220,37 @@ class Unit(isometric.Unit, Selectable):
                 self.player.food+=1
                 self.forage_counter=time.time()
 
-        if self.action=="fight":
+        if self.active_enemy:
+            self.action="fight"
             self.image_action="attack"
+            pos=[0,0]
+            pos[0]=self.active_enemy.offset[0]-self.offset[0]
+            pos[1]=self.active_enemy.offset[1]-self.offset[1]
+
+            if pos[0]>0:
+                if pos[1]>0:self.image_direction="bottomright"
+                elif pos[1]<0:self.image_direction="topright"
+                else:self.image_direction="right"
+            elif pos[0]<0:
+                if pos[1]>0:self.image_direction="bottomleft"
+                elif pos[1]<0:self.image_direction="topleft"
+                else:self.image_direction="left"
+            else:
+                if pos[1]>0:self.image_direction="bottom"
+                elif pos[1]<0:self.image_direction="top"
+                else:pass#I hope this doesn't happen...
+
+            if self.active_enemy.dead==True:
+                self.active_enemy=None
+                self.army_xp+=1
+                self.captain_xp+=1
+                self.action="loiter"
+                self.image_action="still"
+                self.image_on=0
+            else:
+                if time.time()-self.attack_counter>=0.25:
+                    self.attack_counter=time.time()
+                    self.active_enemy.damage(self.get_attack_value())
 
         spd=self.get_speed()
         if self.goto==self.tile_pos:
@@ -304,6 +343,41 @@ class Unit(isometric.Unit, Selectable):
     def rightClick(self, tile_position):
         if tile_position:self.goto=tile_position
 
+    def damage(self, amount):
+        defense=self.get_defense_value()
+        defense+=int(defense*float(2*random.randint(1, 100)*0.02))
+        dodge=self.get_dodge_value()
+        amount-=defense
+        amount-=int(random.randint(0, dodge)*0.1)
+        if amount<0:
+            amount=1
+
+        self.lose_troops(amount)
+
+    def lose_troops(self, num_troops):
+        tot_troops=0
+
+        if num_troops <= 0:
+            return
+
+        for i in self.race.soldier_types:
+            new_num = random.randint(0, num_troops-tot_troops)
+            if self.soldier_type_counts[i]>=new_num:
+                pass
+            else:
+                new_num=self.soldier_type_counts[i]
+            self.soldier_type_counts[i]-=new_num
+            tot_troops+=new_num
+        if tot_troops < num_troops:
+            choice=random.choice(list(self.race.soldier_types))
+            new_num=num_troops-tot_troops
+            if self.soldier_type_counts[choice]>=new_num:
+                pass
+            else:
+                new_num=self.soldier_type_counts[i]
+            self.soldier_type_counts[choice]-=new_num
+            tot_troops+=new_num
+
 class House(isometric.Unit, Selectable):
     def __init__(self, iso_world, player, pos=[0,0]):
 
@@ -327,16 +401,22 @@ class House(isometric.Unit, Selectable):
 
         self.dead=False
 
+        self.active_enemy=None
+        self.attack_counter=time.time()
+
     def get_glyph_by_name(self, name):
         for i in self.glyphs:
             if i.name==name:
                 return i
 
     def get_attack_value(self):
-        return self.soldier_count*self.race.soldier_types.itervalues().next()['defense']
+        return self.soldier_count*self.race.soldier_types.itervalues().next()['attack']
 
     def get_defense_value(self):
-        return self.soldier_count*self.race.soldier_types.itervalues().next()['attack']
+        return self.soldier_count*self.race.soldier_types.itervalues().next()['defense']
+
+    def get_dodge_value(self):
+        return self.soldier_count*self.race.soldier_types.itervalues().next()['dodge']
 
     def render(self, surface, camera_pos=[0,0]):
         x, y=self.rect.topleft
@@ -396,8 +476,32 @@ class House(isometric.Unit, Selectable):
             self.soldier_count+=1
             self.troop_counter=time.time()
 
+        if self.active_enemy:
+            if self.active_enemy.dead:
+                self.active_enemy=None
+            else:
+                if time.time()-self.attack_counter>=0.25:
+                    self.attack_counter=time.time()
+                    self.active_enemy.damage(self.get_attack_value())
+
     def rightClick(self, tile_position):
         pass
+
+    def damage(self, amount):
+        defense=self.get_defense_value()
+        defense+=int(defense*1.5)
+        defense+=int(defense*float(2*random.randint(1, 100)*0.02))
+        dodge=int(self.get_dodge_value()*0.1)
+
+        amount-=defense
+        amount-=random.randint(0, dodge)
+        if amount<0:
+            amount=1
+
+        self.lose_troops(amount)
+
+    def lose_troops(self, num_troops):
+        self.soldier_count-=num_troops
 
 class Player(isometric.UnitContainer):
     def __init__(self, name=None, race=None, color=[255,255,255,255]):
@@ -454,8 +558,11 @@ class Player(isometric.UnitContainer):
     def update(self):
         for i in self.houses:
             i.update()
-        self.armies[0].captain_is_elder=True
-        self.armies[0].image=self.race.elder_image
+        if self.armies:
+            self.armies[0].captain_is_elder=True
+            self.armies[0].image=self.race.elder_image
+        else:
+            self.elder_placed=False
         for i in self.armies:
             i.update()
         if time.time()-self.food_counter>=5:

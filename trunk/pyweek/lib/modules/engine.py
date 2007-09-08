@@ -385,6 +385,13 @@ class Engine(object):
                                         selected_object=city
                                         gotit=True
                             if not gotit:
+                                player.active_entity=None
+                                for enemy in enemies:
+                                    for entity in enemy.armies+enemy.houses:
+                                        if entity.check_collision(mpos):
+                                            selected_object=entity
+                                            gotit=True
+                            if not gotit:
                                 selected_object=None
                         if event.button == 3:
                             if player.active_entity:
@@ -486,13 +493,13 @@ class Engine(object):
                     if i.race==x.race:
                         pass
                     else:
-                        if i.check_collision(x):
-                            i.action="fight"
-                            i.image_action="attack"
-                            x.action="fight"
-                            x.image_action="attack"
+                        if i.tile_pos==x.tile_pos and\
+                           abs(i.offset[0]-x.offset[0]) < 0.25 and\
+                           abs(i.offset[1]-x.offset[1]) < 0.25:
                             i.goto=None
                             x.goto=None
+                            i.active_enemy=x
+                            x.active_enemy=i
 
 
             #move the map
@@ -557,6 +564,53 @@ class Engine(object):
                         toppanel_unit.set_visible(False)
                         toppanel_house.set_visible(True)
                 else:
+                    if isinstance(selected_object, entities.Unit):
+                        unit=selected_object
+                        rightpanel.get("unit_name").message="captain: %s"%unit.captain_name
+                        rightpanel.get("unit_name").refactor()
+
+                        rightpanel.get("unit_captain_xp").message="captain xp: %s"%unit.captain_xp
+                        rightpanel.get("unit_captain_xp").refactor()
+
+                        rightpanel.get("unit_army_xp").message="army xp: %s"%unit.army_xp
+                        rightpanel.get("unit_army_xp").refactor()
+
+                        rightpanel.get("portrait").image=unit.image.all_images[0][0]
+
+                        rightpanel.get("unit_soldiers").message="soldiers:\n"
+                        for i in unit.soldier_type_counts:
+                            rightpanel.get("unit_soldiers").message+="    %s: %s"%(i,
+                                                        unit.soldier_type_counts[i])
+                        rightpanel.get("unit_soldiers").refactor()
+
+                        rightpanel.get("unit_attack").message="AV: %s"%unit.get_attack_value()
+                        rightpanel.get("unit_attack").refactor()
+                        rightpanel.get("unit_defense").message="DV: %s"%unit.get_defense_value()
+                        rightpanel.get("unit_defense").refactor()
+                        toppanel_unit.set_visible(True)
+                        toppanel_house.set_visible(False)
+                    elif isinstance(selected_object, entities.House):
+                        unit=selected_object
+                        rightpanel.get("unit_name").message=""
+                        rightpanel.get("unit_name").refactor()
+
+                        rightpanel.get("unit_captain_xp").message=""
+                        rightpanel.get("unit_captain_xp").refactor()
+
+                        rightpanel.get("unit_army_xp").message=""
+                        rightpanel.get("unit_army_xp").refactor()
+
+                        rightpanel.get("portrait").image=unit.image
+
+                        rightpanel.get("unit_soldiers").message="soldiers: %s"%unit.soldier_count
+                        rightpanel.get("unit_soldiers").refactor()
+
+                        rightpanel.get("unit_attack").message=""
+                        rightpanel.get("unit_attack").refactor()
+                        rightpanel.get("unit_defense").message=""
+                        rightpanel.get("unit_defense").refactor()
+                        toppanel_unit.set_visible(False)
+                        toppanel_house.set_visible(True)
                     if isinstance(selected_object, entities.City):
                         rightpanel.get("unit_name").message="city name: %s"%selected_object.name
                         rightpanel.get("unit_name").refactor()
