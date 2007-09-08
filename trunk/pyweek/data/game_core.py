@@ -29,8 +29,18 @@ images['vampire_captain']=image.UnitAnimatedImage(image.load_image(path('images'
                                                                 'vamp_captain.png'),
                                                            alpha=True),
                                                 frame_delay=0.05)
+images['vampire_elder']=image.UnitAnimatedImage(image.load_image(path('images',
+                                                                'units',
+                                                                'vamp_elder.png'),
+                                                           alpha=True),
+                                                frame_delay=0.05)
 
 images['frostlen_captain']=image.UnitAnimatedImage(image.load_image(path('images',
+                                                                'units',
+                                                                'frostlen_captain.png'),
+                                                           alpha=True),
+                                                frame_delay=0.05)
+images['frostlen_elder']=image.UnitAnimatedImage(image.load_image(path('images',
                                                                 'units',
                                                                 'frostlen_captain.png'),
                                                            alpha=True),
@@ -43,10 +53,12 @@ images['city/settle']=image.load_image(path('images', 'forts', 'human_settlement
 images['bubble/fight']=image.load_image(path('images', 'misc', 'bubble-fight.png'), alpha=True)
 images['bubble/forage']=image.load_image(path('images', 'misc', 'bubble-forage.png'), alpha=True)
 images['bubble/recruit']=image.load_image(path('images', 'misc', 'bubble-recruit.png'), alpha=True)
+images['bubble/move']=image.load_image(path('images', 'misc', 'bubble-movement.png'), alpha=True)
 images['bubbles']={"fight":images['bubble/fight'],
                    "forage":images['bubble/forage'],
                    "recruit":images['bubble/recruit'],
-                   "loiter":images['blank']}
+                   "loiter":images['blank'],
+                   "move":images['bubble/move']}
 
 
 images['map_bg_image']=None#image.load_surface(path('images', 'map_bg.bmp'))
