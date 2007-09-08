@@ -61,5 +61,7 @@ def load_file(filename, other=None):
             'sfx':sfx}
 
 def load_map(filename):
-    execfile(filename)
+    a=open(filename, 'rU').read()
+    print a
+    exec a
     return themap
