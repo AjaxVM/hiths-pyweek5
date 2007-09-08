@@ -436,6 +436,8 @@ class Engine(object):
             if toppanel_unit.get("loiter").was_clicked:
                 player.active_entity.goto=None
                 player.active_entity.action="loiter"
+                player.active_entity.image_action="still"
+                player.active_entity.image_on=0
                 toppanel_unit.get("loiter").was_clicked=False
 
             if toppanel_unit.get("found_house").was_clicked:
@@ -472,6 +474,25 @@ class Engine(object):
                 if old < 0:
                     old=0
                 toppanel_house.get("troops").message=str(old)
+
+
+            all_enemy=[]
+            for i in enemies:
+                for x in i.houses+i.armies:
+                    all_enemy.append(x)
+            all_player=player.armies+player.houses
+            for i in all_enemy:
+                for x in all_player:
+                    if i.race==x.race:
+                        pass
+                    else:
+                        if i.check_collision(x):
+                            i.action="fight"
+                            i.image_action="attack"
+                            x.action="fight"
+                            x.image_action="attack"
+                            i.goto=None
+                            x.goto=None
 
 
             #move the map

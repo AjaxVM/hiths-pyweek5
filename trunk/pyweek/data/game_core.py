@@ -28,23 +28,23 @@ images['vampire_captain']=image.UnitAnimatedImage(image.load_image(path('images'
                                                                 'units',
                                                                 'vamp_captain.png'),
                                                            alpha=True),
-                                                frame_delay=0.05)
+                                                frame_delay=0.15)
 images['vampire_elder']=image.UnitAnimatedImage(image.load_image(path('images',
                                                                 'units',
                                                                 'vamp_elder.png'),
                                                            alpha=True),
-                                                frame_delay=0.05)
+                                                frame_delay=0.15)
 
 images['frostlen_captain']=image.UnitAnimatedImage(image.load_image(path('images',
                                                                 'units',
                                                                 'frostlen_captain.png'),
                                                            alpha=True),
-                                                frame_delay=0.05)
+                                                frame_delay=0.15)
 images['frostlen_elder']=image.UnitAnimatedImage(image.load_image(path('images',
                                                                 'units',
-                                                                'frostlen_captain.png'),
+                                                                'frostlen_elder.png'),
                                                            alpha=True),
-                                                frame_delay=0.05)
+                                                frame_delay=0.15)
 
 images['city/camp']=image.load_image(path('images', 'forts', 'human_camp.png'), alpha=True)
 images['city/fortified']=image.load_image(path('images', 'forts', 'human_fort.png'), alpha=True)
