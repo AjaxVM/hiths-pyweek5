@@ -590,6 +590,8 @@ class Engine(object):
             player.update()
             for badGuy in scenario.enemies:
                 badGuy.update()
+                if 'ai' in dir(badGuy):
+                    badGuy.ai.update()
             rightpanel.render(self.screen)
             rightpanel.get("info_food").message="food: %s"%player.food
             rightpanel.get("info_food").refactor()
