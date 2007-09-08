@@ -40,7 +40,7 @@ races['default']=Race(name="default",#name and race['name'] should be the same
 # and a race for the baddies
 races['frostlen']=Race(name="frostlen",#name and race['name'] should be the same
                       captain_image=images['frostlen_captain'],#the image for a unit that doesnt have your elder
-                      elder_image=images['vampire_captain'],#the image for your elder unit
+                      elder_image=images['frostlen_elder'],#the image for your elder unit
                       house_image=images['building/frostlen_castle'],
                       soldier_types={"Shock":{"speed":1,
                                               "attack":1,

@@ -89,7 +89,7 @@ class Unit(isometric.Unit, Selectable):
         self.image_last_time=time.time()
 
 
-        self.action='loiter'#can be loiter, recruit, attack, or forage
+        self.action='loiter'#can be loiter, recruit, attack, forage, or move
 
     def get_troop_count(self):
         c=0
@@ -153,10 +153,10 @@ class Unit(isometric.Unit, Selectable):
         y+=camera_pos[1]
         if self.player.active_entity==self:
             self.player.select_image.render(surface, (x, y))
+        if self.action in self.race.bubbles:
+            self.race.bubbles[self.action].render(surface, (x, y-20))
         isometric.Unit.render(self, surface, camera_pos)
         self.player.flag_image.render(surface, (x, y))
-        if self.action in self.race.bubbles:
-            self.race.bubbles[self.action].render(surface, (x, y))
 
     def update(self):
         if self.getting_food:
@@ -171,10 +171,13 @@ class Unit(isometric.Unit, Selectable):
             if self.offset[0]==0.5 and self.offset[1]==0.5:
                 self.image_action="still"
                 self.image_on=0
+                self.action="loiter"
             else:
                 self.image_action="moving"
+                self.action="move"
         else:
             self.image_action="moving"
+            self.action="move"
 
         if self.goto:
             if self.goto[0]<self.tile_pos[0]:
