@@ -1,5 +1,6 @@
 #summary Our schedule for pyweek
 
+[HoleInTheHeadStudios]
 = Introduction =
 
 This is incomplete as yet. It would be nice if anyone else, especially for the non-programming sections, would help out here :)
